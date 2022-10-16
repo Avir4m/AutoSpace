@@ -1,0 +1,73 @@
+{% extends "posts/posts_div.html"%}
+{% block title %}{{ username.username }}'s Profile{% endblock %}
+{% block header %}
+<div class="card">
+    <div class="card-header">
+        <div align="center">
+            <h3>{{ username.username }}</h3>
+        </div>
+        <div class="subtext">
+            Followers: 
+            <span id="followers-count-{{ username.username }}">
+                {{ username.followers|length }}
+            </span>
+            <br/>
+            Following:            
+            <span id="following-count-{{ username.username }}">
+                {{ username.following|length }}
+            </span>
+            <br/>
+            Posts:            
+            <span>
+                {{ username.posts|length }}
+            </span>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="card-text">
+
+            <div class="info">
+                <div class="row">
+                <div class="col-8">
+    
+                    <strong>Name:</strong>
+                    {{ username.first_name }} {{ username.last_name }}<br/>
+    
+                    <strong>Username:</strong>
+                    {{ username.username }}<br/>
+
+                    <strong>Description:<br/></strong>
+                    {{ username.description }}<br/>
+    
+                </div>
+    
+                <div class="col-4">
+                    <img 
+                    align="right" 
+                    src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture) }}" 
+                    class="img-fluid" 
+                    alt="Profile Picture"
+                    style="border-radius : 50%; width: 60%; aspect-ratio: 1 / 1; object-fit: cover;">
+                </div>
+                </div>
+            </div>
+        {% if user.id == username.id %}
+        <a href="{{ url_for('users.dashboard', username=user.username) }}"><button type="submit" class="btn btn-sm btn-secondary">Edit Profile</button></a>
+        {% else %}
+        <a onclick="follow('{{username.username}}')">
+            <button 
+            type="submit" 
+            class="btn btn-sm btn-primary" 
+            id="follow-button-{{ username.username }}">
+            {% if user.id in username.followers|map(attribute="follower_id")|list %}
+            Following
+            {% else %}
+            Follow
+            {% endif %}
+        </button></a>
+        {% endif %} 
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

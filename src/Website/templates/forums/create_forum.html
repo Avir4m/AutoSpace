@@ -1,0 +1,61 @@
+{% extends "base.html"%}
+{% block title %}Create forum{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h3 align="center">Create a new forum</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="forumName">Forum Name</label>
+                <input 
+                type="forumName" 
+                class="form-control" 
+                id="forumName" 
+                name="forumName" 
+                placeholder="Forum Name"
+                maxlength="29"/>
+            </div>
+            <div class="mb-3">
+                <label for="forumDescription">Forum Description</label>
+                <textarea 
+                type="text" 
+                class="form-control" 
+                id="forumDescription" 
+                name="forumDescription" 
+                placeholder="Forum Description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file">Upload a picture for your forum</label>
+                <input 
+                type="file" 
+                class="form-control" 
+                id="forumPicture"
+                name="file"
+                accept="image/*"/><br/>
+                <img id="preview" src="#" class="preview"/>
+              </div>
+        </div>
+        <div class="card-footer">
+            <div align="center">
+                <button type="submit" class="btn btn-primary">Create Forum</button>
+            </div>
+        </div>
+    </div>
+</form>
+<br/>
+<script>
+    preview.style.display = 'none';
+    forumPicture.onchange = evt => {
+        const [file] = forumPicture.files
+        if (file) {
+            preview.src = URL.createObjectURL(file)
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+      }
+</script>
+{% endblock %}

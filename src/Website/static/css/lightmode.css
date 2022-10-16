@@ -1,0 +1,16 @@
+.dropdown-menu {
+    background-color: #fff;
+}
+
+.dropdown-item {
+    color: #000;
+}
+
+.header-sub {
+    color: #595959;
+}
+
+.dropdown-menu-dark {
+    --bs-dropdown-link-hover-color: #ffffff;
+    --bs-dropdown-link-hover-bg: rgba(0, 0, 0, 0.500);
+}

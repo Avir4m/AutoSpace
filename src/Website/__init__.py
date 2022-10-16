@@ -1,0 +1,76 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from os import path
+from flask_login import LoginManager
+from flask_socketio import SocketIO
+
+from .func import get_secret_key
+
+socketio = SocketIO()
+
+db = SQLAlchemy()
+
+DB_NAME = "database.db"
+UPLOAD_FOLDER = "/src/website/static/images/upload_folder"
+
+def create_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = get_secret_key()
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['JSON_SORT_KEYS'] = False
+    db.init_app(app)
+
+    socketio.init_app(app)
+    
+    from .views import views
+    from .auth import auth
+    from .users import users
+    from .posts import posts
+    from .comments import comments
+    from .forums import forums
+    from .reports import reports
+    from .chat import chat
+    
+    from .errors import errors
+    
+    from .admin import admin
+    
+    from .api import api
+    
+    app.register_blueprint(views, url_prefix='/') # views
+    app.register_blueprint(auth, url_prefix='/') # auth
+    app.register_blueprint(users, url_prefix='/') # users
+    app.register_blueprint(posts, url_prefix='/') # posts
+    app.register_blueprint(comments, url_prefix='/') # comments
+    app.register_blueprint(forums, url_prefix='/') # forums
+    app.register_blueprint(reports, url_prefix='/') # reports 
+    app.register_blueprint(chat, url_prefix='/') # chat WIP
+    
+    app.register_blueprint(errors, url_prefix='/')
+
+    app.register_blueprint(admin, url_prefix='/admin')
+    
+    app.register_blueprint(api, url_prefix='/api')
+    
+    from .models import User
+    
+    create_database(app)
+    
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+    
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+    
+    return app
+
+def create_database(app):
+    if not path.exists('Src/Website/' + DB_NAME):
+        print(' * Created database')
+        db.create_all(app=app)
+    else:
+        print(' * Loaded database')

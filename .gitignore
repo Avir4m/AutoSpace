@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+*.db
+
+# Upload folder
+Src/Website/static/images/upload_folder/posts/*
+Src/Website/static/images/upload_folder/forums/*
+Src/Website/static/images/upload_folder/users/*
+!Src/Website/static/images/upload_folder/users/default_profile_pic.jpg
+
+# Keys / Emails / passwords
+config.txt

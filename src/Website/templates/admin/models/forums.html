@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+{% block title %}Model - Forums{% endblock %}
+
+{% block content %}
+<h1 align="center">Forums</h1>
+<br/>
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th scope="col">ID</th>
+		<th scope="col">Creator</th>
+		<th scope="col">Posts</th>
+		<th scope="col">Reports</th>
+		<th scope="col">URL</th>
+		<th scope="col">Date created</th>
+		<th scope="col"></th>
+	  </tr>
+	</thead>
+	{% for forum in forums %}
+	<tbody>
+		<tr>
+		<th scope="row">{{ forum.id }}</th>
+		<td>
+			<a href="{{ url_for('users.user', username=user.username) }}">
+				{{ forum.user.username }}
+			</a>
+		</td>
+        <td>{{ forum.posts|length }}</td>
+		<td>{{ forum.reports|length }}</td>
+		<td>{{ forum.url }}
+        <td>{{ forum.date_created }}</td>
+		<td>
+			<a href="{{ url_for('forums.delete_forum', forum_id=forum.id) }}">
+				<img src="{{ url_for('static', filename='images/icons/trash.png') }}" width="15" >
+			</a>
+		</td>
+	  </tr>
+	</tbody>
+	  {% endfor %}
+</table>
+<br/>
+{% endblock %}

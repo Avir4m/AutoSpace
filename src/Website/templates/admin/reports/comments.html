@@ -1,0 +1,31 @@
+{% extends "base.html"%}
+{% block title %}Posts Reports{% endblock %}
+
+{% block content %}
+{% for report in reports %}
+<div class="card">
+    <div class="card-header">
+        Comment Id: {{ report.comment_id }}
+    </div>
+    <div class="card-body">
+        <h5>{{ report.reason }}</h5>
+        <p>{{report.description }}</p>
+        <p>Comment:</p>
+        <div class="card">
+            <div class="card-header">
+                {{ report.comment.user.username }}
+            </div>
+            <div class="card-body">
+                {{ report.comment.text }}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div align="center">
+            <a href="{{ url_for('comments.delete_comment', comment_id=report.comment_id) }}"><button type="submit" class="btn btn-danger btn-sm">Delete Comment</button></a>
+        </div>
+    </div>
+</div>
+<br/>
+{% endfor %}
+{% endblock %}

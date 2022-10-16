@@ -1,0 +1,12 @@
+{% extends "posts/posts_div.html"%}
+{% block title %}Liked{% endblock %}
+{% block header %}
+{% if posts|length < 1 %}
+<div class="text-muted">
+    <h3 align="center">
+        No Liked posts...
+    </h3>
+</div>
+{% endif %}
+{% endblock %}
+{% block footer %}{% endblock %}

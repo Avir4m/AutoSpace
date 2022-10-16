@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+		crossorigin="anonymous">
+
+
+		<link
+		rel="stylesheet"
+		href="{{ url_for('static', filename='css/main.css') }}"
+	  	/>
+		<link
+		rel="stylesheet"
+		href="{{ url_for('static', filename='css/lightmode.css') }}"
+		id="darkModeCss"
+		/>
+
+	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}"/>
+		  
+		<title>CarSpace - {% block title %}Home{% endblock %}</title>
+	  </head>
+	<body>
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{{ url_for('views.home') }}">CarSpace</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+			  	</button>
+			  	<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-item nav-link">
+								<img src="{{ url_for('static', filename='images/icons/moon.png')}}" width="20" id="dark-mode-toggle">
+							</a>
+						</li>
+						{% if user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-item nav-link" id="home" href="{{ url_for('views.home') }}">
+								<img  src="{{ url_for('static', filename='images/icons/home.png') }}" width="20">
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img  src="{{ url_for('static', filename='images/icons/add.png')}}" width="20">
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							  <li>
+								<a class="dropdown-item" href="{{ url_for('posts.create_post') }}">	
+									<img src="{{ url_for('static', filename='images/icons/edit.png') }}" width="20"> new post
+								</a>
+							  </li>
+							  <li>
+								<a class="dropdown-item" href="{{ url_for('forums.create_forum') }}">	
+									<img src="{{ url_for('static', filename='images/icons/comments.png') }}" width="20"> new form
+								</a>
+							  </li>
+							</ul>
+						  </li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<img  src="{{ url_for('static', filename='images/icons/user.png')}}" width="20">
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+							  	<li>
+								  	<a class="dropdown-item" href="{{ url_for('users.user', username=user.username)}}">
+										<img src="{{ url_for('static', filename='images/icons/portrait.png') }}" width="20"> Profile
+									</a>
+								</li>
+							  	<li>
+									<a class="dropdown-item" href="{{ url_for('users.liked', username=user.username)}}">	
+										<img src="{{ url_for('static', filename='images/icons/heart.png') }}" width="20"> Liked
+									</a>
+								</li>
+							  <li>
+								<a class="dropdown-item" href="{{ url_for('users.saved', username=user.username)}}">
+									<img src="{{ url_for('static', filename='images/icons/bookmark.png') }}" width="20"> Saved
+								</a>
+							  </li>
+							  <li>
+								<a class="dropdown-item" href="{{ url_for('users.settings', username=user.username) }}">
+									<img src="{{ url_for('static', filename='images/icons/settings.png') }}" width="20"> Settings
+								</a>
+							  </li>
+							  <div class="dropdown-divider"></div>
+							  <li>
+								<a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+									<img src="{{ url_for('static', filename='images/icons/sign-out.png') }}" width="20"> Logout
+								</a>
+							  </li>
+							</ul>
+						  </li>
+							{% else %}
+						<li class="nav-item">
+							<a class="nav-item nav-link" id="login" href="{{ url_for('auth.login') }}">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-item nav-link" id="signUp" href="{{ url_for('auth.sign_up') }}">Sign Up</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<br/>
+		<main role="main" class="container">
+			<div class="row">
+			  <div class="col-md-12">
+			{% with messages = get_flashed_messages(with_categories=true)%}
+			{% if messages %}
+				{% for catagory, message in messages %}
+				{% if catagory  == 'error' %}
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+				{% elif catagory  == 'success' %}
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+				{% endif %}
+				{% endfor %}
+			{% endif %}
+			{% endwith %}
+				</div>
+			</div>
+		</main>
+
+		<div class="container"><br/>{% block content %}{% endblock %}</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" 
+		integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" 
+		crossorigin="anonymous"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
+		integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" 
+		crossorigin="anonymous"></script>
+
+
+		<script
+			type="text/javascript"
+			src="{{ url_for('static', filename='js/index.js') }}"
+		></script>
+
+		<script
+		type="text/javascript"
+		src="{{ url_for('static', filename='js/themes.js') }}"
+		></script>
+
+		<script
+		type="text/javascript"
+		src="{{ url_for('static', filename='js/buttons.js') }}"
+		></script>
+		
+		<script
+		type="text/javascript"
+		src="{{ url_for('static', filename='js/api.js') }}"
+		></script>
+	</body>
+</html>

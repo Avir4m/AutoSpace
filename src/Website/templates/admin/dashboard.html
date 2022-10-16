@@ -1,0 +1,137 @@
+{% extends "base.html"%}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Models</h5>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">{{ users|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.users') }}" class="btn btn-primary btn-sm">Users</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Posts</h5>
+                        <p class="card-text">{{ posts|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.posts') }}" class="btn btn-primary btn-sm">Posts</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Forums</h5>
+                        <p class="card-text">{{ forums|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.forums') }}" class="btn btn-primary btn-sm">Forums</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Comments</h5>
+                        <p class="card-text">{{ comments|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.comments') }}" class="btn btn-primary btn-sm">Comments</a>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Likes</h5>
+                        <p class="card-text">{{ likes|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.likes') }}" class="btn btn-primary btn-sm">Likes</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Saves</h5>
+                        <p class="card-text">{{ saves|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.saves') }}" class="btn btn-primary btn-sm">Saves</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+    </div>
+</div>
+<br/>
+<div class="card">
+    <div class="card-header">
+        <h5>Reports</h5>
+    </div>
+    <div class="card-body">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Posts</h5>
+                        <p class="card-text">{{ post_reports|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.reports_posts') }}" class="btn btn-primary btn-sm">View Post Reports</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Forums</h5>
+                        <p class="card-text">{{ forum_reports|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.reports_forums') }}" class="btn btn-primary btn-sm">View Forum Reports</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card" align="center">
+                    <div class="card-body">
+                        <h5 class="card-title">Comments</h5>
+                        <p class="card-text">{{ comment_reports|length }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('admin.reports_comments') }}" class="btn btn-primary btn-sm">View Comment Reports</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer" align="center">
+        <a href="{{ url_for('admin.reports') }}" class="btn btn-primary btn-sm">View All Reports</a>
+    </div>
+</div>
+<br/>
+{% endblock %}

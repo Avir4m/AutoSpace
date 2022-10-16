@@ -1,0 +1,71 @@
+{% extends "base.html"%}
+{% block title %}Create post{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h3 align="center">Create a new post</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="post-title">Post title</label>
+                <input 
+                type="title" 
+                class="form-control" 
+                id="post-title" 
+                name="post-title" 
+                placeholder="Post title"
+                maxlength="149"/>
+            </div>
+            <div class="mb-3">
+                <label for="post-text">Post text</label>
+                <textarea 
+                type="text" 
+                class="form-control" 
+                id="post-text" 
+                name="post-text" 
+                placeholder="Post text"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file">Upload Picture</label>
+                <input 
+                type="file" 
+                class="form-control" 
+                id="postPicture"
+                name="file"
+                accept="image/*"/><br/>
+                <img id="preview" src="#" class="preview"/>
+              </div>
+            <div class="mb-3">
+                <label for="forum">Forum</label>
+                <select class="form-select" id="forum" name="forum">
+                    <option selected disabled value="">No forum</option>
+                    {% for forum in forums%}
+                    <option value="{{ forum.name }}">{{ forum.name }}</option>
+                    {% endfor %}
+                  </select>
+                <small><p>Want to create a forum? <a href="{{ url_for('forums.create_forum') }}">Create one</a></p></small>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div align="center">
+                <button type="submit" class="btn btn-primary">Post</button>
+            </div>
+        </div>
+    </div>
+</form>
+<br/>
+<script>
+    preview.style.display = 'none';
+    postPicture.onchange = evt => {
+        const [file] = postPicture.files
+        if (file) {
+            preview.src = URL.createObjectURL(file)
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+      }
+</script>
+{% endblock %}

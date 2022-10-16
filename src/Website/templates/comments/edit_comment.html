@@ -1,0 +1,37 @@
+{% extends "posts/posts_div.html"%}
+{% block title %}Edit Comment{% endblock %}
+{% block header %}
+{% endblock %}
+{% block footer %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h3 align="center">Edit your comment</h3>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="newComment">Comment</label>
+                <input 
+                type="newComment" 
+                class="form-control" 
+                id="newComment" 
+                name="newComment" 
+                placeholder="Comment"
+                value="{{ comment.text }}"
+                maxlength="150"/>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+</form>
+
+<br/>
+
+<div align="center">
+    <a href="{{ url_for('views.home') }}"><button type="submit" class="btn btn-secondary">Back</button></a>
+</div>
+
+{% endblock %}

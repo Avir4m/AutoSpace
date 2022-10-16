@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{% block title %}Posts Reports{% endblock %}
+
+{% block content %}
+{% for report in reports %}
+<div class="card">
+    <div class="card-header">
+        Forum Id: {{ report.forum_id }}
+    </div>
+    <div class="card-body">
+        <h5>{{ report.reason }}</h5>
+        {{report.description }}
+    </div>
+    <div class="card-footer">
+        <div align="center">
+            <a href="{{ url_for('forums.delete_forum', forum_id=report.forum_id) }}"><button type="submit" class="btn btn-danger btn-sm">Delete Forum</button></a>
+        </div>
+    </div>
+</div>
+<br/>
+{% endfor %}
+{% endblock %}
