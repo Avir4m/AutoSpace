@@ -18,9 +18,11 @@ Where you can post your car and see other people's cars.
       * If file is no longer in use, it will be deleted.
       * Restructured the code.
 
-    * HTML and CSS changes
-      * Visual improvements overall.
+    * HTML, CSS and JS changes
       * Fixed a lot of visual issues.
+      * Visual improvements overall.
+      * Fixed dark theme cards.
+      * Made posts date as time ago.
 
   
 <br/>

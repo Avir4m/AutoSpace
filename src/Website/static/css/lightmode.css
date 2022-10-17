@@ -14,3 +14,7 @@
     --bs-dropdown-link-hover-color: #ffffff;
     --bs-dropdown-link-hover-bg: rgba(0, 0, 0, 0.500);
 }
+
+.navbar {
+    background-color: #404040;
+}

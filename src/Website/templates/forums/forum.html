@@ -2,7 +2,7 @@
 {% block title %}{{ forum.name }}{% endblock %}
 {% block header %}
 <div class="card">
-  <img src="{{ url_for('static', filename='images/upload_folder/forums/' + forum.picture)}}" class="card-img-top" style="  height: 300px; object-fit: cover;">
+  <img src="{{ url_for('static', filename='images/upload_folder/forums/' + forum.picture)}}" class="card-img-top forum-image">
   <div class="card-body">
     <div class="dropdown dropdown-forum">
       <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -29,9 +29,22 @@
         {% endif %}
       </ul>
     </div>
-    <h1 class="card-title">{{ forum.name }}</h1><h6>Created by {{ forum.user.username }}</h6>
+    <h1 class="card-title">{{ forum.name }}</h1>
     <p class="card-text">{{ forum.description }}</p>
-    <a href="#" class="btn btn-primary">Join</a>
+  </div>
+  <div class="card-footer">
+    {% if user.id == forum.creator %}
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{forum.id}}')">Joined</button>
+    {% else %}
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{forum.id}}')">Join</button>
+    {% endif %}
+    <small>
+      {% if forum.members|length == 1 %}
+      <span style="padding-left: 5px;"><span id="member-count">{{ forum.members|length }}</span> Member</span>
+      {% else %}
+      <span style="padding-left: 5px;"><span id="member-count">{{ forum.members|length }}</span> Members</span>
+      {% endif %}
+    </small>
   </div>
 </div>
 {% endblock %}

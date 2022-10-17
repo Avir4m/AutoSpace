@@ -4,6 +4,7 @@ body {
 }
 
 .card {
+    background-color: #333333;
     border: 1px solid #262626;
     color: #fff
 }
@@ -82,4 +83,8 @@ input[type=file] {
 
 .card-header h4 a{
     color: #fff;
+}
+
+.navbar {
+    background-color: #2e2e2e;
 }

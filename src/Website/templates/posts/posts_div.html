@@ -36,7 +36,7 @@
                   href="{{ url_for('views.forum', url=post.forum.url) }}" 
                   class="header-sub">{{ post.forum.name }}</a>
                   {% endif %}
-                   • {{  post.date_created  }}
+                   • <span class="date">{{  post.date_created  }}</span>
                   {% if post.edited == True %}
                   <small>• Edited</small>
                   {% endif %}
@@ -146,20 +146,7 @@
                 {% endif %}
                 </li>
                 <li class="list-group-item">
-                  <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" id="DarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15">
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" role="menu" aria-labelledby="imageDropdown">
-                      <li 
-                      align="center"
-                      id="copyPostLink"
-                      onclick="copyPostLink('{{post.url}}')"
-                      >
-                        <img src="{{ url_for('static', filename='images/icons/copy.png') }}" width="15"> Copy link
-                      </li>
-                    </ul>
-                  </div>
                 </li>
               </ul>
             </p>

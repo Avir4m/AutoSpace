@@ -45,10 +45,6 @@
   border-radius: 5px;
 }
 
-.navbar {
-  background-color: #2e2e2e;
-}
-
 .switch {
   margin: 5px;
   position: relative;
@@ -119,3 +115,16 @@ input:checked + .slider:before {
   border: 0px solid #262626;
 }
 
+.forum-image {
+  max-width: 100%; 
+  height: 250px; 
+  object-fit: cover;
+}
+
+@media (max-width: 600px) {
+  .forum-image {
+    max-width: 100%; 
+    height: 150px; 
+    object-fit: cover;
+  }
+}
