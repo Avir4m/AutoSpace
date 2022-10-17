@@ -47,7 +47,7 @@ function joinForum(forumId) {
         memberCount.innerHTML = data['members'];
       }
     })
-    .catch((e) => alert(e))
+    .catch((e) => alert('Could not join forum.'))
   }
   
   function removeProfilePic(username) {
