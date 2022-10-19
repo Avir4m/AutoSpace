@@ -10,6 +10,7 @@ socketio = SocketIO()
 
 db = SQLAlchemy()
 
+
 DB_NAME = "database.db"
 UPLOAD_FOLDER = "/src/website/static/images/upload_folder"
 
