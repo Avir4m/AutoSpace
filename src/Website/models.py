@@ -1,6 +1,6 @@
 from . import db
 from flask_login import UserMixin
-from sqlalchemy.sql import func
+import datetime
 
 
 
@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(150), nullable=True)
     description = db.Column(db.String(200), nullable=False, default="")
     picture = db.Column(db.String(), default="default_profile_pic.jpg")
-    date_joined = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_joined = db.Column(db.DateTime, default=datetime.datetime.now())
     permissions = db.Column(db.Integer(), default=0)
     verified = db.Column(db.Boolean(), default=False)
 
@@ -47,7 +47,7 @@ class Post(db.Model):
     title = db.Column(db.String(150), nullable=False)
     text = db.Column(db.Text, nullable=False)
     picture = db.Column(db.String, default=None)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime, default=datetime.datetime.now())
     url = db.Column(db.String(150), nullable=False, unique=True)
     edited = db.Column(db.Boolean(), default=False)
     private = db.Column(db.Boolean(), default=False)
@@ -63,13 +63,13 @@ class Saved(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text, nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     edited = db.Column(db.Boolean(), default=False)
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=False)
@@ -80,7 +80,7 @@ class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
 
 class Forum(db.Model):
@@ -90,7 +90,7 @@ class Forum(db.Model):
     picture = db.Column(db.String(), default=None)
     edited = db.Column(db.Boolean(), default=False)
     creator = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     url = db.Column(db.String(150), nullable=False, unique=True)
     posts = db.relationship('Post', backref='forum', passive_deletes=True)
     members = db.relationship('ForumMember', backref='forum', passive_deletes=True)
@@ -101,7 +101,7 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reason = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text(), nullable=False)
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+    date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
     author = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete="CASCADE"), nullable=True)
     forum_id = db.Column(db.Integer, db.ForeignKey('forum.id', ondelete="CASCADE"), nullable=True)

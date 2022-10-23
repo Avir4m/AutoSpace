@@ -36,7 +36,7 @@
                   href="{{ url_for('views.forum', url=post.forum.url) }}" 
                   class="header-sub">{{ post.forum.name }}</a>
                   {% endif %}
-                   • <span class="date">{{  post.date_created  }}</span>
+                   • <span class="date">{{  post.date_created|timeago  }}</span>
                   {% if post.edited == True %}
                   <small>• Edited</small>
                   {% endif %}
@@ -175,7 +175,7 @@
                         style="color: white; text-decoration: none;" >
                         <img src="{{ url_for('static', filename='images/upload_folder/users/' + comment.user.picture )}}"
                         style="border-radius : 50%; width: 30px; height: 30px; object-fit: cover;">
-                          {{ comment.user.username }}</a> • {{ comment.date_created }}
+                          {{ comment.user.username }}</a> • {{ comment.date_created|timeago }}
                         <small class="text-muted">
                           {% if comment.edited == True %}
                           • Edited

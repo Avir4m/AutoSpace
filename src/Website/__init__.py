@@ -2,14 +2,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-from flask_socketio import SocketIO
+import timeago, datetime
 
 from .func import get_secret_key
 
-socketio = SocketIO()
-
 db = SQLAlchemy()
-
 
 DB_NAME = "database.db"
 UPLOAD_FOLDER = "/src/website/static/images/upload_folder"
@@ -22,8 +19,6 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JSON_SORT_KEYS'] = False
     db.init_app(app)
-
-    socketio.init_app(app)
     
     from .views import views
     from .auth import auth
@@ -32,7 +27,6 @@ def create_app():
     from .comments import comments
     from .forums import forums
     from .reports import reports
-    from .chat import chat
     
     from .errors import errors
     
@@ -47,7 +41,6 @@ def create_app():
     app.register_blueprint(comments, url_prefix='/') # comments
     app.register_blueprint(forums, url_prefix='/') # forums
     app.register_blueprint(reports, url_prefix='/') # reports 
-    app.register_blueprint(chat, url_prefix='/') # chat WIP
     
     app.register_blueprint(errors, url_prefix='/')
 
@@ -66,6 +59,11 @@ def create_app():
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
+
+    @app.template_filter('timeago')   
+    def fromnow(date):
+        print(f"date:{date} now:{datetime.datetime.now()}")
+        return timeago.format(date, datetime.datetime.now())
     
     return app
 

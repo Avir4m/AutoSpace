@@ -3,9 +3,9 @@ from flask_login import login_required, current_user
 
 from .models import Forum, Post
 
-import os
 
 views = Blueprint('views', __name__)
+
 
 @views.route('/')
 @login_required
