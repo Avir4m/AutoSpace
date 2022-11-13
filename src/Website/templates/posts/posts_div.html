@@ -8,215 +8,126 @@
   {% for post in posts %}
     {% if post.private != true or post.author == user.id or user.preference.private_account != true %}
       <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="card-text" style="max-width: 95%;">
-              <h4>
+        <div class="card-header">
+          <div class="card-text">
+              <h3>
                 <a
-                href="{{ url_for('views.post' ,url=post.url) }}"
-                >
-                  {{  post.title  }}
+                href="{{ url_for('views.post' ,url=post.url) }}">
+                {{  post.title  }}
                 </a>
                 {% if post.private == true %}
                 <img src="{{ url_for('static', filename='images/icons/lock.png') }}" width="15">
                 {% endif %}
-              </h4>
-              <div class="header-sub">
-                  <a 
-                  style="text-decoration: none;"          
-                  href="{{ url_for('users.user', username=post.user.username) }}" 
-                  class="header-sub">
-                  <img src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture)}}"
-                  style="border-radius : 50%; width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
-                  {{  post.user.username  }}
-                  </a>
+              </h3>
+              <div class="post-info">
+                  <img data-src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
+                  <span>
+                  <a href="{{ url_for('users.user', username=post.user.username)}}">{{  post.user.username  }}</a>
                   {% if post.forum_id != None %}
                   •
                   <a 
                   style="text-decoration: none;"          
                   href="{{ url_for('views.forum', url=post.forum.url) }}" 
-                  class="header-sub">{{ post.forum.name }}</a>
+                  >{{ post.forum.name }}</a>
                   {% endif %}
                    • <span class="date">{{  post.date_created|timeago  }}</span>
                   {% if post.edited == True %}
                   <small>• Edited</small>
                   {% endif %}
+                </span>
               </div>
           </div>
           <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="dropdown-toggle" type="button">
               <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
             </button>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item" href="{{ url_for('users.user', username=post.user.username)}}">
-                  <img src="{{ url_for('static', filename='images/icons/user.png') }}" width="15"> Go to Profile
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ url_for('reports.report_post', url=post.url) }}" style="color: red;">
-                  <img src="{{ url_for('static', filename='images/icons/exclamation_r.png') }}" width="15"> Report
-                </a>
-              </li>
-              <div class="dropdown-divider"></div>
-              {% if user.id == post.author %}
-              <li>
-                <a class="dropdown-item" href="{{ url_for('posts.edit_post', post_id=post.id) }}">
-                  <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" width="15"> Edit
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{{ url_for('posts.delete_post', post_id=post.id) }}">
-                  <img src="{{ url_for('static', filename='images/icons/trash.png') }}" width="15"> Delete
-                </a>
-              </li>
-              {% if post.private == false %}
-              <li>
-                <a class="dropdown-item" href="{{ url_for('posts.post_status', post_id=post.id) }}">
-                  <img src="{{ url_for('static', filename='images/icons/lock.png') }}" width="15"> Make private
-                </a>
-              </li>
-              {% else %}
-              <li>
-                <a class="dropdown-item" href="{{ url_for('posts.post_status', post_id=post.id) }}">
-                  <img src="{{ url_for('static', filename='images/icons/globe.png') }}" width="15"> Make public
-                </a>
-              </li>
-              {% endif %}
-              {% endif %}
-            </ul>
           </div>
         </div>
         <div class="card-body">
             <div class="card-text">{{  post.text  }}</div>
             <br/>
             {% if post.picture != None %}
-            <img src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
+            <img data-src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
+            <br/>
             {% endif %}
-            <p class="card-text">
-              <ul class="list-group list-group-horizontal">
-                <li class="list-group-item">
-                  {% if post.comments|length > 0 %}
-                  <a 
-                  id="commentButton"
-                  onclick="toggleComments({{post.id}})"
-                  role="button"
-                  style="color: black; text-decoration: none;" >
-                  <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15"> {{ post.comments|length }}
-                  </a>
-                {% else %}
-                  <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15"> {{ post.comments|length }}
-                {% endif %}
-                </li>
-                <li class="list-group-item">
-
-                  {% if user.id in post.likes|map(attribute="author")|list %}
-
-                  <img 
-                  src="{{ url_for('static', filename='images/icons/heart_b.png') }}"
-                  width="15"
-                  id="like-button-{{post.id}}"
-                  onclick="like({{post.id}})">
-
-                  {% else %}
-
-                  <img
-                  src="{{ url_for('static', filename='images/icons/heart.png') }}" 
-                  width="15"
-                  id="like-button-{{post.id}}"
-                  onclick="like({{post.id}})">
-
-                  {% endif %}
-
-                  <span id="likes-count-{{post.id}}">{{ post.likes|length }}</span>
-
-                </li>
-                <li class="list-group-item">
-                {% if user.id in post.saves|map(attribute="author")|list %}
-                  <img 
-                  src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" 
-                  width="15"
-                  id="save-button-{{post.id}}"
-                  onclick="save({{post.id}})">
-                {% else %}
-                  <img 
-                  src="{{ url_for('static', filename='images/icons/bookmark.png') }}" 
-                  width="15"
-                  id="save-button-{{post.id}}"
-                  onclick="save({{post.id}})">
-                {% endif %}
-                </li>
-                <li class="list-group-item">
-                      <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15">
-                </li>
-              </ul>
-            </p>
+          <br/>
         </div>
         <div class="card-footer">
-          <form
-          class="input-group mb-3"
-          method="POST"
-          action="/create-comment/{{post.id}}">
-          <input
-            type="text"
-            id="text"
-            name="text"
-            class="form-control"
-            placeholder="Comment"/>
+          <ul class="list-group">
+            <li class="list-group-item">
+              {% if post.comments|length > 0 %}
+              <span id="commentButton" onclick="toggleComments({{post.id}})">
+                <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15"> {{ post.comments|length }}
+              </span>
+            {% else %}
+              <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15"> {{ post.comments|length }}
+            {% endif %}
+            </li>
+            <li class="list-group-item">
+
+              {% if user.id in post.likes|map(attribute="author")|list %}
+
+              <img 
+              src="{{ url_for('static', filename='images/icons/heart_b.png') }}"
+              width="15"
+              id="like-button-{{post.id}}"
+              onclick="like({{post.id}})">
+
+              {% else %}
+
+              <img
+              src="{{ url_for('static', filename='images/icons/heart.png') }}" 
+              width="15"
+              id="like-button-{{post.id}}"
+              onclick="like({{post.id}})">
+
+              {% endif %}
+
+              <span id="likes-count-{{post.id}}">{{ post.likes|length }}</span>
+
+            </li>
+            <li class="list-group-item">
+            {% if user.id in post.saves|map(attribute="author")|list %}
+              <img 
+              src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" 
+              width="15"
+              id="save-button-{{post.id}}"
+              onclick="save({{post.id}})">
+            {% else %}
+              <img 
+              src="{{ url_for('static', filename='images/icons/bookmark.png') }}" 
+              width="15"
+              id="save-button-{{post.id}}"
+              onclick="save({{post.id}})">
+            {% endif %}
+            </li>
+            <li class="list-group-item">
+                  <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15">
+            </li>
+          </ul>
+          <form method="POST" action="/create-comment/{{post.id}}">
+          <input type="text" id="text" name="text" class="form-control" placeholder="Comment"/>
           <button type="submit" class="btn btn-primary">Comment</button>
           </form>
-          <div class="comments" id="comments-{{post.id}}" style="display: none">
+          <div class="comments" id="comments-{{post.id}}" style="display: none"><br/>
               <div id="comment-expanded-{{post.id}}">
                 {% for comment in post.comments %}
-                  <div class="justify-content-between align-items-center">
-                    <div class="card">
-                      <div class="card-header">
-                        <a 
-                        href="/user/{{comment.user.username}}"
-                        style="color: white; text-decoration: none;" >
-                        <img src="{{ url_for('static', filename='images/upload_folder/users/' + comment.user.picture )}}"
-                        style="border-radius : 50%; width: 30px; height: 30px; object-fit: cover;">
+                  <div class="card card-comments">
+                    <div class="card-header">
+                      <div>
+                        <a
+                        href="/user/{{comment.user.username}}">
+                        <img src="{{ url_for('static', filename='images/upload_folder/users/' + comment.user.picture )}}" class="user-img">
                           {{ comment.user.username }}</a> • {{ comment.date_created|timeago }}
-                        <small class="text-muted">
+                        <small>
                           {% if comment.edited == True %}
                           • Edited
                           {% endif %}
                         </small>
-                        <div class="dropdown comment-dropdown">
-                          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
-                          </button>
-                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li>
-                              <a class="dropdown-item" href="{{ url_for('users.user', username=comment.user.username)}}">
-                                <img src="{{ url_for('static', filename='images/icons/user.png') }}" width="15"> Go to Profile
-                              </a>
-                            </li>
-                            <li>
-                              <a class="dropdown-item" href="{{ url_for('reports.report_comment', id=comment.id)}}" style="color: red;">
-                                <img src="{{ url_for('static', filename='images/icons/exclamation_r.png') }}" width="15"> Report
-                              </a>
-                            </li>
-                            {% if comment.author == user.id or user.id == post.author %}
-                            <div class="dropdown-divider"></div>
-                            {% if comment.author == user.id %}
-                            <li>
-                              <a class="dropdown-item" href="{{ url_for('comments.edit_comment', comment_id=comment.id )}}">
-                                <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" width="15"> Edit
-                              </a>
-                            </li>
-                          {% endif %}
-                            <li>
-                              <a class="dropdown-item" href="{{ url_for('comments.delete_comment', comment_id=comment.id )}}">
-                                <img src="{{ url_for('static', filename='images/icons/trash.png') }}" width="15"> Delete
-                              </a>
-                            </li>
-                          {% endif %}
-                          </ul>
-                        </div>
                       </div>
-                      <div class="card-body">
-                        {{ comment.text }}
-                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div>{{ comment.text }}</div>
                     </div>
                   </div>
                   {% if comment != post.comments|last %}

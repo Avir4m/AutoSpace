@@ -5,7 +5,7 @@ from email.message import EmailMessage
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'mp4'}
 
 def send_email(email_recipient, title, text):
-    with open('config.txt', 'r') as f:
+    with open('.venv/config.txt', 'r') as f:
         content = f.readlines()
         EMAIL_SENDER = content[1]
         PASSWORD = content[4]
@@ -61,7 +61,7 @@ def send_email(email_recipient, title, text):
     
     
 def get_secret_key():
-    with open("config.txt", "r") as f:
+    with open(".venv/config.txt", "r") as f:
         SECRET_KEY = f.readlines()
         f.close()
     return SECRET_KEY[7]
@@ -85,4 +85,5 @@ def unique_filename(filename, type):
     if picture:
         unique_filename(filename)
     else:
-        return new_filename
+        return 
+        

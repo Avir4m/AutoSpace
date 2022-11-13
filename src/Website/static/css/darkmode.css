@@ -1,90 +1,66 @@
-body {
-    background-color: #404040;
+* {
     color: #fff;
 }
 
-.card {
+body {
+    background-color: #404040;
+}
+
+input, select, textarea {
     background-color: #333333;
-    border: 1px solid #262626;
-    color: #fff
+    border: 1px solid #1d1d1d;
+}
+
+button {
+    border: 1px solid #1d1d1d;
+}
+
+/* Navbar */
+
+.navbar {
+    background-color: #2e2e2e;
+}
+
+.nav-dropdown-content {
+    background-color: #2e2e2e;
+}
+
+.nav-dropdown-content a {
+    border-top: 1px solid #1d1d1d;
+}
+
+.nav-dropdown-content a:hover {
+    background-color: #333333;
+}
+
+/* Cards */
+
+.card {
+    border: 1px solid #1d1d1d;
+    background-color: #404040;
 }
 
 .card-header {
     background-color: #333333;
-    color: #fff;
+    border-bottom: 1px solid #1d1d1d;
 }
 
 .card-body {
     background-color: #404040;
-    color: #fff;
 }
 
 .card-footer {
     background-color: #333333;
+    border-top: 1px solid #1d1d1d;
 }
 
-.form-control {
-    color: #fff;
-    background-color: #404040;
-    border: 1px solid #262626;
-}
+/* List group */
 
-.input-group-text {
+.list-group {
     background-color: #333333;
-    border: 1px solid #262626;
+    border: 1px solid #1d1d1d;
 }
 
-input:-internal-autofill-selected {
-    appearance: menulist-button;
-    background-image: none !important;
-    background-color: -internal-light-dark(#333333, #333333) !important;
-    color: -internal-light-dark(black, #333333) !important;
-}
-
-.form-select {
-    background: #404040;
-    border: 1px solid #262626;
-    color: #fff;
-}
-
-.list-group-item {
-    background-color: #404040;
-    color: #000;
-}
-
-td {
-    color : #fff;
-}
-
-tr {
-    color : #fff;
-}
-
-input[type=file]::-webkit-file-upload-button {
-    color: #fff;
-    background-color: #333333;
-}
-
-input[type=file] {
-    background-color: #404040;
-}
-
-.form-control:focus {
-    background-color: #404040;
-}
-
-.header-sub {
-    color: #d9d9d9;
-}
-
-.form-control:focus {
-    color: #fff;
-}
-
-.card-header h4 a{
-    color: #fff;
-}
-
-.navbar {
-    background-color: #2e2e2e;
+.list-group-item:not(:last-child) {
+    border-right: 1px solid #1d1d1d;
 }

@@ -1,16 +1,16 @@
 let darkMode = localStorage.getItem('darkMode'); 
 
-const darkModeToggle = document.querySelector('#dark-mode-toggle');
+const themeToggle = document.querySelector('#theme-toggle');
 
 const enableDarkMode = () => {
   document.getElementById('darkModeCss').href = "/static/css/darkmode.css"
-  document.getElementById('dark-mode-toggle').src = "/static/images/icons/sun.png";
+  themeToggle.src = "/static/images/icons/sun.png";
   localStorage.setItem('darkMode', 'enabled');
 }
 
 const disableDarkMode = () => {
   document.getElementById('darkModeCss').href = "/static/css/lightmode.css";
-  document.getElementById('dark-mode-toggle').src = "/static/images/icons/moon.png";
+  themeToggle.src = "/static/images/icons/moon.png";
   localStorage.setItem('darkMode', 'disabled');
 }
 
@@ -19,11 +19,14 @@ if (darkMode === 'enabled') {
 }
 
 
-darkModeToggle.addEventListener('click', () => {
+function toggleTheme(button) {
   darkMode = localStorage.getItem('darkMode'); 
   if (darkMode !== 'enabled') {
+    button.src = "/static/images/icons/sun.png";
     enableDarkMode();
   } 
-  else {  
+  else {
+    button.src = "/static/images/icons/moon.png";
     disableDarkMode(); 
-  }});
+  }
+}

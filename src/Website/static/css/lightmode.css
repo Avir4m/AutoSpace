@@ -1,20 +1,50 @@
-.dropdown-menu {
-    background-color: #fff;
+* {
+    color: #000000;
 }
 
-.dropdown-item {
-    color: #000;
+input, select, textarea, button {
+    border: 1px solid #979797;
 }
 
-.header-sub {
-    color: #595959;
-}
-
-.dropdown-menu-dark {
-    --bs-dropdown-link-hover-color: #ffffff;
-    --bs-dropdown-link-hover-bg: rgba(0, 0, 0, 0.500);
-}
+/* Navbar */
 
 .navbar {
-    background-color: #404040;
+    background-color: #a5a5a5;
+}
+
+.nav-dropdown-content {
+    background-color: #a5a5a5;
+}
+
+.nav-dropdown-content a {
+    border-top: 1px solid #979797;
+}
+
+.nav-dropdown-content a:hover {
+    background-color: #646464;
+}
+
+/* Cards */
+
+.card {
+    border: 1px solid #979797;
+    background-color: #f7f7f7;
+}
+
+.card-body {
+    background-color: #ffffff;
+    border-top: 1px solid #979797;
+    border-bottom: 1px solid #979797;
+}
+
+
+/* List group */
+
+.list-group {
+    background-color: #f7f7f7;
+    border: 1px solid #979797;
+}
+
+.list-group-item:not(:last-child) {
+    border-right: 1px solid #979797;
 }

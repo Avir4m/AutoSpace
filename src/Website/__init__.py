@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
 import timeago, datetime
 
@@ -15,6 +14,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = get_secret_key()
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000 * 10 # 10 Megabyte
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JSON_SORT_KEYS'] = False
@@ -50,7 +50,8 @@ def create_app():
     
     from .models import User
     
-    create_database(app)
+    with app.app_context():
+        db.create_all()
     
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -66,10 +67,3 @@ def create_app():
         return timeago.format(date, datetime.datetime.now())
     
     return app
-
-def create_database(app):
-    if not path.exists('Src/Website/' + DB_NAME):
-        print(' * Created database')
-        db.create_all(app=app)
-    else:
-        print(' * Loaded database')

@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Database
-*.db
+instance/
 
 # Upload folder
 Src/Website/static/images/upload_folder/posts/*
@@ -12,5 +12,5 @@ Src/Website/static/images/upload_folder/forums/*
 Src/Website/static/images/upload_folder/users/*
 !Src/Website/static/images/upload_folder/users/default_profile_pic.jpg
 
-# Keys / Emails
-config.txt
+# Virtual Environment
+.venv
