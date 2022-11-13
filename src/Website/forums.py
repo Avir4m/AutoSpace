@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import os
 
 from .models import Forum, ForumMember
-from .func import create_url, allowed_file, unique_filename
+from .func import create_url, allowed_file, unique_filename, upload_file
 from . import db
 
 forums = Blueprint('forums', __name__)
@@ -26,13 +26,11 @@ def create_forum():
         elif len(name) <= 2:
             flash('forum name must be at least 2 characters', category='error')
         else:
-            if file and allowed_file(file.filename):
-                filename, ext = secure_filename(file.filename).split('.')
-                filename = unique_filename(filename, Forum) + '.' + ext
-                file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/', filename))
-                forum = Forum(name=name, description=description, creator=current_user.id, url=create_url(Forum), picture=filename)
-            else:
-                forum = Forum(name=name, description=description, creator=current_user.id, url=create_url(Forum))
+
+            filename = upload_file(filename, Forum)
+
+            forum = Forum(name=name, description=description, creator=current_user.id, url=create_url(Forum), picture=filename)
+
             db.session.add(forum)
             db.session.commit()
             
@@ -94,15 +92,12 @@ def edit_forum(forum_id):
             
             file = request.files['file']
         
-            if file and allowed_file(file.filename):
-                filename, ext = secure_filename(file.filename).split('.')
-                filename = unique_filename(filename, Forum) + '.' + ext
-                file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/', filename))
-                if forum.picture:
-                    try:
-                        os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/' + forum.picture)
-                    except:
-                        print("Could not remove picture..")
+            filename = upload_file(file, Forum)
+            if forum.picture:
+                try:
+                    os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/' + forum.picture)
+                except:
+                    pass
                 forum.picture = filename
                 db.session.commit()
             

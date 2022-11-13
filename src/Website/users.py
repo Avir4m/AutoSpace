@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, abort, current_app
 from flask_login import login_required, current_user
 
-from werkzeug.utils import secure_filename
 import os
 
 from .models import User, Post, User
-from .func import allowed_file, unique_filename
+from .func import upload_file
 from . import db
 
 users = Blueprint('users', __name__)
@@ -27,17 +26,14 @@ def dashboard(username):
             
             file = request.files['file']
             
-            if file and allowed_file(file.filename):
-                filename, ext = secure_filename(file.filename).split('.')
-                filename = unique_filename(filename, User) + '.' + ext
-                file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/', filename))
-                if user.picture != "default_profile_pic.jpg":
-                    try:
-                        os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)
-                    except:
-                        print("Could not remove picture..")
-                user.picture = filename
-                db.session.commit()
+            filename = upload_file(file, User)
+            if user.picture != "default_profile_pic.jpg":
+                try:
+                    os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)
+                except:
+                    print("Could not remove picture..")
+            user.picture = filename
+            db.session.commit()
             
             user_email = User.query.filter_by(email=email).first()
             user_name = User.query.filter_by(username=username).first()

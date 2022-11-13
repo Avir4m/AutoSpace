@@ -4,8 +4,8 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 import os
 
-from .models import Post, Like, Saved, Forum
-from .func import create_url, unique_filename, allowed_file
+from .models import Post, Forum
+from .func import create_url, upload_file
 from . import db
 
 posts = Blueprint('posts', __name__)
@@ -37,13 +37,9 @@ def create_post():
                 forum_id=None
             else:
                 forum_id = forum.id
-            if file and allowed_file(file.filename):
-                filename, ext = secure_filename(file.filename).split('.')
-                filename = unique_filename(filename, Post) + '.' + ext
-                file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/posts/', filename))
-            else:
-                filename = None
                 
+            filename = upload_file(file, Post)
+
             post = Post(title=title ,text=text, author=current_user.id, url=create_url(Post), forum_id=forum_id, picture=filename)
             db.session.add(post)
             db.session.commit()
