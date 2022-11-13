@@ -97,7 +97,7 @@ button {
     max-width: 1400px;
 }
 
-.post-picture {
+.post-picture, .preview {
     margin-left: 12.5px;
     border-radius: 20px;
     max-width: 90%;
@@ -127,6 +127,15 @@ button {
     border-radius: 0 0 10px 10px;
 }
 
+.card input:not(input[type="checkbox"]), select, textarea {
+    margin: 5px;
+    display: inline-block;
+}
+
+.card a {
+    text-decoration: none;
+}
+
 .card-header {
     border-radius: 10px 10px 0 0;
 }
@@ -136,7 +145,12 @@ button {
     padding: 5px;
 }
 
-.card-body *:not(.card .card) {
+
+.card-body *:not(.card .card, small, img, .card-text) {
+    padding: 5px;
+}
+
+.card-body .card-text {
     padding: 10px;
 }
 
