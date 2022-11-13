@@ -20,7 +20,7 @@
                 {% endif %}
               </h3>
               <div class="post-info">
-                  <img data-src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
+                  <img src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
                   <span>
                   <a href="{{ url_for('users.user', username=post.user.username)}}">{{  post.user.username  }}</a>
                   {% if post.forum_id != None %}
@@ -47,7 +47,7 @@
             <div class="card-text">{{  post.text  }}</div>
             <br/>
             {% if post.picture != None %}
-            <img data-src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
+            <img src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
             <br/>
             {% endif %}
           <br/>

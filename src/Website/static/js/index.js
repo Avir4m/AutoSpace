@@ -19,6 +19,3 @@ function alertClose() {
   const messages = document.querySelector(".messages");
   messages.remove();
 }
-
-let images = document.images;
-lazyload(images);
