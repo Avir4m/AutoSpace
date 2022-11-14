@@ -48,3 +48,7 @@ input, select, textarea, button {
 .list-group-item:not(:last-child) {
     border-right: 1px solid #979797;
 }
+
+.list-group-item:hover {
+    background-color: #d7d7d7;
+}

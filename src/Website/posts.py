@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, current_app, abort
 from flask_login import login_required, current_user
 
-from werkzeug.utils import secure_filename
 import os
 
 from .models import Post, Forum
@@ -38,7 +37,7 @@ def create_post():
             else:
                 forum_id = forum.id
                 
-            filename = upload_file(file, Post)
+            filename = upload_file(file, Post, "posts")
 
             post = Post(title=title ,text=text, author=current_user.id, url=create_url(Post), forum_id=forum_id, picture=filename)
             db.session.add(post)

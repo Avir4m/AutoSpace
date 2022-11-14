@@ -54,51 +54,46 @@
         </div>
         <div class="card-footer">
           <ul class="list-group">
-            <li class="list-group-item">
-              {% if post.comments|length > 0 %}
-              <span id="commentButton" onclick="toggleComments({{post.id}})">
+            {% if post.comments|length > 0 %}
+            <li class="list-group-item" onclick="toggleComments({{post.id}})">
                 <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15"> {{ post.comments|length }}
-              </span>
             {% else %}
-              <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15"> {{ post.comments|length }}
+            <li class="list-group-item">
+                <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15"> {{ post.comments|length }}
             {% endif %}
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" onclick="like({{post.id}})">
 
               {% if user.id in post.likes|map(attribute="author")|list %}
 
               <img 
               src="{{ url_for('static', filename='images/icons/heart_b.png') }}"
               width="15"
-              id="like-button-{{post.id}}"
-              onclick="like({{post.id}})">
+              id="like-button-{{post.id}}">
 
               {% else %}
 
               <img
               src="{{ url_for('static', filename='images/icons/heart.png') }}" 
               width="15"
-              id="like-button-{{post.id}}"
-              onclick="like({{post.id}})">
+              id="like-button-{{post.id}}">
 
               {% endif %}
 
               <span id="likes-count-{{post.id}}">{{ post.likes|length }}</span>
 
             </li>
-            <li class="list-group-item">
+            <li class="list-group-item" onclick="save({{post.id}})">
             {% if user.id in post.saves|map(attribute="author")|list %}
               <img 
               src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" 
               width="15"
-              id="save-button-{{post.id}}"
-              onclick="save({{post.id}})">
+              id="save-button-{{post.id}}">
             {% else %}
               <img 
               src="{{ url_for('static', filename='images/icons/bookmark.png') }}" 
               width="15"
-              id="save-button-{{post.id}}"
-              onclick="save({{post.id}})">
+              id="save-button-{{post.id}}">
             {% endif %}
             </li>
             <li class="list-group-item">

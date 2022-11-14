@@ -2,33 +2,10 @@
 {% block title %}{{ forum.name }}{% endblock %}
 {% block header %}
 <div class="card">
-  <img src="{{ url_for('static', filename='images/upload_folder/forums/' + forum.picture)}}" class="card-img-top forum-image">
+  <div class="card-header forum-banner" 
+  style="background-image: url('{{ url_for('static', filename='images/upload_folder/forums/' + forum.picture)}}');">
+  </div>
   <div class="card-body">
-    <div class="dropdown dropdown-forum">
-      <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-        <li>
-          <a class="dropdown-item" href="{{ url_for('reports.report_forum', url=forum.url) }}" style="color: red;">
-            <img src="{{ url_for('static', filename='images/icons/exclamation_r.png') }}" width="15"> Report
-          </a>
-        </li>
-        <div class="dropdown-divider"></div>
-        {% if user.id == forum.creator %}
-        <li>
-          <a class="dropdown-item" href="{{ url_for('forums.edit_forum', forum_id=forum.id) }}">
-            <img src="/static/images/icons/pencil.png" width="15"> Edit Forum
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item" href="{{ url_for('forums.delete_forum', forum_id=forum.id) }}">
-            <img src="/static/images/icons/trash.png" width="15"> Delete Forum
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
     <h1 class="card-title">{{ forum.name }}</h1>
     <p class="card-text">{{ forum.description }}</p>
   </div>

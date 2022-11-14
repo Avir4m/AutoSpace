@@ -40,8 +40,9 @@ button {
     font-size: 17px;
 }
 
-.nav-item:not(.navbar-brand, .not-auth) {
+.nav-item:not(.not-auth) {
     margin-right: 10vw;
+    cursor: pointer;
 }
 
 .nav-item a {
@@ -97,13 +98,6 @@ button {
     max-width: 1400px;
 }
 
-.post-picture, .preview {
-    margin-left: 12.5px;
-    border-radius: 20px;
-    max-width: 90%;
-    max-height: 35vh;
-}
-
 .card .dropdown-toggle {
     position: absolute;
     top: 0;
@@ -140,13 +134,45 @@ button {
     border-radius: 10px 10px 0 0;
 }
 
+/* Cards Extra */
+
+.forum-banner {
+    background-size: cover;
+    background-position: center;
+    min-height: 20vh;
+}
+
+.card .info {
+    margin: 10px;
+}
+
+.card .subtext {
+    padding: 20px;
+}
+
+.dashboard-img {
+    position: absolute;
+    margin: 10px;
+    top: 60px;
+    right: 0;
+    border-radius: 50%;
+    max-height: 17.5vh;
+    max-width: 17.5vw;
+}
+
+.post-picture, .preview {
+    margin-left: 12.5px;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 35vh;
+}
+
 .card-header *:not(img) {
     text-decoration: none;
     padding: 5px;
 }
 
-
-.card-body *:not(.card .card, small, img, .card-text) {
+.card-body *:not(.card .card, small, img, .card-text, button) {
     padding: 5px;
 }
 
@@ -154,11 +180,7 @@ button {
     padding: 10px;
 }
 
-.card .subtext {
-    padding: 20px;
-}
-
-.card a:hover {
+.card a:not(button a):hover {
     color: #7e75ff;
 }
 
@@ -166,7 +188,7 @@ button {
 
 .list-group {
     border-radius: 10px;
-    margin: 5px;
+    margin: 10px;
     float: right;
 }
 
@@ -174,6 +196,15 @@ button {
     padding: 10px;
     list-style-type: none;
     float: left;
+    cursor: pointer;
+}
+
+.list-group-item:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.list-group-item:first-child {
+    border-radius: 10px 0 0 10px;
 }
 
 /* Alerts */
@@ -203,4 +234,30 @@ button {
     padding: 0px;
     width: 15px;
     float: right;
+}
+
+/* Buttons */
+
+button {
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    filter: brightness(85%);
+}
+
+
+/* Colors */
+
+.bg-red {
+    background-color: #a82626;
+}
+
+.bg-green {
+    background-color: #26964a;
+}
+
+.bg-blue {
+    background-color: #2d5ac2;
 }

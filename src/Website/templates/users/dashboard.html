@@ -11,64 +11,45 @@
 	<div class="card-body">
 
 		<div class="info">
-			<div class="row">
-			<div class="col-8">
+			<strong>First Name:</strong>
+			{{ user.first_name }}<br/>
 
-				<strong>First Name:</strong>
-				{{ user.first_name }}<br/>
+			<strong>Last Name:</strong>
+			{{ user.last_name }}<br/>
 
-				<strong>Last Name:</strong>
-				{{ user.last_name }}<br/>
+			<strong>Username:</strong>
+			{{ user.username }}<br/>
 
-				<strong>Username:</strong>
-				{{ user.username }}<br/>
+			<strong>User Id:</strong>
+			{{ user.id }}<br/>
 
-				<strong>User Id:</strong>
-				{{ user.id }}<br/>
+			<strong>Email:</strong>
+			{{ user.email }}<br/>
 
-				<strong>Email:</strong>
-				{{ user.email }}<br/>
+			<strong>Date Joined:</strong>
+			{{ user.date_joined }}<br/>
 
-				<strong>Date Joined:</strong>
-				{{ user.date_joined }}<br/>
+			<strong>Verified:</strong>
+			{% if user.verified %}
+			<img src="{{ url_for('static', filename='images/icons/check.png') }}" width="15" >
+			{% else %}
+			<img src="{{ url_for('static', filename='images/icons/cross.png') }}" width="15" >
+			{% endif %}<br/>
 
-				<strong>Verified:</strong>
-				{% if user.verified %}
-				<img src="{{ url_for('static', filename='images/icons/check.png') }}" width="15" >
-				{% else %}
-				<img src="{{ url_for('static', filename='images/icons/cross.png') }}" width="15" >
-				{% endif %}<br/>
+			{% if user.permissions >= 1 %}
+			<strong>Permissions:</strong>
+			True<br/>
+			{% endif %}
 
-				{% if user.permissions >= 1 %}
-				<strong>Permissions:</strong>
-				True<br/>
-				{% endif %}
+			<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="dashboard-img">
 
-			</div>
+			{% if user.verified == False %}
+			<button class="bg-green"><a href="{{ url_for('auth.verify_email') }}">Verify Email</a></button>
+			{% endif %}
 
-			<div class="col-4">
-				<p onclick="removeProfilePic('{{ user.username }}')" class="removePicture">Remove Picture</p>
-				<img 
-				id="Picture"
-				align="right" 
-				src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture) }}" 
-				class="img-fluid"
-				alt="Profile Picture"
-				style="border-radius : 50%; width: 60%; aspect-ratio: 1 / 1; object-fit: cover;">
-			</div>
-			</div>
-		</div>
-    </p>
+			<button class="bg-blue"><a href="{{ url_for('auth.change_password') }}">Change Password</a></button>
 
-    <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary btn-sm">Logout</a>
-
-	{% if user.verified == False %}
-	<a href="{{ url_for('auth.verify_email') }}" class="btn btn-success btn-sm" >Verify Email</a>
-	{% endif %}
-
-	<a href="{{ url_for('auth.change_password') }}" class="btn btn-primary btn-sm">Change Password</a>
-
-    <a href="{{ url_for('auth.delete_user', user_id=user.id) }}" class="btn btn-danger btn-sm">Delete</a>
+			<button class="bg-red"><a href="{{ url_for('auth.delete_user', user_id=user.id) }}">Delete</a></button>
 
 	</div>
 </div>

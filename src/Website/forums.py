@@ -1,11 +1,10 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, abort, current_app
 from flask_login import login_required, current_user
 
-from werkzeug.utils import secure_filename
 import os
 
 from .models import Forum, ForumMember
-from .func import create_url, allowed_file, unique_filename, upload_file
+from .func import create_url, upload_file
 from . import db
 
 forums = Blueprint('forums', __name__)
@@ -27,7 +26,7 @@ def create_forum():
             flash('forum name must be at least 2 characters', category='error')
         else:
 
-            filename = upload_file(filename, Forum)
+            filename = upload_file(file, Forum, "forums")
 
             forum = Forum(name=name, description=description, creator=current_user.id, url=create_url(Forum), picture=filename)
 

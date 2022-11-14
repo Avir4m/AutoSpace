@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = get_secret_key()
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000 * 10 # 10 Megabyte
+    app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000 * 16 # 16 Megabyte
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JSON_SORT_KEYS'] = False

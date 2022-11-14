@@ -64,3 +64,7 @@ button {
 .list-group-item:not(:last-child) {
     border-right: 1px solid #1d1d1d;
 }
+
+.list-group-item:hover {
+    background-color: #242424;
+}

@@ -26,7 +26,7 @@ def dashboard(username):
             
             file = request.files['file']
             
-            filename = upload_file(file, User)
+            filename = upload_file(file, User, "users")
             if user.picture != "default_profile_pic.jpg":
                 try:
                     os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)

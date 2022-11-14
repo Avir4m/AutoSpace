@@ -1,7 +1,6 @@
 import smtplib
 import uuid
 from email.message import EmailMessage
-from PIL import Image
 from werkzeug.utils import secure_filename
 import os
 from flask import current_app
@@ -93,11 +92,11 @@ def unique_filename(filename, type):
     else:
         return new_filename
         
-def upload_file(file, type):
+def upload_file(file, type, path):
     if file and allowed_file(file.filename):
         filename, ext = secure_filename(file.filename).split('.')
         filename = unique_filename(filename, type) + '.' + ext
-        file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + f'/{type.lower()}s/', filename))
+        file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + f'/{path}/', filename))
         return filename
     else:
         return None
