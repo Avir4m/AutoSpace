@@ -6,8 +6,8 @@
         <div align="center">
             <h3>{{ username.username }}</h3>
         </div>
-        <div class="subtext">
-            Followers: 
+        <div>
+            <h3>Followers:
             <span id="followers-count-{{ username.username }}">
                 {{ username.followers|length }}
             </span>
@@ -21,11 +21,10 @@
             <span>
                 {{ username.posts|length }}
             </span>
+        </h3>
         </div>
     </div>
     <div class="card-body">
-        <p class="card-text">
-
             <div class="info">
                 <div class="row">
                 <div class="col-8">

@@ -13,8 +13,8 @@ input, select, textarea, button {
     border-radius: 5px;
 }
 
-button {
-    background-color: #7e75ff;
+:root {
+    --accent: #dc2e6e;
 }
 
 /* Navbar */
@@ -37,7 +37,7 @@ button {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 17.5px;
 }
 
 .nav-item:not(.not-auth) {
@@ -49,9 +49,17 @@ button {
     float: right;
 }
 
-.nav-dropdown{
+.nav-dropdown {
     float: right;
     overflow: hidden;
+}
+
+.nav-dropdown a:hover{
+    color: var(--accent);
+}
+
+.navbar-brand {
+    color: var(--accent);
 }
 
 .nav-dropdown .dropbtn {
@@ -62,7 +70,7 @@ button {
     background-color: inherit;
     font-family: inherit;
     margin: 0;
-}  
+}
 
 .nav-dropdown-content {
     display: none;
@@ -142,12 +150,12 @@ button {
     min-height: 20vh;
 }
 
-.card .info {
+.card .post-info {
     margin: 10px;
 }
 
-.card .subtext {
-    padding: 20px;
+.card h3 {
+    padding: 10px;
 }
 
 .dashboard-img {
@@ -167,11 +175,6 @@ button {
     max-height: 35vh;
 }
 
-.card-header *:not(img) {
-    text-decoration: none;
-    padding: 5px;
-}
-
 .card-body *:not(.card .card, small, img, .card-text, button) {
     padding: 5px;
 }
@@ -181,7 +184,7 @@ button {
 }
 
 .card a:not(button a):hover {
-    color: #7e75ff;
+    color: var(--accent);
 }
 
 /* List group */
@@ -245,6 +248,10 @@ button {
 
 button:hover {
     filter: brightness(85%);
+}
+
+button {
+    background-color: var(--accent);
 }
 
 

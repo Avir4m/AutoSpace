@@ -27,9 +27,9 @@ def login():
         else:
             remember = False
         
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first() or User.query.filter_by(username=email).first()
         if not user:
-            flash('No user with that email address.', category='error')
+            flash('No user with that email address / username.', category='error')
         elif len(password) <= 1:
             flash('You must enter your password.', category='error')
         elif not check_password_hash(user.password, password):
@@ -205,7 +205,7 @@ def confirm_email(token):
         if email == user.email:
             user.verified = True
             db.session.commit()
-            flash('Account is now verified!', category='success')
+            flash('Your account is now verified!', category='success')
             return redirect(url_for('views.home'))
         else:
             abort(404)

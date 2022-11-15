@@ -13,7 +13,11 @@
               <h3>
                 <a
                 href="{{ url_for('views.post' ,url=post.url) }}">
-                {{  post.title  }}
+                {% if post.forum_id != None %}
+                <a 
+                style="text-decoration: none;"          
+                href="{{ url_for('views.forum', url=post.forum.url) }}" 
+                >{{ post.forum.name }}</a>/{% endif %}<a href="{{ url_for('views.post', url=post.url) }}">{{  post.title  }}</a>
                 </a>
                 {% if post.private == true %}
                 <img src="{{ url_for('static', filename='images/icons/lock.png') }}" width="15">
@@ -23,13 +27,6 @@
                   <img src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
                   <span>
                   <a href="{{ url_for('users.user', username=post.user.username)}}">{{  post.user.username  }}</a>
-                  {% if post.forum_id != None %}
-                  •
-                  <a 
-                  style="text-decoration: none;"          
-                  href="{{ url_for('views.forum', url=post.forum.url) }}" 
-                  >{{ post.forum.name }}</a>
-                  {% endif %}
                    • <span class="date">{{  post.date_created|timeago  }}</span>
                   {% if post.edited == True %}
                   <small>• Edited</small>
