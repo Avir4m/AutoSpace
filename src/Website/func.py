@@ -1,9 +1,11 @@
-import smtplib
-import uuid
+from flask import current_app
+
 from email.message import EmailMessage
 from werkzeug.utils import secure_filename
+
+import smtplib
+import uuid
 import os
-from flask import current_app
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'mp4'}
 

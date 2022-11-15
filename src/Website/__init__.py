@@ -8,7 +8,7 @@ from .func import get_secret_key
 db = SQLAlchemy()
 
 DB_NAME = "database.db"
-UPLOAD_FOLDER = "/src/website/static/images/upload_folder"
+UPLOAD_FOLDER = "/website/static/images/upload_folder"
 
 def create_app():
     app = Flask(__name__)

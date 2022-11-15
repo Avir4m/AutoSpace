@@ -7,21 +7,21 @@
             <h3>{{ username.username }}</h3>
         </div>
         <div>
-            <h3>Followers:
-            <span id="followers-count-{{ username.username }}">
-                {{ username.followers|length }}
-            </span>
-            <br/>
-            Following:            
-            <span id="following-count-{{ username.username }}">
-                {{ username.following|length }}
-            </span>
-            <br/>
-            Posts:            
-            <span>
-                {{ username.posts|length }}
-            </span>
-        </h3>
+            <img src="{{ url_for('static', filename='images/upload_folder/users/' + username.picture)}}" class="dashboard-img">
+            <h4 class="user-info">
+                <p id="followers-count-{{ username.username }}">
+                    Followers:
+                    {{ username.followers|length }}
+                </p>      
+                <p id="following-count-{{ username.username }}">
+                    Following:
+                    {{ username.following|length }}
+                </p>      
+                <p>
+                    Posts:
+                    {{ username.posts|length }}
+                </p>
+            </h4>
         </div>
     </div>
     <div class="card-body">
@@ -29,14 +29,9 @@
                 <div class="row">
                 <div class="col-8">
     
-                    <strong>Name:</strong>
-                    {{ username.first_name }} {{ username.last_name }}<br/>
-    
-                    <strong>Username:</strong>
-                    {{ username.username }}<br/>
+                    <h3>{{ username.first_name }} {{ username.last_name }}</h3><br/>
 
-                    <strong>Description:<br/></strong>
-                    {{ username.description }}<br/>
+                    {{ username.description }}<br/><br/>
     
                 </div>
     

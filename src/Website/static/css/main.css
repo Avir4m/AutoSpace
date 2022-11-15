@@ -15,6 +15,9 @@ input, select, textarea, button {
 
 :root {
     --accent: #dc2e6e;
+    --red: #a82626;
+    --blue: #2d5ac2;
+    --green: #26964a;
 }
 
 /* Navbar */
@@ -29,6 +32,8 @@ input, select, textarea, button {
 
 .nav-icon, .nav-user {
     width: 30px;
+    height: 30px;
+    object-fit: cover;
 }
 
 .navbar a {
@@ -78,6 +83,7 @@ input, select, textarea, button {
     min-width: 160px;
     z-index: 1;
     border-radius: 0 0 10px 10px;
+    box-shadow: 5px 5px 20px #00000088;
 }
 
 .nav-dropdown-content a {
@@ -104,6 +110,7 @@ input, select, textarea, button {
     border-radius: 10px;
     width: 75vw;
     max-width: 1400px;
+    box-shadow: 5px 5px 20px #00000088;
 }
 
 .card .dropdown-toggle {
@@ -118,6 +125,8 @@ input, select, textarea, button {
     vertical-align: middle;
     border-radius: 50%;
     width: 30px;
+    height: 30px;
+    object-fit: cover;
 }
 
 .card .card {
@@ -154,18 +163,30 @@ input, select, textarea, button {
     margin: 10px;
 }
 
-.card h3 {
+.card h3, h4 {
     padding: 10px;
 }
 
 .dashboard-img {
-    position: absolute;
     margin: 10px;
-    top: 60px;
-    right: 0;
     border-radius: 50%;
-    max-height: 17.5vh;
-    max-width: 17.5vw;
+    height: 5rem;
+    width: 5rem;
+    object-fit: cover;
+}
+
+@media (min-width:500px) {
+    .dashboard-img {
+        height: 7.5rem;
+        width: 7.5rem;
+    }
+}
+
+@media (min-width:700px) {
+    .dashboard-img {
+        height: 10rem;
+        width: 10rem;
+    }
 }
 
 .post-picture, .preview {
@@ -186,6 +207,23 @@ input, select, textarea, button {
 .card a:not(button a):hover {
     color: var(--accent);
 }
+
+.card .user-info {
+    float: right;
+}
+
+.card .user-info p {
+    display: inline;
+    padding: 10px;
+}
+
+@media (max-width:700px) {
+    .card .user-info p {
+        display: block;
+        padding: 0;
+    }
+}
+
 
 /* List group */
 
@@ -258,13 +296,13 @@ button {
 /* Colors */
 
 .bg-red {
-    background-color: #a82626;
+    background-color: var(--red);
 }
 
 .bg-green {
-    background-color: #26964a;
+    background-color: var(--green);
 }
 
 .bg-blue {
-    background-color: #2d5ac2;
+    background-color: var(--blue);
 }

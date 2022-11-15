@@ -39,7 +39,7 @@
 			True<br/>
 			{% endif %}
 
-			<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="dashboard-img">
+			<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="dashboard-img"><br/>
 
 			{% if user.verified == False %}
 			<button class="bg-green"><a href="{{ url_for('auth.verify_email') }}">Verify Email</a></button>

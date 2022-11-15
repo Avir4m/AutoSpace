@@ -25,15 +25,16 @@ def dashboard(username):
             description = request.form.get('description')
             
             file = request.files['file']
-            
-            filename = upload_file(file, User, "users")
-            if user.picture != "default_profile_pic.jpg":
-                try:
-                    os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)
-                except:
-                    print("Could not remove picture..")
-            user.picture = filename
-            db.session.commit()
+
+            if file:
+                filename = upload_file(file, User, "users")
+                if user.picture != "default_profile_pic.jpg":
+                    try:
+                        os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)
+                    except:
+                        print("Could not remove picture..")
+                user.picture = filename
+                db.session.commit()
             
             user_email = User.query.filter_by(email=email).first()
             user_name = User.query.filter_by(username=username).first()
