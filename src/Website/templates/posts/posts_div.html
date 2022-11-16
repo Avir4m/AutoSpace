@@ -38,6 +38,17 @@
             <button class="dropdown-toggle" type="button">
               <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
             </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="#">Item 1</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#">Item 2</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#">Item 3</a>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="card-body">
@@ -106,7 +117,7 @@
                 {% for comment in post.comments %}
                   <div class="card card-comments">
                     <div class="card-header">
-                      <div>
+                      <div class="comment">
                         <a
                         href="/user/{{comment.user.username}}">
                         <img src="{{ url_for('static', filename='images/upload_folder/users/' + comment.user.picture )}}" class="user-img">
@@ -117,9 +128,19 @@
                           {% endif %}
                         </small>
                       </div>
+                      <div class="dropdown">
+                        <button class="dropdown-toggle" type="button">
+                          <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
+                        </button>
+                        <div class="dropdown-menu">
+                          <a href="#" class="dropdown-item">Item 1</a>
+                          <a href="#" class="dropdown-item">Item 1</a>
+                          <a href="#" class="dropdown-item">Item 1</a>
+                        </div>
+                      </div>
                     </div>
                     <div class="card-body">
-                      <div>{{ comment.text }}</div>
+                      <div class="comment">{{ comment.text }}</div>
                     </div>
                   </div>
                   {% if comment != post.comments|last %}

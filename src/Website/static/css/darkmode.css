@@ -2,12 +2,16 @@
     color: #fff;
 }
 
+:root {
+    --accent: #bb86fc;
+}
+
 body {
-    background-color: #404040;
+    background-color: #121212;
 }
 
 input, select, textarea {
-    background-color: #333333;
+    background-color: #252326;
     border: 1px solid #1d1d1d;
 }
 
@@ -18,11 +22,11 @@ button {
 /* Navbar */
 
 .navbar {
-    background-color: #2e2e2e;
+    background-color: #212121;
 }
 
 .nav-dropdown-content {
-    background-color: #2e2e2e;
+    background-color: #212121;
 }
 
 .nav-dropdown-content a {
@@ -30,34 +34,34 @@ button {
 }
 
 .nav-dropdown-content a:hover {
-    background-color: #333333;
+    background-color: #212121;
 }
 
 /* Cards */
 
 .card {
     border: 1px solid #1d1d1d;
-    background-color: #404040;
+    background-color: #2c2b2c;
 }
 
 .card-header {
-    background-color: #333333;
+    background-color: #212121;
     border-bottom: 1px solid #1d1d1d;
 }
 
 .card-body {
-    background-color: #404040;
+    background-color: #2c2b2c;
 }
 
 .card-footer {
-    background-color: #333333;
+    background-color: #212121;
     border-top: 1px solid #1d1d1d;
 }
 
 /* List group */
 
 .list-group {
-    background-color: #333333;
+    background-color: #212121;
     border: 1px solid #1d1d1d;
 }
 
@@ -66,5 +70,20 @@ button {
 }
 
 .list-group-item:hover {
-    background-color: #242424;
+    background-color: #383838;
+}
+
+/* Dropdowns */
+
+.dropdown-menu {
+    background-color: #212121;
+    border-top: 1px solid #1d1d1d;
+}
+
+.dropdown-item:not(:first-child) {
+    border-top: 1px solid #1d1d1d;
+}
+
+.dropdown-item:hover {
+    background-color: #383838;
 }

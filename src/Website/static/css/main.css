@@ -14,7 +14,6 @@ input, select, textarea, button {
 }
 
 :root {
-    --accent: #dc2e6e;
     --red: #a82626;
     --blue: #2d5ac2;
     --green: #26964a;
@@ -45,7 +44,7 @@ input, select, textarea, button {
     font-size: 17.5px;
 }
 
-.nav-item:not(.not-auth) {
+.nav-item:not(.not-auth, .navbar-brand) {
     margin-right: 10vw;
     cursor: pointer;
 }
@@ -60,10 +59,6 @@ input, select, textarea, button {
 }
 
 .nav-dropdown a:hover{
-    color: var(--accent);
-}
-
-.navbar-brand {
     color: var(--accent);
 }
 
@@ -83,7 +78,7 @@ input, select, textarea, button {
     min-width: 160px;
     z-index: 1;
     border-radius: 0 0 10px 10px;
-    box-shadow: 5px 5px 20px #00000088;
+    box-shadow: 5px 5px 10px #00000088;
 }
 
 .nav-dropdown-content a {
@@ -110,7 +105,7 @@ input, select, textarea, button {
     border-radius: 10px;
     width: 75vw;
     max-width: 1400px;
-    box-shadow: 5px 5px 20px #00000088;
+    box-shadow: 5px 5px 10px #00000088;
 }
 
 .card .dropdown-toggle {
@@ -175,6 +170,10 @@ input, select, textarea, button {
     object-fit: cover;
 }
 
+.comment {
+    padding: 10px;
+}
+
 @media (min-width:500px) {
     .dashboard-img {
         height: 7.5rem;
@@ -196,7 +195,7 @@ input, select, textarea, button {
     max-height: 35vh;
 }
 
-.card-body *:not(.card .card, small, img, .card-text, button) {
+.card-body *:not(.card .card, small, img, .card-text, button, .comment) {
     padding: 5px;
 }
 
@@ -305,4 +304,35 @@ button {
 
 .bg-blue {
     background-color: var(--blue);
+}
+
+/* Dropdowns */
+
+.dropdown-menu {
+    display: none;
+    box-shadow: 5px 5px 10px #00000088;
+    border-radius: 10px;
+    top: 40px;
+    right: 10px;
+    min-width: 100px;
+    text-align: center;
+    position: absolute;
+    list-style-type: none;
+    z-index: 1;
+}
+
+.dropdown-item {
+    float: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+.dropdown-item:first-child {
+    border-radius: 10px 10px 0 0;
 }

@@ -127,7 +127,7 @@ def change_password():
             current_user.password = generate_password_hash(password1, method='sha256')
             db.session.commit()
             flash('Password has been changed!', category='success')
-            return redirect(url_for('views.dashboard'))
+            return redirect(url_for('users.dashboard', username=user.username))
 
             
     return render_template('auth/change_password.html', user=current_user)
