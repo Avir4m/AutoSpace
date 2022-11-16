@@ -2,12 +2,13 @@ from flask import current_app
 
 from email.message import EmailMessage
 from werkzeug.utils import secure_filename
+from PIL import Image
 
 import smtplib
 import uuid
 import os
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'mp4'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def send_email(email_recipient, title, text):
     EMAIL_SENDER = os.environ.get('EMAIL')
@@ -68,10 +69,19 @@ def unique_filename(filename, type):
         return new_filename
         
 def upload_file(file, type, path):
+    path = os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + f'/{path}/')
     if file and allowed_file(file.filename):
-        filename, ext = secure_filename(file.filename).split('.')
-        filename = unique_filename(filename, type) + '.' + ext
-        file.save(os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + f'/{path}/', filename))
+
+        # Saving original file
+        filename = secure_filename(file.filename)
+        filename = unique_filename(filename, type) + '.jpg'
+        file.save(os.path.join(path, filename))
+
+        # Image resize, convertion and compression
+        image = Image.open(os.path.join(path, filename)).convert('RGB')
+        image.thumbnail((1920,1080), Image.ANTIALIAS)
+        image.save(os.path.join(path, filename), optimize=True, quality=95)
+
         return filename
     else:
         return None

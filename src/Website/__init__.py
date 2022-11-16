@@ -8,7 +8,7 @@ from .func import get_secret_key
 db = SQLAlchemy()
 
 DB_NAME = "database.db"
-UPLOAD_FOLDER = "/website/static/images/upload_folder"
+UPLOAD_FOLDER = "/src/website/static/images/upload_folder"
 
 def create_app():
     app = Flask(__name__)
@@ -63,7 +63,6 @@ def create_app():
 
     @app.template_filter('timeago')   
     def fromnow(date):
-        print(f"date:{date} now:{datetime.datetime.now()}")
         return timeago.format(date, datetime.datetime.now())
     
     return app

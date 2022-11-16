@@ -12,7 +12,8 @@ Where you can post your car and see other people's cars.
 
     * General Performance
       * Removed socketio for better performance.
-      * Backend time formatting to timeago
+      * Backend time formatting to timeago.
+      * Image compression for loading times.
 
     * Restructured API
       * Restructured API to be more readable.
@@ -21,6 +22,7 @@ Where you can post your car and see other people's cars.
     * File Management
       * If file is no longer in use, it will be deleted.
       * Restructured the code.
+      * Image resize, convertion and compression to reduce filesizes.
 
     * HTML, CSS and JS changes
       * Removed bootstrap, moved to raw html, css and javascript (WIP)
