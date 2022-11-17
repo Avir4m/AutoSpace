@@ -2,6 +2,11 @@
     color: #fff;
 }
 
+.icon {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+}
+
 :root {
     --accent: #bb86fc;
 }
@@ -76,19 +81,14 @@ button {
 /* Dropdowns */
 
 .dropdown-menu {
+    border: 1px solid #1d1d1d;
     background-color: #212121;
-    border-top: 1px solid #1d1d1d;
-}
-
-.dropdown-item:not(:first-child) {
-    border-top: 1px solid #1d1d1d;
 }
 
 .dropdown-item:hover {
     background-color: #383838;
 }
 
-.icon {
-    -webkit-filter: invert(100%); /* Safari/Chrome */
-    filter: invert(100%);
+.dropdown-item:not(:first-child) {
+    border-top: 1px solid #1d1d1d;
 }

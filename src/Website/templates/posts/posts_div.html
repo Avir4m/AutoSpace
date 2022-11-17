@@ -25,30 +25,39 @@
               </h3>
               <div class="post-info">
                   <img src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
-                  <span>
                   <a href="{{ url_for('users.user', username=post.user.username)}}">{{  post.user.username  }}</a>
                    • <span class="date">{{  post.date_created|timeago  }}</span>
                   {% if post.edited == True %}
                   <small>• Edited</small>
                   {% endif %}
-                </span>
               </div>
           </div>
           <div class="dropdown">
-            <button class="dropdown-toggle" type="button">
-              <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15" class="icon">
-            </button>
-            <ul class="dropdown-menu">
-              <li class="dropdown-item">
-                <a href="#">Item 1</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Item 2</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Item 3</a>
-              </li>
-            </ul>
+            <div class="dropdown-toggle">
+              <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
+            </div>
+            <div class="dropdown-menu">
+              <a href="{{ url_for('reports.report_post', url=post.url) }}" class="dropdown-item">
+                <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
+              </a>
+              {% if user.id == post.author %}
+              <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="dropdown-item">
+                <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
+              </a>
+              <a href="{{ url_for('posts.delete_post', post_id=post.id) }}" class="dropdown-item">
+                <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+              </a>
+              {% if post.private %}
+              <a href="{{ url_for('posts.post_status', post_id=post.id) }}" class="dropdown-item">
+                <img src="{{ url_for('static', filename='images/icons/globe.png') }}" class="icon" width="15"> Make public
+              </a>
+              {% else %}
+              <a href="{{ url_for('posts.post_status', post_id=post.id) }}" class="dropdown-item">
+                <img src="{{ url_for('static', filename='images/icons/lock.png') }}" class="icon" width="15"> Make private
+              </a>
+              {% endif %}
+              {% endif %}
+            </div>
           </div>
         </div>
         <div class="card-body">
@@ -115,16 +124,6 @@
                           • Edited
                           {% endif %}
                         </small>
-                      </div>
-                      <div class="dropdown">
-                        <button class="dropdown-toggle" type="button">
-                          <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
-                        </button>
-                        <div class="dropdown-menu">
-                          <a href="#" class="dropdown-item">Item 1</a>
-                          <a href="#" class="dropdown-item">Item 1</a>
-                          <a href="#" class="dropdown-item">Item 1</a>
-                        </div>
                       </div>
                     </div>
                     <div class="card-body">

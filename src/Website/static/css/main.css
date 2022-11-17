@@ -11,6 +11,7 @@ input, select, textarea, button {
     margin: 10px;
     padding: 7.5px;
     border-radius: 5px;
+    font-size: 15px;
 }
 
 :root {
@@ -129,7 +130,7 @@ input, select, textarea, button {
     margin: auto;
 }
 
-.card div:last-child:not(.card .card) {
+.card div:last-child:not(.card .card, .dropdown-menu) {
     border-radius: 0 0 10px 10px;
 }
 
@@ -280,7 +281,6 @@ input, select, textarea, button {
 
 button {
     cursor: pointer;
-    font-size: 15px;
 }
 
 button:hover {
@@ -308,31 +308,46 @@ button {
 
 /* Dropdowns */
 
-.dropdown-menu {
-    display: none;
-    box-shadow: 5px 5px 10px #00000088;
-    border-radius: 10px;
-    top: 40px;
-    right: 10px;
-    min-width: 100px;
-    text-align: center;
+.dropdown {
     position: absolute;
-    list-style-type: none;
-    z-index: 1;
+    margin: 15px;
+    top: 0;
+    right: 0;
+}
+
+.dropdown-menu {
+    border-radius: 5px;
+    display: none;
+    margin-top: 30px;
 }
 
 .dropdown-item {
-    float: none;
+    text-align: left;
+    display: block;
+    padding: 10px;
 }
 
 .dropdown:hover .dropdown-menu {
     display: block;
 }
 
-.dropdown-item:last-child {
-    border-radius: 0 0 10px 10px;
+.dropdown-item:only-child {
+    border-radius: 5px;
 }
 
-.dropdown-item:first-child {
-    border-radius: 10px 10px 0 0;
+.dropdown-item:first-child:not(:only-child) {
+    border-radius: 5px 5px 0 0;
+}
+
+.dropdown-item:last-child:not(:only-child) {
+    border-radius: 0 0 5px 5px;
+}
+
+.dropdown-item img {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.dropdown-item {
+    padding: 15px;
 }
