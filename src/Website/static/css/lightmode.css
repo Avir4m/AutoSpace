@@ -28,6 +28,10 @@ input, select, textarea, button {
     background-color: #646464;
 }
 
+.navbar a:hover {
+    color: var(--accent);
+}
+
 /* Cards */
 
 .card {

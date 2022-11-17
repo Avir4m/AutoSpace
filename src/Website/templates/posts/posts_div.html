@@ -36,7 +36,7 @@
           </div>
           <div class="dropdown">
             <button class="dropdown-toggle" type="button">
-              <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15">
+              <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png') }}" width="15" class="icon">
             </button>
             <ul class="dropdown-menu">
               <li class="dropdown-item">
@@ -64,48 +64,36 @@
           <ul class="list-group">
             {% if post.comments|length > 0 %}
             <li class="list-group-item" onclick="toggleComments({{post.id}})">
-                <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15"> {{ post.comments|length }}
+                <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15" class="icon"> {{ post.comments|length }}
             {% else %}
             <li class="list-group-item">
-                <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15"> {{ post.comments|length }}
+                <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15" class="icon"> {{ post.comments|length }}
             {% endif %}
             </li>
-            <li class="list-group-item" onclick="like({{post.id}})">
+            <li class="list-group-item" onclick="like({{post.id}})" class="icon">
 
               {% if user.id in post.likes|map(attribute="author")|list %}
 
-              <img 
-              src="{{ url_for('static', filename='images/icons/heart_b.png') }}"
-              width="15"
-              id="like-button-{{post.id}}">
+              <img src="{{ url_for('static', filename='images/icons/heart_b.png') }}" width="15" id="like-button-{{post.id}}" class="icon">
 
               {% else %}
 
-              <img
-              src="{{ url_for('static', filename='images/icons/heart.png') }}" 
-              width="15"
-              id="like-button-{{post.id}}">
+              <img src="{{ url_for('static', filename='images/icons/heart.png') }}" width="15" id="like-button-{{post.id}}" class="icon">
 
               {% endif %}
 
               <span id="likes-count-{{post.id}}">{{ post.likes|length }}</span>
 
             </li>
-            <li class="list-group-item" onclick="save({{post.id}})">
+            <li class="list-group-item" onclick="save({{post.id}})" class="icon">
             {% if user.id in post.saves|map(attribute="author")|list %}
-              <img 
-              src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" 
-              width="15"
-              id="save-button-{{post.id}}">
+              <img src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" width="15" id="save-button-{{post.id}}" class="icon">
             {% else %}
-              <img 
-              src="{{ url_for('static', filename='images/icons/bookmark.png') }}" 
-              width="15"
-              id="save-button-{{post.id}}">
+              <img src="{{ url_for('static', filename='images/icons/bookmark.png') }}" width="15" id="save-button-{{post.id}}" class="icon">
             {% endif %}
             </li>
             <li class="list-group-item">
-                  <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15">
+                  <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15" class="icon">
             </li>
           </ul>
           <form method="POST" action="/create-comment/{{post.id}}">

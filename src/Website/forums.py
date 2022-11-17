@@ -91,7 +91,7 @@ def edit_forum(forum_id):
             
             file = request.files['file']
         
-            filename = upload_file(file, Forum)
+            filename = upload_file(file, Forum, "forums")
             if forum.picture:
                 try:
                     os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/' + forum.picture)

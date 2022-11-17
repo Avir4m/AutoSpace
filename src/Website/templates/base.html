@@ -41,7 +41,7 @@
 			</div>
 			<div class="nav-dropdown">
 			  	<button class="dropbtn nav-item">
-					<img src="{{ url_for('static', filename='images/icons/add.png')}}" class="nav-icon">
+					<img src="{{ url_for('static', filename='images/icons/add.png')}}" class="nav-icon icon">
 			  	</button>
 			  	<div class="nav-dropdown-content">
 					<a href="{{ url_for('posts.create_post') }}">New Post</a>
@@ -50,7 +50,7 @@
 			</div>
 			<div class="nav-item">
 				<a>
-					<img src="{{ url_for('static', filename='images/icons/moon.png')}}" class="nav-icon" id="theme-toggle" onclick="toggleTheme(this)">
+					<img src="{{ url_for('static', filename='images/icons/moon.png')}}" class="nav-icon icon" id="theme-toggle" onclick="toggleTheme(this)">
 				</a>
 		  	</div>
 			{% endif %}
