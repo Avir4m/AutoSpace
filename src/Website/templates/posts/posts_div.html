@@ -114,6 +114,24 @@
                 {% for comment in post.comments %}
                   <div class="card card-comments">
                     <div class="card-header">
+                      <div class="dropdown">
+                        <div class="dropdown-toggle">
+                          <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
+                        </div>
+                        <div class="dropdown-menu">
+                          <a href="{{ url_for('reports.report_comment', id=comment.id)}}" class="dropdown-item">
+                            <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
+                          </a>
+                          {% if user.id == comment.author.id %}
+                          <a href="{{ url_for('comments.edit_comment', comment_id=comment.id )}}" class="dropdown-item">
+                            <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
+                          </a>
+                          <a href="{{ url_for('comments.delete_comment', comment_id=comment.id )}}" class="dropdown-item">
+                            <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+                          </a>
+                          {% endif %}
+                        </div>
+                      </div>
                       <div class="comment">
                         <a
                         href="/user/{{comment.user.username}}">
