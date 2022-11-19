@@ -3,13 +3,13 @@ let darkMode = localStorage.getItem('darkMode');
 const themeToggle = document.querySelector('#theme-toggle');
 
 const enableDarkMode = () => {
-  document.getElementById('darkModeCss').href = "/static/css/darkmode.css"
+  document.getElementById('darkModeCss').href = "/static/css/themes/darkmode.css"
   themeToggle.src = "/static/images/icons/sun.png";
   localStorage.setItem('darkMode', 'enabled');
 }
 
 const disableDarkMode = () => {
-  document.getElementById('darkModeCss').href = "/static/css/lightmode.css";
+  document.getElementById('darkModeCss').href = "/static/css/themes/lightmode.css";
   themeToggle.src = "/static/images/icons/moon.png";
   localStorage.setItem('darkMode', 'disabled');
 }
@@ -17,7 +17,6 @@ const disableDarkMode = () => {
 if (darkMode === 'enabled') {
   enableDarkMode();
 }
-
 
 function toggleTheme(button) {
   darkMode = localStorage.getItem('darkMode'); 

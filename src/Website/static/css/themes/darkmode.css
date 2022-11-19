@@ -1,0 +1,17 @@
+* {
+    color: #fff;
+}
+
+:root {
+    --accent: #bb86fc;
+    --border: #141414;
+    --hover: #383838;
+    --background: #121212;
+    --primary: #212121;
+    --secondary: #2c2b2c;
+}
+
+.icon {
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+}

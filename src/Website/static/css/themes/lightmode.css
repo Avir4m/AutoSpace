@@ -1,0 +1,12 @@
+* {
+    color: #000000;
+}
+
+:root {
+    --accent: #20a1fd;
+    --border: #767676;
+    --hover: #afafaf;
+    --background: #ffffff;
+    --primary: #d1d1d1;
+    --secondary: #e5e5e5;
+}

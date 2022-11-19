@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8" />
+		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-		<link
-		rel="stylesheet"
-		href="{{ url_for('static', filename='css/main.css') }}"
-	  	/>
-		<link
-		rel="stylesheet"
-		href="{{ url_for('static', filename='css/lightmode.css') }}"
-		id="darkModeCss"
-		/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
 
-	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.png') }}"/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/overlays.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dropdowns.css') }}"/>
+		
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/list-groups.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/navbar.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/alerts.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/themes/lightmode.css') }}" id="darkModeCss"/>
+
+	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}"/>
 		  
 		<title>CarSpace - {% block title %}Home{% endblock %}</title>
 	  </head>
@@ -32,11 +40,10 @@
 				  	<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="nav-item nav-user">
 				</button>
 				<div class="nav-dropdown-content">
-					<a href="{{ url_for('users.user', username=user.username)}}">Profile</a>
-				  	<a href="{{ url_for('users.settings', username=user.username) }}">Settings</a>
-				  	<a href="{{ url_for('users.saved', username=user.username)}}">Saved</a>
-				  	<a href="{{ url_for('users.liked', username=user.username)}}">Liked</a>
-				  	<a href="{{ url_for('auth.logout') }}">Logout</a>
+					<a href="{{ url_for('views.user', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/user.png')}}" class="icon dropdown-icon"> Profile</a>
+				  	<a href="{{ url_for('users.saved', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/bookmark.png')}}" class="icon dropdown-icon"> Saved</a>
+				  	<a href="{{ url_for('users.liked', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/heart.png')}}" class="icon dropdown-icon"> Liked</a>
+				  	<a href="{{ url_for('auth.logout') }}"><img src="{{ url_for('static', filename='images/icons/exit.png')}}" class="icon dropdown-icon"> Logout</a>
 				</div>
 			</div>
 			<div class="nav-dropdown">
@@ -44,8 +51,8 @@
 					<img src="{{ url_for('static', filename='images/icons/add.png')}}" class="nav-icon icon">
 			  	</button>
 			  	<div class="nav-dropdown-content">
-					<a href="{{ url_for('posts.create_post') }}">New Post</a>
-					<a href="{{ url_for('forums.create_forum') }}">New Forum</a>
+					<a href="{{ url_for('posts.create_post') }}"><img src="{{ url_for('static', filename='images/icons/post.png')}}" class="icon dropdown-icon"> New Post</a>
+					<a href="{{ url_for('forums.create_forum') }}"><img src="{{ url_for('static', filename='images/icons/forum.png')}}" class="icon dropdown-icon"> New Forum</a>
 			  	</div>
 			</div>
 			<div class="nav-item">
@@ -80,25 +87,15 @@
 
 		<div class="container"><br/>{% block content %}{% endblock %}</div>
 
-		<script
-		type="text/javascript"
-		src="{{ url_for('static', filename='js/index.js') }}"
-		></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 
-		<script
-		type="text/javascript"
-		src="{{ url_for('static', filename='js/themes.js') }}"
-		></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/themes.js') }}"></script>
 
-		<script
-		type="text/javascript"
-		src="{{ url_for('static', filename='js/buttons.js') }}"
-		></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/overlays.js') }}"></script>
 		
-		<script
-		type="text/javascript"
-		src="{{ url_for('static', filename='js/api.js') }}"
-		></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/api.js') }}"></script>
 
 	</body>
 </html>

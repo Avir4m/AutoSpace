@@ -14,6 +14,7 @@ Where you can post your car and see other people's cars.
       * Removed socketio for better performance.
       * Backend time formatting to timeago.
       * Image compression for loading times.
+      * Icons are now 64x64 and not 512x512 (Faster loading)
 
     * Restructured API
       * Restructured API to be more readable.

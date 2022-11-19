@@ -16,10 +16,6 @@ class User(db.Model, UserMixin):
     date_joined = db.Column(db.DateTime, default=datetime.datetime.now())
     permissions = db.Column(db.Integer(), default=0)
     verified = db.Column(db.Boolean(), default=False)
-
-    # Preference
-
-    preference = db.relationship('UserPreferences', backref='user', passive_deletes=True)
     
     # Relationships
     
@@ -33,14 +29,6 @@ class User(db.Model, UserMixin):
     
     followers = db.relationship('Follow', backref='user', passive_deletes=True, primaryjoin="and_(""Follow.followed_id==User.id)")
     following = db.relationship('Follow', backref='follower', passive_deletes=True, primaryjoin="and_(""Follow.follower_id==User.id)")
-
-class UserPreferences(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
-
-    private_account = db.Column(db.Boolean(), default=False)
-
-
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)

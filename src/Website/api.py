@@ -1,7 +1,9 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, redirect, url_for
 from flask_login import current_user, login_required
 
-from .models import Forum, ForumMember, Post, Like, Saved, User, Follow, UserPreferences
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from .models import Forum, ForumMember, Post, Like, Saved, User, Follow
 from . import db
 
 
@@ -79,46 +81,29 @@ def follow(username):
         
     return jsonify({'followers': len(user.followers), 'followed': current_user.id in map(lambda x: x.follower_id, user.followers)})
 
-@api.route('/user/<username>/settings/private_account', methods=['POST'])
-@login_required
-def private_account(username):
+@api.route('/user/delete_account/<username>/<password>', methods=['POST'])
+def delete_account(username, password):
+    if username != current_user.username:
+        return jsonify({'message': 'Wrong username', 'type': 'error'})
+
     user = User.query.filter_by(username=username).first()
-    
-    if not user:
-        return jsonify({'error': 'oops..'}, 400)
+
+    if not check_password_hash(user.password, password):
+        return jsonify({'message': 'Wrong password.', 'type': 'error'})
     else:
-        preferences = UserPreferences.query.filter_by(user_id=user.id).first()
-
-        if preferences.private_account == True:
-            preferences.private_account = False
-            db.session.commit()
-            return jsonify({'private_account': False})
-        else:
-            preferences.private_account = True
-            db.session.commit()
-            return jsonify({'private_account': True})
-
-
-
-@api.route('/user/<username>/settings/get_preferences', methods=['POST'])
-@login_required
-def get_preferences(username):
-    user = User.query.filter_by(username=username).first()
-    
-    if not user:
-        return jsonify({'error': 'oops..'}, 400)
-    else:
-        preferences = UserPreferences.query.filter_by(user_id=user.id).first()
-
-        return jsonify({'private_account': preferences.private_account})
-
-@api.route('/remove-profile-picture/<username>', methods=['POST'])
-def remove_profile_picture(username):
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({'error': 'Post does not exist.'}, 400)
-    else:
-        user.picture = "default_profile_pic.jpg"
+        db.session.delete(user)
         db.session.commit()
-        
-    return jsonify({'picture': user.picture})
+        return jsonify({'message': 'Done', 'type': 'success'})
+
+@api.route('/user/change_password/<password>/<new_password>', methods=['POST'])
+def change_password(password, new_password):
+    if ' ' in new_password:
+        return jsonify({'message': 'Password can\'t have spaces.', 'type': 'error'})
+    elif len(new_password) < 7:
+        return jsonify({'message': 'Password must be at least 7 characters.', 'type': 'error'})
+    elif check_password_hash(current_user.password, password):
+        current_user.password = generate_password_hash(new_password, method='sha256')
+        db.session.commit()
+        return jsonify({'message': 'Your password has been changed.', 'type': 'success'})
+    else:
+        return jsonify({'message': 'Wrong password, please try again', 'type': 'error'})

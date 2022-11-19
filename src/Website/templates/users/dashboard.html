@@ -45,87 +45,144 @@
 			<button class="bg-green"><a href="{{ url_for('auth.verify_email') }}">Verify Email</a></button>
 			{% endif %}
 
-			<button class="bg-blue"><a href="{{ url_for('auth.change_password') }}">Change Password</a></button>
+			<button onclick="overlayOpen('updateAccount')">Update Profile</button>
 
-			<button class="bg-red"><a href="{{ url_for('auth.delete_user', user_id=user.id) }}">Delete</a></button>
+			<button  onclick="overlayOpen('changePassword')" class="bg-blue">Change Password</button>
 
-	</div>
-</div>
+			<button  onclick="overlayOpen('deleteConfirmion')" class="bg-red">Delete Account</button>
 
-<br/>
+			<div class="overlay" id="updateAccount">
+				<div class="card">
+					<form method="POST" enctype="multipart/form-data">
+						<div class="card-header">
+							<h3 align="center">Update Profile</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="firstName">First Name</label>
+								<div>
+									<input 
+									type="name" 
+									id="firstName" 
+									name="firstName" 
+									placeholder="First Name"
+									value="{{ user.first_name }}"/>
+								</div>
+								<label for="lastName">Last Name</label>
+								<div>
+									<input 
+									type="name" 
+									id="lastName" 
+									name="lastName" 
+									placeholder="Last Name"
+									value="{{ user.last_name }}"/>
+								</div>
+								<label for="userName">Username</label>
+								<div>
+									<input 
+									type="username" 
+									id="userName" 
+									name="userName" 
+									placeholder="Username"
+									value="{{ user.username }}"/>
+								</div>
+								<label for="description">Description</label>
+								<div>
+									<textarea 
+									type="text" 
+									id="description" 
+									name="description" 
+									placeholder="Description">{{ user.description }}</textarea>
+								</div>
+								<label for="email">Email Address</label>
+								<div>
+									<input 
+									type="email" 
+									id="email" 
+									name="email" 
+									placeholder="Email Address"
+									value="{{ user.email }}"/>
+								</div>
+								<div class="form-group">
+									<label for="file">Upload Profile Picture</label><br/>
+									<input 
+									type="file" 
+									id="profilePicture"
+									name="file"
+									accept="image/*"/><br/>
+									<img class="logo-preview preview" id="preview" src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture )}}"/>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button type="button" class="cancel-btn"onclick="overlayClose('updateAccount')">Cancel</button>
+							<button type="submit" class="btn btn-primary btn-sm">Update Profile</button>
+						</div>
+					</form>
+				</div>
+			</div> 
 
-<div class="card">
-	<div class="card-header">
-		<h3>Update Profile</h3>
-	</div>
-	<div class="card-body">
-	<form method="POST" enctype="multipart/form-data">
-		<div class="form-group">
-			<label for="firstName">First Name</label>
-			<div class="input-group mb-3">
-				<input 
-				type="name" 
-				class="form-control" 
-				id="firstName" 
-				name="firstName" 
-				placeholder="First Name"
-				value="{{ user.first_name }}"/>
-			</div>
-			<label for="lastName">Last Name</label>
-			<div class="input-group mb-3">
-				<input 
-				type="name" 
-				class="form-control" 
-				id="lastName" 
-				name="lastName" 
-				placeholder="Last Name"
-				value="{{ user.last_name }}"/>
-			</div>
-			<label for="userName">Username</label>
-			<div class="input-group mb-3">
-				<input 
-				type="username" 
-				class="form-control" 
-				id="userName" 
-				name="userName" 
-				placeholder="Username"
-				value="{{ user.username }}"/>
-			</div>
-			<label for="description">Description</label>
-			<div class="input-group mb-3">
-				<textarea 
-				type="text" 
-				class="form-control" 
-				id="description" 
-				name="description" 
-				placeholder="Description">{{ user.description }}</textarea>
-			</div>
-			<label for="email">Email Address</label>
-			<div class="input-group mb-3">
-				<input 
-				type="email" 
-				class="form-control" 
-				id="email" 
-				name="email" 
-				placeholder="Email Address"
-				value="{{ user.email }}"/>
-			</div>
-			<div class="form-group">
-				<label for="file">Upload Profile Picture</label>
-				<input 
-				type="file" 
-				class="form-control" 
-				id="profilePicture"
-				name="file"
-				accept="image/*"/><br/>
-				<img id="preview" src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture )}}" 
-				style="width: 300px; height: 300px; object-fit: cover;"/>
-			  </div><br/>
-			<button type="submit" class="btn btn-primary btn-sm">Update Profile</button>
+			<div class="overlay" id="changePassword">
+				<div class="card">
+					<div class="card-header">
+						<h3 align="center">Password Change</h3>
+					</div>
+					<div class="card-body">
+						<div align="center" class="alert hidden messages" id="overlay-card-messages-change-password"></div><br/>
+						<label>
+							Enter current password
+						</label><br/>
+						<input type="password" id="password" name="password" placeholder="Current password"><br/>
+						<br/>
+						<label>
+							Enter new password
+						</label><br/>
+						<input type="password" id="password1" name="password1" placeholder="New Password"><br/>
+						<br/>
+						<label>
+							Re-enter new password
+						</label><br/>
+						<input type="password" id="password2" name="password2" placeholder="New Password"><br/>
+					</div>
+					<div class="card-footer">
+						<button class="cancel-btn" onclick="overlayClose('changePassword')">Cancel</button>
+						<button class="bg-blue" onclick="changePassword()">Change Password</button>
+					</div>
+				</div>
+			</div> 
+
+			<div class="overlay" id="deleteConfirmion">
+				<div class="card">
+					<div class="card-header">
+						<h3 align="center">Are you sure you want to delete your account?</h3>
+					</div>
+					<div class="card-body">
+						<div align="center" class="alert hidden messages" id="overlay-card-messages-delete-account"></div><br/>
+						<div class="card-text">
+							This action will immediately delete all your posts, comments, forums and likes.<br/><br/>
+							You will no longer be able to login to your account.<br/><br>
+						</div>
+						<label>
+							Enter your username
+						</label><br/>
+						<input type="text" id="username" name="username" placeholder="username"><br/>
+						<br/>
+						<label>
+							Enter your password
+						</label><br/>
+						<input type="password" id="password-delete" name="password" placeholder="password"><br/>
+					</div>
+					<div class="card-footer">
+						<button class="cancel-btn" onclick="overlayClose('deleteConfirmion')">Cancel</button>
+						<button style="background-color: #b83030;" onclick="deleteAccount('{{user.id}}')">Delete Account</button>
+					</div>
+				</div>
+			</div> 
+
 		</div>
-	</form>
 	</div>
 </div>
+
 <script>
 	preview.style.display = 'none';
     profilePicture.onchange = evt => {

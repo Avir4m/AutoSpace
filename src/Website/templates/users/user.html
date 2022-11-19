@@ -25,20 +25,15 @@
         </div>
     </div>
     <div class="card-body">
-            <div class="info">
-                <div class="row">
-                <div class="col-8">
-    
-                    <h3>{{ username.first_name }} {{ username.last_name }}</h3><br/>
+        <div class="info">
 
-                    {{ username.description }}<br/><br/>
-    
-                </div>
-    
-                </div>
-            </div>
+            <h3>{{ username.first_name }} {{ username.last_name }}</h3><br/>
+
+            {{ username.description }}<br/><br/>
+
+        </div>
         {% if user.id == username.id %}
-        <a href="{{ url_for('users.dashboard', username=user.username) }}"><button type="submit" class="btn btn-sm btn-secondary">Edit Profile</button></a>
+        <a href="{{ url_for('users.dashboard', username=user.username) }}"><button type="submit" class="btn btn-sm btn-secondary">My account</button></a>
         {% else %}
         <a onclick="follow('{{username.username}}')">
             <button 

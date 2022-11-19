@@ -75,18 +75,6 @@ def dashboard(username):
     else:
         return redirect(url_for('views.dashboard'), username=current_user.username)
 
-@users.route('/user/<username>/')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first()
-    
-    if not user:
-        flash('No user with that username exists.', category='error')
-        return redirect(url_for('views.home'))
-
-    posts = Post.query.filter_by(author=user.id).all()
-    return render_template("users/user.html", user=current_user, posts=posts, username=user)
-
 @users.route('/user/<username>/saved/')
 @login_required
 def saved(username):
@@ -110,13 +98,3 @@ def liked(username):
     posts = Post.query.join(Post.likes, aliased=True).filter_by(author=user.id).all()
     
     return render_template('users/liked.html', user=current_user, posts=posts)
-
-@users.route('/user/<username>/settings/')
-@login_required
-def settings(username):
-    user = User.query.filter_by(username=username).first()
-    
-    if not user:
-        abort(404)
-    
-    return render_template('users/settings.html', user=current_user)

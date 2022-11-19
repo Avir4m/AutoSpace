@@ -1,0 +1,16 @@
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    filter: brightness(75%);
+}
+
+button {
+    background-color: var(--accent);
+    border: 1px solid var(--border);
+}
+
+.cancel-btn {
+    background-color: #696969;
+}

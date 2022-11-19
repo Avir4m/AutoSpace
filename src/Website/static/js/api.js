@@ -50,17 +50,6 @@ function joinForum(forumId) {
     .catch((e) => alert('Could not join forum.'))
   }
   
-  function removeProfilePic(username) {
-    const picture = document.getElementById('Picture');
-  
-    fetch(`/api/remove-profile-picture/${username}`, {method: 'POST'})
-    .then((res) => res.json())
-    .then((data) => {
-        picture.src = '/static/images/upload_folder/users/'+ data['picture'];
-    })
-    .catch((e) => alert('Could not remove profile picture.'));
-  }
-  
   function follow(username) {
     const followCount = document.getElementById(`followers-count-${username}`);
     const followButton = document.getElementById(`follow-button-${username}`);
@@ -77,3 +66,61 @@ function joinForum(forumId) {
     })
     .catch((e) => alert('Could not follow user.'));
   }
+
+function setAlert(comp, message, type) {
+  comp.classList.remove('alert-danger', 'alert-success');
+  comp.classList.add(type);
+  comp.innerText = message;
+  comp.classList.remove('hidden');
+}
+
+function deleteAccount() {
+  const card = document.getElementById('overlay-card-messages-delete-account');
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password-delete').value;
+
+  if (username === '' || password === '') {
+    setAlert(card, 'Flieds are not allowed to be empty.', 'alert-danger');
+  } else {
+    fetch(`/api/user/delete_account/${username}/${password}`, {method : "POST"})
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.type === 'error') {
+          setAlert(card, data.message, 'alert-danger')
+        } else if (data.type === 'success') {
+          window.location.reload();
+        }
+    })
+    .catch((e) => alert("Could not delete account."));
+  }
+}
+
+function changePassword() {
+  const card = document.getElementById('overlay-card-messages-change-password');
+  const password = document.getElementById('password');
+  const password1 = document.getElementById('password1');
+  const password2 = document.getElementById('password2');
+
+  if (password1.value !== password2.value) {
+    setAlert(card, 'Passwords don\'t match, please try again.', 'alert-danger')
+
+  } else if (password1.value === '' && password1.value.length < 7) {
+    setAlert(card, 'Passwords need to be at least 7 characters long.', 'alert-danger')
+
+  } else {
+    fetch(`/api/user/change_password/${password.value}/${password1.value}`, {method : "POST"})
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.type === "error") {
+        var type = 'alert-danger'
+      } else {
+        var type = 'alert-success'
+        password.value = '';
+        password1.value = '';
+        password2.value = '';
+      }
+      setAlert(card, data.message, type)
+    })
+    .catch((e) => alert(e));
+  }
+}

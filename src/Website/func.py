@@ -80,7 +80,7 @@ def upload_file(file, type, path):
         # Image resize, convertion and compression
         image = Image.open(os.path.join(path, filename)).convert('RGB')
         image.thumbnail((1920,1080), Image.ANTIALIAS)
-        image.save(os.path.join(path, filename), optimize=True, quality=85)
+        image.save(os.path.join(path, filename), optimize=True, quality=90)
 
         return filename
     else:
