@@ -47,46 +47,6 @@ def create_post():
             
     return render_template('posts/create_post.html', user=current_user, forums=forums)
 
-
-@posts.route('/delete-post/<post_id>/')
-@login_required
-def delete_post(post_id):
-    post = Post.query.filter_by(id=post_id).first()
-    
-    if not post:
-        flash('Post does not exists.', category='error')
-    elif current_user.id != post.author and current_user.permissions <= 1:
-        flash('you do not have permission to delete this post.', category='error')
-    else:
-        if post.comments:
-            for comment in post.comments:
-                db.session.delete(comment)
-                db.session.commit()
-        if post.likes:
-            for like in post.likes:
-                db.session.delete(like)
-                db.session.commit()
-        if post.saves:
-            for saved in post.saves:
-                db.session.delete(saved)
-                db.session.commit()
-        if post.reports:
-            for report in post.reports:
-                db.session.delete(report)
-                db.session.commit()
-        if post.picture:
-            try:
-                os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/posts/' + post.picture)
-            except:
-                print("Could not remove picture..")
-                
-        db.session.delete(post)
-        db.session.commit()
-        flash('Post has been deleted.', category='success')
-        
-    return redirect(url_for('views.home'))
-
-
 @posts.route('/edit-post/<post_id>/', methods=['POST', 'GET'])
 @login_required
 def edit_post(post_id):

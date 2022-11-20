@@ -7,7 +7,7 @@
 <div id="posts">
 {% for post in posts %}
   {% if post.private != true or post.author == user.id %}
-    <div class="card">
+    <div class="card" id="post-{{ post.id }}">
       <div class="card-header">
         <div class="card-text">
             <h3>
@@ -44,7 +44,7 @@
             <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="dropdown-item">
               <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
             </a>
-            <a href="{{ url_for('posts.delete_post', post_id=post.id) }}" class="dropdown-item">
+            <a onclick="deletePost('{{ post.id }}')" class="dropdown-item">
               <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
             </a>
             {% if post.private %}

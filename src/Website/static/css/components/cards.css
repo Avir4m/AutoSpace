@@ -85,7 +85,9 @@
 }
 
 .post-picture, .preview {
-    margin-left: 12.5px;
+    position: relative; 
+    left: 50%;
+    transform: translateX(-50%);
     border-radius: 5px;
     max-width: 90%;
     max-height: 35vh;
