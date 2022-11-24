@@ -1,15 +1,15 @@
 from flask import Blueprint, render_template, abort, redirect, url_for, flash
 from flask_login import current_user
+from sqlalchemy import desc
 
 from .models import Forum, Post, User
-
 
 views = Blueprint('views', __name__)
 
 
 @views.route('/')
 def home():
-    posts = Post.query.filter_by().all()
+    posts = Post.query.order_by(desc(Post.date_created)).all()
     return render_template('home.html', user=current_user, posts=posts)
 
 

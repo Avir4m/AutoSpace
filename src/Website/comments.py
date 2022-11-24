@@ -49,25 +49,24 @@ def delete_comment(comment_id):
     return redirect(url_for('views.home'))
 
     
-@comments.route('/edit-comment/<comment_id>/', methods=['POST', 'GET'])
+@comments.route('/edit-comment/<comment_id>/', methods=['POST'])
 @login_required
 def edit_comment(comment_id):
     comment = Comment.query.filter_by(id=comment_id).first()
-    if request.method == 'POST':
-        if not comment:
-            flash('This post does not exist.', category='error')
-        elif comment.author != current_user.id:
-            flash('You are not allowed to edit this post.', category='error')
-        else:
-            new_comment = request.form.get('newComment')
-            if new_comment == '':
-                flash('Comment cannot be empty.', category='error')
-            else:       
-                comment.text = new_comment
-                comment.edited = True
-                db.session.commit()
-                flash('Comment has been updated.', category='success')
-                return redirect(url_for('views.home'))
-                
+    if not comment:
+        flash('This post does not exist.', category='error')
+    elif comment.author != current_user.id:
+        flash('You are not allowed to edit this post.', category='error')
+    else:
+        new_comment = request.form.get('newComment')
+        if new_comment == '':
+            flash('Comment cannot be empty.', category='error')
+        else:       
+            comment.text = new_comment
+            comment.edited = True
+            db.session.commit()
+            flash('Comment has been updated.', category='success')
+            
+    return redirect(url_for('views.home'))
+            
     
-    return render_template('comments/edit_comment.html', user=current_user, comment=comment)

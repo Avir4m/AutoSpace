@@ -39,7 +39,7 @@
 				<button class="dropbtn nav-item">
 				  	<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="nav-item nav-user">
 				</button>
-				<div class="nav-dropdown-content">
+				<div class="nav-dropdown-content" id="nav-dropdown-1">
 					<a href="{{ url_for('views.user', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/user.png')}}" class="icon dropdown-icon"> Profile</a>
 				  	<a href="{{ url_for('users.saved', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/bookmark.png')}}" class="icon dropdown-icon"> Saved</a>
 				  	<a href="{{ url_for('users.liked', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/heart.png')}}" class="icon dropdown-icon"> Liked</a>
@@ -50,7 +50,7 @@
 			  	<button class="dropbtn nav-item">
 					<img src="{{ url_for('static', filename='images/icons/add.png')}}" class="nav-icon icon">
 			  	</button>
-			  	<div class="nav-dropdown-content">
+			  	<div class="nav-dropdown-content" id="nav-dropdown-2">
 					<a href="{{ url_for('posts.create_post') }}"><img src="{{ url_for('static', filename='images/icons/post.png')}}" class="icon dropdown-icon"> New Post</a>
 					<a href="{{ url_for('forums.create_forum') }}"><img src="{{ url_for('static', filename='images/icons/forum.png')}}" class="icon dropdown-icon"> New Forum</a>
 			  	</div>
@@ -92,6 +92,8 @@
 		<script type="text/javascript" src="{{ url_for('static', filename='js/themes.js') }}"></script>
 
 		<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/posts.js') }}"></script>
 
 		<script type="text/javascript" src="{{ url_for('static', filename='js/overlays.js') }}"></script>
 		

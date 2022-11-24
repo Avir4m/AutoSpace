@@ -94,25 +94,24 @@ def sign_up():
 
 # Password
 
-@auth.route('/forgot_password/', methods=['POST', 'GET'])
+@auth.route('/forgot_password/', methods=['POST'])
 def forgot_password():
-    if request.method == 'POST':
         
-        email = request.form.get('email')
+    email = request.form.get('email')
+    
+    user = User.query.filter_by(email=email).first()
+    
+    if user:
+        token = s.dumps(email, salt='reset-password')
+        link = url_for('auth.reset_password', token=token, _external=True)
+        msg = f'Email confirmation:\n {link}'
+        sub = 'Email confirmation'
+        send_email(email, msg, sub)
+        flash('Sent a verification link to your email address', category='success')
+    else:
+        flash('This email is not connected to any account, please try different email addresses.', category='error')
         
-        user = User.query.filter_by(email=email).first()
-        
-        if user:
-            token = s.dumps(email, salt='reset-password')
-            link = url_for('auth.reset_password', token=token, _external=True)
-            msg = f'Email confirmation:\n {link}'
-            sub = 'Email confirmation'
-            send_email(email, msg, sub)
-            flash('Sent a verification link to your email address', category='success')
-        else:
-            flash('This email is not connected to any account, please try different email addresses.', category='error')
-        
-    return render_template('auth/forgot_password.html', user=current_user)
+    return redirect(url_for('auth.login'))
 
 
 @auth.route('/reset_password/<token>/', methods=['POST', 'GET'])

@@ -37,11 +37,11 @@
             <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
           </div>
           <div class="dropdown-menu">
-            <a href="{{ url_for('reports.report_post', url=post.url) }}" class="dropdown-item">
+            <a onclick="overlayOpen('post-report-{{ post.id }}')" class="dropdown-item">
               <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
             </a>
             {% if user.id == post.author %}
-            <a href="{{ url_for('posts.edit_post', post_id=post.id) }}" class="dropdown-item">
+            <a onclick="overlayOpen('post-edit-{{ post.id }}')" class="dropdown-item">
               <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
             </a>
             <a onclick="deletePost('{{ post.id }}')" class="dropdown-item">
@@ -119,11 +119,11 @@
                         <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
                       </div>
                       <div class="dropdown-menu">
-                        <a href="{{ url_for('reports.report_comment', id=comment.id)}}" class="dropdown-item">
+                        <a onclick="overlayOpen('comment-report-{{ comment.id }}')" class="dropdown-item">
                           <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
                         </a>
                         {% if user.id == comment.author %}
-                        <a href="{{ url_for('comments.edit_comment', comment_id=comment.id )}}" class="dropdown-item">
+                        <a onclick="overlayOpen('comment-edit-{{ comment.id }}')" class="dropdown-item">
                           <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
                         </a>
                         <a href="{{ url_for('comments.delete_comment', comment_id=comment.id )}}" class="dropdown-item">
@@ -148,6 +148,66 @@
                     <div class="comment">{{ comment.text }}</div>
                   </div>
                 </div>
+                
+                <div class="overlay" id="comment-edit-{{ comment.id }}">
+                  <div class="card">
+                    <form enctype="multipart/form-data" method="post" action="{{ url_for('comments.edit_comment', comment_id=comment.id) }}">
+                      <div class="card-header">
+                        <h3 align="center">Edit your comment</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="form-group">
+                            <label for="newComment">Comment</label>
+                            <input 
+                            type="newComment" 
+                            class="form-control" 
+                            id="newComment" 
+                            name="newComment" 
+                            placeholder="Comment"
+                            value="{{ comment.text }}"
+                            maxlength="150"/>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" onclick="overlayClose('comment-edit-{{ comment.id }}')" class="cancel-btn">Cancel</button>
+                        <button type="submit">Update Changes</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="overlay" id="comment-report-{{ comment.id }}">
+                  <div class="card">
+                    <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_comment', id=comment.id) }}">
+                      <div class="card-header">
+                        <h3>Report comment</h3>
+                      </div>
+                      <div class="card-body">
+                        <div>
+                            <label for="Reason">Reason</label><br/>
+                            <input 
+                            type="text" 
+                            id="reason" 
+                            name="reason" 
+                            placeholder="Reason"
+                            maxlength="150"/>
+                        </div>
+                        <div>
+                            <label for="description">Description</label><br/>
+                            <textarea
+                            type="text" 
+                            id="description" 
+                            name="description" 
+                            placeholder="Description"></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" onclick="overlayClose('comment-report-{{ comment.id }}')" class="cancel-btn">Cancel</button>
+                        <button type="submit">Report</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
                 {% if comment != post.comments|last %}
                 <br/>
                 {% endif %}
@@ -159,6 +219,73 @@
     </div>
   {% endif %}
   <br/>
+  <div class="overlay" id="post-edit-{{ post.id }}">
+    <div class="card">
+      <form enctype="multipart/form-data" method="post" action="{{ url_for('posts.edit_post', url=post.url) }}">
+        <div class="card-header">
+          <h3>Edit your post</h3>
+        </div>
+        <div class="card-body">
+          <div>
+              <label for="newPostTitle">Post title</label><br/>
+              <input 
+              type="text"
+              id="newPostTitle"
+              name="newPostTitle" 
+              placeholder="Post title"
+              value="{{ post.title }}"
+              maxlength="150"/>
+          </div>
+          <div>
+              <label for="newPostText">Post text</label><br/>
+              <input
+              type="text"
+              id="newPostText"
+              name="newPostText"
+              value="{{post.text}}"
+              placeholder="Post text"></textarea>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="button" onclick="overlayClose('post-edit-{{ post.id }}')" class="cancel-btn">Cancel</button>
+          <button type="submit">Update Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="post-report-{{ post.id }}">
+    <div class="card">
+      <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_post', url=post.url) }}">
+        <div class="card-header">
+          <h3>Report post</h3>
+        </div>
+        <div class="card-body">
+          <div>
+              <label for="Reason">Reason</label><br/>
+              <input 
+              type="text" 
+              id="reason" 
+              name="reason" 
+              placeholder="Reason"
+              maxlength="150"/>
+          </div>
+          <div>
+              <label for="description">Description</label><br/>
+              <textarea
+              type="text" 
+              id="description" 
+              name="description" 
+              placeholder="Description"></textarea>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="button" onclick="overlayClose('post-report-{{ post.id }}')" class="cancel-btn">Cancel</button>
+          <button type="submit">Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endfor %}
 </div>
 <br/>

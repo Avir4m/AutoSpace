@@ -73,43 +73,39 @@ def delete_forum(forum_id):
         
     return redirect(url_for('views.home'))
 
-@forums.route('/edit-forum/<forum_id>', methods=['POST', 'GET'])
+@forums.route('/edit-forum/<forum_id>', methods=['POST'])
 @login_required
 def edit_forum(forum_id):
     forum = Forum.query.filter_by(id=forum_id).first()
     
     if not forum:
         abort(404)
-    if request.method == 'POST':
-        if not forum:
-            flash('forum does not exists.', category='error')
-        elif current_user.id != forum.creator:
-            flash('you do not have permission to delete this forum.', category='error')
-        else:
-            new_name = request.form.get('newName')
-            new_description = request.form.get('newDescription')
-            
-            file = request.files['file']
+    if not forum:
+        flash('forum does not exists.', category='error')
+    elif current_user.id != forum.creator:
+        flash('you do not have permission to delete this forum.', category='error')
+    else:
+        new_name = request.form.get('newName')
+        new_description = request.form.get('newDescription')
         
-            filename = upload_file(file, Forum, "forums")
-            if forum.picture:
-                try:
-                    os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/' + forum.picture)
-                except:
-                    pass
-                forum.picture = filename
-                db.session.commit()
-            
-            if len(new_name) <= 2:
-                flash('forum name must be at least 2 characters.', category='error')
-            else:
-                forum.name = new_name
-                forum.description = new_description
-                forum.edited = True
-                db.session.commit()
-                flash('forum has been updated.', category='success')
-                return redirect(url_for('views.forum', url=forum.url))
-                
+        file = request.files['file']
     
-    return render_template('forums/edit_forum.html', user=current_user, forum=forum)
+        filename = upload_file(file, Forum, "forums")
+        if forum.picture:
+            try:
+                os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/forums/' + forum.picture)
+            except:
+                pass
+        forum.picture = filename
+        db.session.commit()
+        
+        if len(new_name) <= 2:
+            flash('forum name must be at least 2 characters.', category='error')
+        else:
+            forum.name = new_name
+            forum.description = new_description
+            forum.edited = True
+            db.session.commit()
+            flash('forum has been updated.', category='success')
+            return redirect(url_for('views.forum', url=forum.url))
 

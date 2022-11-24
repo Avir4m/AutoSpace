@@ -14,7 +14,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = get_secret_key()
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000 * 10 # 10 Megabyte
+    app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000 * 16 # 16 Megabyte
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JSON_SORT_KEYS'] = False
@@ -30,7 +30,6 @@ def create_app():
     
     from .errors import errors
     
-    from .admin import admin
     
     from .api import api
     
@@ -43,8 +42,6 @@ def create_app():
     app.register_blueprint(reports, url_prefix='/') # reports 
     
     app.register_blueprint(errors, url_prefix='/')
-
-    app.register_blueprint(admin, url_prefix='/admin')
     
     app.register_blueprint(api, url_prefix='/api')
     

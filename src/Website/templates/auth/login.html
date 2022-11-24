@@ -31,7 +31,7 @@
                             name="password" 
                             placeholder="Enter password"/>
                             <br/>
-                            <small><a href="{{ url_for('auth.forgot_password') }}">Forgot Password</a></small>
+                            <small><a onclick="overlayOpen('forgotPassword')">Forgot Password</a></small>
                         </div>
                     </div>
                     <div class="form-check">
@@ -50,4 +50,29 @@
         </div>
     </div>
 </form>
+
+<div class="overlay" id="forgotPassword">
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('auth.forgot_password')}}">
+            <div class="card-header">
+                <h3 align="center">Forgot Password</h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <label for="email">Email Address</label><br/>
+                    <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Email address"/>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="cancel-btn" onclick="overlayClose('forgotPassword')">Cancel</button>
+                <button type="submit">Send Code</button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
