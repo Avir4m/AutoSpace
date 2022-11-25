@@ -4,7 +4,7 @@
 CarSpace is an open source social network for car people, <br/>
 Where you can post your car and see other people's cars.
 
-#### Version / 0.13 Beta
+#### Version / 0.13
 
 <br/>
 
@@ -34,4 +34,4 @@ Where you can post your car and see other people's cars.
   
 <br/>
 
-[Preview Version 13 Beta](https://carspace.pythonanywhere.com/)
+[Preview Version 13](https://carspace.pythonanywhere.com/)

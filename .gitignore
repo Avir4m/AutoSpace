@@ -5,6 +5,7 @@ __pycache__/
 
 # Database
 instance/
+migrations/
 
 # Upload folder
 Src/Website/static/images/upload_folder/posts/*
