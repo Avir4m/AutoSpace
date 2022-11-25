@@ -1,26 +1,25 @@
 {% extends "posts/posts_div.html"%}
-{% block title %}{{ forum.name }}{% endblock %}
+{% block title %}{{ space.name }}{% endblock %}
 {% block header %}
 <div class="card">
-  {% if forum.picture %}
-  <div class="card-header forum-banner"
-  style="background-image: url('{{ url_for('static', filename='images/upload_folder/forums/' + forum.picture)}}');">
+  {% if space.picture %}
+  <div class="card-header space-banner" style="background-image: url('{{ url_for('static', filename='images/upload_folder/spaces/' + space.picture)}}');">
   {% else %}
-  <div class="card-header"><h1 class="card-title post-info">{{ forum.name }}</h1>
+  <div class="card-header"><h1 class="card-title post-info">{{ space.name }}</h1>
   {% endif %}
   <div class="dropdown">
     <div class="dropdown-toggle">
       <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
     </div>
     <div class="dropdown-menu">
-      <a onclick="overlayOpen('forum-report-{{ forum.id }}')" class="dropdown-item">
+      <a onclick="overlayOpen('space-report-{{ space.id }}')" class="dropdown-item">
         <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
       </a>
-      {% if user.id == forum.creator %}
-      <a onclick="overlayOpen('forum-edit-{{ forum.id }}')" class="dropdown-item">
+      {% if user.id == space.creator %}
+      <a onclick="overlayOpen('space-edit-{{ space.id }}')" class="dropdown-item">
         <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
       </a>
-      <a href="{{ url_for('forums.delete_forum', forum_id=forum.id) }}" class="dropdown-item">
+      <a href="{{ url_for('spaces.delete_space', space_id=space.id) }}" class="dropdown-item">
         <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
       </a>
       {% endif %}
@@ -28,32 +27,32 @@
   </div>
   </div>
   <div class="card-body">
-    {% if forum.picture %}
-    <h1 class="card-title">{{ forum.name }}</h1>
+    {% if space.picture %}
+    <h1 class="card-title">{{ space.name }}</h1>
     {% endif %}
-    <p class="card-text">{{ forum.description }}</p>
+    <p class="card-text">{{ space.description }}</p>
   </div>
   <div class="card-footer">
-    {% if user.id == forum.creator %}
-    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{forum.id}}')">Joined</button>
+    {% if user.id == space.creator %}
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{space.id}}')">Joined</button>
     {% else %}
-    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{forum.id}}')">Join</button>
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{space.id}}')">Join</button>
     {% endif %}
     <small>
-      {% if forum.members|length == 1 %}
-      <span style="padding-left: 5px;"><span id="member-count">{{ forum.members|length }}</span> Member</span>
+      {% if space.members|length == 1 %}
+      <span style="padding-left: 5px;"><span id="member-count">{{ space.members|length }}</span> Member</span>
       {% else %}
-      <span style="padding-left: 5px;"><span id="member-count">{{ forum.members|length }}</span> Members</span>
+      <span style="padding-left: 5px;"><span id="member-count">{{ space.members|length }}</span> Members</span>
       {% endif %}
     </small>
   </div>
 </div>
 
-<div class="overlay" id="forum-edit-{{ forum.id }}">
+<div class="overlay" id="space-edit-{{ space.id }}">
   <div class="card">
-    <form enctype="multipart/form-data" method="post" action="{{ url_for('forums.edit_forum', forum_id=forum.id) }}">
+    <form enctype="multipart/form-data" method="post" action="{{ url_for('spaces.edit_space', space_id=space.id) }}">
       <div class="card-header">
-        <h3 align="center">Edit your forum</h3>
+        <h3 align="center">Edit your space</h3>
       </div>
       <div class="card-body">
         <div class="mb-3">
@@ -64,7 +63,7 @@
           id="newName" 
           name="newName" 
           placeholder="Forum Name"
-          value="{{ forum.name }}"
+          value="{{ space.name }}"
           maxlength="150"/>
       </div>
       <div class="mb-3">
@@ -74,7 +73,7 @@
           class="form-control" 
           id="newDescription" 
           name="newDescription" 
-          value="{{ forum.description }}"
+          value="{{ space.description }}"
           placeholder="Forum Description"></textarea>
       </div>
       <div class="mb-3">
@@ -82,24 +81,24 @@
           <input 
           type="file" 
           class="form-control" 
-          id="forumPicture"
+          id="spacePicture"
           name="file"
           accept="image/*"/>
         </div>
       </div>
       <div class="card-footer">
-        <button type="button" onclick="overlayClose('forum-edit-{{ forum.id }}')" class="cancel-btn">Cancel</button>
+        <button type="button" onclick="overlayClose('space-edit-{{ space.id }}')" class="cancel-btn">Cancel</button>
         <button type="submit">Update Changes</button>
       </div>
     </form>
   </div>
 </div>
 
-<div class="overlay" id="forum-report-{{ forum.id }}">
+<div class="overlay" id="space-report-{{ space.id }}">
   <div class="card">
-    <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_forum', url=forum.url) }}">
+    <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_space', url=space.url) }}">
       <div class="card-header">
-        <h3>Report forum</h3>
+        <h3>Report space</h3>
       </div>
       <div class="card-body">
         <div>
@@ -121,7 +120,7 @@
         </div>
       </div>
       <div class="card-footer">
-        <button type="button" onclick="overlayClose('forum-report-{{ forum.id }}')" class="cancel-btn">Cancel</button>
+        <button type="button" onclick="overlayClose('space-report-{{ space.id }}')" class="cancel-btn">Cancel</button>
         <button type="submit">Report</button>
       </div>
     </form>

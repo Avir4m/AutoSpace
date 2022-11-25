@@ -13,11 +13,11 @@
             <h3>
               <a
               href="{{ url_for('views.post' ,url=post.url) }}">
-              {% if post.forum_id != None %}
+              {% if post.space_id != None %}
               <a 
               style="text-decoration: none;"          
-              href="{{ url_for('views.forum', url=post.forum.url) }}" 
-              >{{ post.forum.name }}</a>/{% endif %}<a href="{{ url_for('views.post', url=post.url) }}">{{  post.title  }}</a>
+              href="{{ url_for('views.space', url=post.space.url) }}" 
+              >{{ post.space.name }}</a>/{% endif %}<a href="{{ url_for('views.post', url=post.url) }}">{{  post.title  }}</a>
               </a>
               {% if post.private == true %}
               <img src="{{ url_for('static', filename='images/icons/lock.png') }}" width="15">

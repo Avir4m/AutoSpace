@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, abort, redirect, url_for, flash
 from flask_login import current_user
 from sqlalchemy import desc
 
-from .models import Forum, Post, User
+from .models import Space, Post, User
 
 views = Blueprint('views', __name__)
 
@@ -22,15 +22,15 @@ def post(url):
     else:
         return render_template('posts/post.html', post=post, user=current_user, posts=posts)
     
-@views.route('/forum/<url>/')
-def forum(url):
-    forum = Forum.query.filter_by(url=url).first()
-    posts = Post.query.filter_by(forum_id=forum.id).all()
+@views.route('/space/<url>/')
+def space(url):
+    space = Space.query.filter_by(url=url).first()
+    posts = Post.query.filter_by(space_id=space.id).all()
     
-    if not forum:
+    if not space:
         abort(404)
     else:
-        return render_template('forums/forum.html', user=current_user, forum=forum, posts=posts)
+        return render_template('spaces/space.html', user=current_user, space=space, posts=posts)
 
 @views.route('/user/<username>/')
 def user(username):

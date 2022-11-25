@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_login import login_required, current_user
 
 
-from .models import Post, Report, Forum, Comment
+from .models import Post, Report, Space, Comment
 from . import db
 
 reports = Blueprint('reports', __name__)
@@ -23,17 +23,17 @@ def report_post(url):
     flash('Post has been reported!', category='success')
     return redirect(url_for('views.home'))
 
-@reports.route('/create-report/forum/<url>/', methods=['POST'])
+@reports.route('/create-report/space/<url>/', methods=['POST'])
 @login_required
-def report_forum(url):
-    forum = Forum.query.filter_by(url=url).first()
-    if not forum:
+def report_space(url):
+    space = Space.query.filter_by(url=url).first()
+    if not space:
         abort(404)
     
     description = request.form.get('description')
     reason = request.form.get('reason')
     
-    report = Report(description=description, reason=reason, author=current_user.id, forum_id=forum.id)
+    report = Report(description=description, reason=reason, author=current_user.id, space_id=space.id)
     db.session.add(report)
     db.session.commit()
     flash('Forum has been reported!', category='success')

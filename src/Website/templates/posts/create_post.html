@@ -38,14 +38,14 @@
                 <img id="preview" src="#" class="preview"/>
               </div>
             <div class="mb-3">
-                <label for="forum">Forum</label>
-                <select class="form-select" id="forum" name="forum">
-                    <option selected disabled value="">No forum</option>
-                    {% for forum in forums%}
-                    <option value="{{ forum.name }}">{{ forum.name }}</option>
+                <label for="space">Space</label>
+                <select class="form-select" id="space" name="space">
+                    <option selected disabled value="">No space</option>
+                    {% for space in spaces%}
+                    <option value="{{ space.name }}">{{ space.name }}</option>
                     {% endfor %}
                   </select>
-                <small><p>Want to create a forum? <a href="{{ url_for('forums.create_forum') }}">Create one</a></p></small>
+                <small><p>Want to create a space? <a href="{{ url_for('spaces.create_space') }}">Create one</a></p></small>
             </div>
         </div>
         <div class="card-footer">

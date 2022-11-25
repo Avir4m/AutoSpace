@@ -25,7 +25,7 @@ def create_app():
     from .users import users
     from .posts import posts
     from .comments import comments
-    from .forums import forums
+    from .spaces import spaces
     from .reports import reports
     
     from .errors import errors
@@ -38,7 +38,7 @@ def create_app():
     app.register_blueprint(users, url_prefix='/') # users
     app.register_blueprint(posts, url_prefix='/') # posts
     app.register_blueprint(comments, url_prefix='/') # comments
-    app.register_blueprint(forums, url_prefix='/') # forums
+    app.register_blueprint(spaces, url_prefix='/') # spaces
     app.register_blueprint(reports, url_prefix='/') # reports 
     
     app.register_blueprint(errors, url_prefix='/')

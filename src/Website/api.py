@@ -3,31 +3,31 @@ from flask_login import current_user, login_required
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .models import Forum, ForumMember, Post, Like, Saved, User, Follow
+from .models import Space, SpaceMember, Post, Like, Saved, User, Follow
 from . import db
 import os
 
 api = Blueprint('api', __name__)
 
 
-# Forums
-@api.route('/join-forum/<forum_id>/', methods=['POST'])
+# Spaces
+@api.route('/join-space/<space_id>/', methods=['POST'])
 @login_required
-def join_forum(forum_id):
-    forum = Forum.query.filter_by(id=forum_id).first()
-    member = ForumMember.query.filter_by(user_id=current_user.id, forum_id=forum.id).first()
+def join_space(space_id):
+    space = Space.query.filter_by(id=space_id).first()
+    member = SpaceMember.query.filter_by(user_id=current_user.id, space_id=space.id).first()
     
-    if not forum:
-        return jsonify({'error': 'Forum does not exist.'}, 400)
-    elif member and forum.creator != current_user.id:
+    if not space:
+        return jsonify({'error': 'Space does not exist.'}, 400)
+    elif member and space.creator != current_user.id:
             db.session.delete(member)
             db.session.commit()
-    elif forum.creator != current_user.id:
-        member = ForumMember(user_id=current_user.id, forum_id=forum.id)
+    elif space.creator != current_user.id:
+        member = SpaceMember(user_id=current_user.id, space_id=space.id)
         db.session.add(member)
         db.session.commit()
         
-    return jsonify({'members': len(forum.members), 'joined': current_user.id in map(lambda x: x.user_id, forum.members)})
+    return jsonify({'members': len(space.members), 'joined': current_user.id in map(lambda x: x.user_id, space.members)})
 
 
 # Posts

@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 import os
 
-from .models import Post, Forum
+from .models import Post, Space
 from .func import create_url, upload_file
 from . import db
 
@@ -12,16 +12,16 @@ posts = Blueprint('posts', __name__)
 @posts.route('/create-post', methods=['POST', 'GET'])
 @login_required
 def create_post():
-    forums = Forum.query.filter_by().all()
+    spaces = Space.query.filter_by().all()
     
     if request.method == 'POST':
         title = request.form.get('post-title')
         text = request.form.get('post-text')
-        forumName = request.form.get('forum')
+        spaceName = request.form.get('space')
         
         file = request.files['file']
         
-        forum = Forum.query.filter_by(name=forumName).first()
+        space = Space.query.filter_by(name=spaceName).first()
         
         if not title:
             flash('Post title cannot be empty', category='error')
@@ -29,23 +29,23 @@ def create_post():
             flash('Post title is too long.', category='error')
         elif not text:
             flash('Post text cannot be empty', category='error')
-        elif not forum and forumName != None:
-            flash('Forum does not exist.', category='error')
+        elif not space and spaceName != None:
+            flash('Space does not exist.', category='error')
         else:
-            if forumName == None:
-                forum_id=None
+            if spaceName == None:
+                space_id=None
             else:
-                forum_id = forum.id
+                space_id = space.id
                 
             filename = upload_file(file, Post, "posts")
 
-            post = Post(title=title ,text=text, author=current_user.id, url=create_url(Post), forum_id=forum_id, picture=filename)
+            post = Post(title=title ,text=text, author=current_user.id, url=create_url(Post), space_id=space_id, picture=filename)
             db.session.add(post)
             db.session.commit()
             flash('Post created!', category='success')
             return redirect(url_for('views.home'))
             
-    return render_template('posts/create_post.html', user=current_user, forums=forums)
+    return render_template('posts/create_post.html', user=current_user, spaces=spaces)
 
 @posts.route('/post-status/<post_id>')
 @login_required

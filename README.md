@@ -27,6 +27,10 @@ Where you can post your car and see other people's cars.
 
     * HTML, CSS and JS changes
       * Removed bootstrap, moved to raw html, css and javascript (WIP)
+      * Redesigned all pages
+      * Added overlays
+      * Removed all admin panels (Temporary)
+      * Renamed forums to spaces
   
 <br/>
 
