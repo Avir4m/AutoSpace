@@ -1,0 +1,1 @@
+var textarea = document.getElementById('post-text');

@@ -9,13 +9,13 @@
         <div>
             <img src="{{ url_for('static', filename='images/upload_folder/users/' + username.picture)}}" class="dashboard-img">
             <h4 class="user-info">
-                <p id="followers-count-{{ username.username }}">
+                <p>
                     Followers:
-                    {{ username.followers|length }}
+                    <span id="followers-count-{{ username.username }}">{{ username.followers|length }}</span>
                 </p>      
-                <p id="following-count-{{ username.username }}">
+                <p>
                     Following:
-                    {{ username.following|length }}
+                    <span id="following-count-{{ username.username }}">{{ username.following|length }}</span>
                 </p>      
                 <p>
                     Posts:
@@ -35,17 +35,24 @@
         {% if user.id == username.id %}
         <a href="{{ url_for('users.dashboard', username=user.username) }}"><button type="submit" class="btn btn-sm btn-secondary">My account</button></a>
         {% else %}
-        <a onclick="follow('{{username.username}}')">
-            <button 
-            type="submit" 
-            class="btn btn-sm btn-primary" 
-            id="follow-button-{{ username.username }}">
+        <button 
+            type="button"
+            id="follow-button-{{ username.username }}"
+            onclick="follow('{{username.username}}')">
             {% if user.id in username.followers|map(attribute="follower_id")|list %}
             Following
             {% else %}
             Follow
             {% endif %}
-        </button></a>
+        </button>
+        <button type="button"
+        onclick="friend('{{username.id}}')">
+            {% if user.id in username.friends|map(attribute="user_id2")|list or username.id in user.friends|map(attribute="user_id2")|list%}
+            Remove friend
+            {% else %}
+            Add Friend
+            {% endif %}
+        </button>
         {% endif %} 
     </div>
 </div>

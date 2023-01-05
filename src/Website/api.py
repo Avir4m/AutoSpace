@@ -1,43 +1,47 @@
-from flask import Blueprint, jsonify, redirect, url_for, current_app
+from flask import Blueprint, jsonify, current_app
 from flask_login import current_user, login_required
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .models import Space, SpaceMember, Post, Like, Saved, User, Follow
+from .models import Space, SpaceMember, Post, Like, Saved, User, Follow, Friend
 from . import db
 import os
 
-api = Blueprint('api', __name__)
-
+api = Blueprint("api", __name__)
 
 # Spaces
-@api.route('/join-space/<space_id>/', methods=['POST'])
+@api.route("/join-space/<space_id>/", methods=["POST"])
 @login_required
 def join_space(space_id):
     space = Space.query.filter_by(id=space_id).first()
     member = SpaceMember.query.filter_by(user_id=current_user.id, space_id=space.id).first()
-    
+
     if not space:
-        return jsonify({'error': 'Space does not exist.'}, 400)
+        return jsonify({"error": "Space does not exist."}, 400)
     elif member and space.creator != current_user.id:
-            db.session.delete(member)
-            db.session.commit()
+        db.session.delete(member)
+        db.session.commit()
     elif space.creator != current_user.id:
         member = SpaceMember(user_id=current_user.id, space_id=space.id)
         db.session.add(member)
         db.session.commit()
-        
-    return jsonify({'members': len(space.members), 'joined': current_user.id in map(lambda x: x.user_id, space.members)})
+
+    return jsonify(
+        {
+            "members": len(space.members),
+            "joined": current_user.id in map(lambda x: x.user_id, space.members),
+        }
+    )
 
 
 # Posts
-@api.route('/like-post/<post_id>/', methods=['POST'])
+@api.route("/like-post/<post_id>/", methods=["POST"])
 @login_required
 def like_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
     like = Like.query.filter_by(author=current_user.id, post_id=post_id).first()
     if not post:
-        return jsonify({'error': 'Post does not exist.'}, 400)
+        return jsonify({"error": "Post does not exist."}, 400)
     elif like:
         db.session.delete(like)
         db.session.commit()
@@ -45,16 +49,22 @@ def like_post(post_id):
         like = Like(author=current_user.id, post_id=post_id)
         db.session.add(like)
         db.session.commit()
-        
-    return jsonify({'likes': len(post.likes), 'liked': current_user.id in map(lambda x: x.author, post.likes)})
 
-@api.route('/save-post/<post_id>/', methods=['POST'])
+    return jsonify(
+        {
+            "likes": len(post.likes),
+            "liked": current_user.id in map(lambda x: x.author, post.likes),
+        }
+    )
+
+
+@api.route("/save-post/<post_id>/", methods=["POST"])
 @login_required
 def save_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
     saved = Saved.query.filter_by(author=current_user.id, post_id=post_id).first()
     if not post:
-        return jsonify({'error': 'Post does not exist.'}, 400)
+        return jsonify({"error": "Post does not exist."}, 400)
     elif saved:
         db.session.delete(saved)
         db.session.commit()
@@ -62,18 +72,19 @@ def save_post(post_id):
         saved = Saved(post_id=post_id, author=current_user.id)
         db.session.add(saved)
         db.session.commit()
-        
-    return jsonify({'saved': current_user.id in map(lambda x: x.author, post.saves)})
 
-@api.route('/delete-post/<post_id>/', methods=['POST'])
+    return jsonify({"saved": current_user.id in map(lambda x: x.author, post.saves)})
+
+
+@api.route("/delete-post/<post_id>/", methods=["POST"])
 @login_required
 def delete_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
-    
+
     if not post:
-        return jsonify({'message':'post does not exist.'})
+        return jsonify({"message": "post does not exist."})
     elif current_user.id != post.author and current_user.permissions <= 1:
-        return jsonify({'message':'you do not have permission to delete this post.'})
+        return jsonify({"message": "you do not have permission to delete this post."})
     else:
         if post.comments:
             for comment in post.comments:
@@ -93,23 +104,26 @@ def delete_post(post_id):
                 db.session.commit()
         if post.picture:
             try:
-                os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/posts/' + post.picture)
+                os.remove(os.getcwd()+ current_app.config["UPLOAD_FOLDER"]+ "/posts/"+ post.picture)
             except Exception as e:
                 print(e)
-                
+
         db.session.delete(post)
         db.session.commit()
-        return jsonify({'message': 'Deleted post', 'type': 'success'})
+        return jsonify({"message": "Deleted post", "type": "success"})
+
 
 # Users
-@api.route('/follow/<username>/', methods=['POST'])
+@api.route("/follow/<username>/", methods=["POST"])
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
-    followed = Follow.query.filter_by(follower_id=current_user.id, followed_id=user.id).first()
-    
+    followed = Follow.query.filter_by(
+        follower_id=current_user.id, followed_id=user.id
+    ).first()
+
     if not user or user.id == current_user.id:
-        return jsonify({'error': 'Post does not exist.'}, 400)
+        return jsonify({"error": "Post does not exist."}, 400)
     elif followed:
         db.session.delete(followed)
         db.session.commit()
@@ -117,32 +131,84 @@ def follow(username):
         follow = Follow(follower_id=current_user.id, followed_id=user.id)
         db.session.add(follow)
         db.session.commit()
-        
-    return jsonify({'followers': len(user.followers), 'followed': current_user.id in map(lambda x: x.follower_id, user.followers)})
 
-@api.route('/user/delete_account/<username>/<password>', methods=['POST'])
+    return jsonify(
+        {
+            "followers": len(user.followers),
+            "followed": current_user.id in map(lambda x: x.follower_id, user.followers),
+        }
+    )
+
+
+@api.route("/user/delete_account/<username>/<password>", methods=["POST"])
 def delete_account(username, password):
     if username != current_user.username:
-        return jsonify({'message': 'Wrong username', 'type': 'error'})
+        return jsonify({"message": "Wrong username", "type": "error"})
 
     user = User.query.filter_by(username=username).first()
 
     if not check_password_hash(user.password, password):
-        return jsonify({'message': 'Wrong password.', 'type': 'error'})
+        return jsonify({"message": "Wrong password.", "type": "error"})
     else:
         db.session.delete(user)
         db.session.commit()
-        return jsonify({'message': 'Done', 'type': 'success'})
+        return jsonify({"message": "Done", "type": "success"})
 
-@api.route('/user/change_password/<password>/<new_password>', methods=['POST'])
+
+@api.route("/user/change_password/<password>/<new_password>", methods=["POST"])
 def change_password(password, new_password):
-    if ' ' in new_password:
-        return jsonify({'message': 'Password can\'t have spaces.', 'type': 'error'})
+    if " " in new_password:
+        return jsonify({"message": "Password can't have spaces.", "type": "error"})
     elif len(new_password) < 7:
-        return jsonify({'message': 'Password must be at least 7 characters.', 'type': 'error'})
+        return jsonify(
+            {"message": "Password must be at least 7 characters.", "type": "error"}
+        )
     elif check_password_hash(current_user.password, password):
-        current_user.password = generate_password_hash(new_password, method='sha256')
+        current_user.password = generate_password_hash(new_password, method="sha256")
         db.session.commit()
-        return jsonify({'message': 'Your password has been changed.', 'type': 'success'})
+        return jsonify(
+            {"message": "Your password has been changed.", "type": "success"}
+        )
     else:
-        return jsonify({'message': 'Wrong password, please try again', 'type': 'error'})
+        return jsonify({"message": "Wrong password, please try again", "type": "error"})
+
+@api.route("friend/<id>/", methods=["POST"])
+def friend(id):
+    user = User.query.filter_by(id=id).first()
+    if user and user.id != current_user.id:
+        sent_request = Friend.query.filter_by(user_id1=current_user.id, user_id2=user.id, status="pending").first()
+        if sent_request:
+            db.session.delete(sent_request)
+            db.session.commit()
+            return jsonify({"message": "Your friend request has been removed", "type": "success"})
+        recive_request = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="pending").first()
+        if recive_request:
+            recive_request.status = "friends"
+            db.session.commit()
+            return jsonify({"message": f"Accepted friend request"})
+        
+        friends_added = Friend.query.filter_by(user_id1=current_user.id, user_id2=user.id, status="friends").first()
+        friends_accepted = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="friends").first()
+        if friends_added or friends_accepted:
+            if friends_added:
+                db.session.delete(friends_added)
+            else:
+                db.session.delete(friends_accepted)
+            db.session.commit()
+            return jsonify({"message": f"You removed {user.username} from you friends list.", "type": "success"})
+
+        request = Friend(user_id1=current_user.id, user_id2=user.id, status="pending")
+        db.session.add(request)
+        db.session.commit()
+        return jsonify({"message": f"You have sent a friend request to {user.username}", "type": "success"})
+    else:
+        return jsonify({"message": "There is no user with that id.", "type": "error"})
+
+@api.route("mention/@<username>/", methods=["POST"])
+def mention(username):
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return user.picture
+    
+    return jsonify({"message": "No user with that username", "type": "error"})
+    

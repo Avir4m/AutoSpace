@@ -124,3 +124,11 @@ function changePassword() {
     .catch((e) => alert("Couldn't change password."));
   }
 }
+
+function friend(id) {
+  fetch(`/api/friend/${id}`, {method : "POST"})
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+  })
+}

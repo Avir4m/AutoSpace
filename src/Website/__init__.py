@@ -31,9 +31,9 @@ def create_app():
     from .comments import comments
     from .spaces import spaces
     from .reports import reports
-    
+    from .chat import chat
+
     from .errors import errors
-    
     
     from .api import api
     
@@ -44,6 +44,7 @@ def create_app():
     app.register_blueprint(comments, url_prefix='/') # comments
     app.register_blueprint(spaces, url_prefix='/') # spaces
     app.register_blueprint(reports, url_prefix='/') # reports 
+    app.register_blueprint(chat, url_prefix='/') # chats
     
     app.register_blueprint(errors, url_prefix='/')
     

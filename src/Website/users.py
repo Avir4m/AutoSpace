@@ -9,7 +9,6 @@ from . import db
 
 users = Blueprint('users', __name__)
 
-
 @users.route('/user/<username>/dashboard/', methods=['POST', 'GET'])
 @login_required
 def dashboard(username):

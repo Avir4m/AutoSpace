@@ -7,6 +7,7 @@
     width: 75vw;
     max-width: 1400px;
     box-shadow: 5px 5px 10px #00000088;
+    overflow-wrap: break-word;
 }
 
 .card-body {
@@ -24,13 +25,14 @@
 .card .user-img {
     vertical-align: middle;
     border-radius: 50%;
+    margin-right: 5px;
     width: 30px;
     height: 30px;
     object-fit: cover;
 }
 
 .card .card {
-    width: 95%;
+    width: 97.5%;
     margin: auto;
 }
 

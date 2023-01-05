@@ -8,20 +8,22 @@ import smtplib
 import uuid
 import os
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
 
 def send_email(email_recipient, title, text):
-    EMAIL_SENDER = os.environ.get('EMAIL')
-    PASSWORD = os.environ.get('PASSWORD')
-    
+    EMAIL_SENDER = os.environ.get("EMAIL")
+    PASSWORD = os.environ.get("PASSWORD")
+
     msg = EmailMessage()
-    msg['Subject'] = title
-    msg['From'] = EMAIL_SENDER
-    msg['To'] = email_recipient
-    
+    msg["Subject"] = title
+    msg["From"] = EMAIL_SENDER
+    msg["To"] = email_recipient
+
     msg.set_content(title)
-    
-    msg.add_alternative(f"""\
+
+    msg.add_alternative(
+        f"""\
     <!DOCTYPE html>
             <html>
                 <head>
@@ -33,22 +35,23 @@ def send_email(email_recipient, title, text):
                     <p align="center">{text}</p>
                 </body>
             </html>
-    """, subtype='html')
-    
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+    """,
+        subtype="html",
+    )
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.ehlo()
         smtp.login(EMAIL_SENDER, PASSWORD)
         smtp.send_message(msg)
         smtp.close()
-        
-    
-    
+
+
 def get_secret_key():
     SECRET_KEY = "SECRET_KEY"
     return SECRET_KEY
 
 
-def create_url(type):  
+def create_url(type):
     url = uuid.uuid4().hex
     model = type.query.filter_by(url=url).first()
     if model:
@@ -58,28 +61,30 @@ def create_url(type):
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 def unique_filename(filename, type):
-    new_filename = filename + '_' + uuid.uuid4().hex
+    new_filename = filename + "_" + uuid.uuid4().hex
     picture = type.query.filter_by(picture=new_filename).first()
     if picture:
         unique_filename(filename)
     else:
         return new_filename
-        
+
+
 def upload_file(file, type, path):
-    path = os.path.join(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + f'/{path}/')
+    path = os.path.join(os.getcwd() + current_app.config["UPLOAD_FOLDER"] + f"/{path}/")
     if file and allowed_file(file.filename):
 
         # Saving original file
         filename = secure_filename(file.filename)
-        filename = unique_filename(filename, type) + '.jpg'
+        filename = unique_filename(filename, type) + ".jpg"
         file.save(os.path.join(path, filename))
 
         # Image resize, convertion and compression
-        image = Image.open(os.path.join(path, filename)).convert('RGB')
-        image.thumbnail((1920,1080), Image.ANTIALIAS)
+        image = Image.open(os.path.join(path, filename)).convert("RGB")
+        image.thumbnail((1920, 1080), Image.ANTIALIAS)
         image.save(os.path.join(path, filename), optimize=True, quality=90)
 
         return filename

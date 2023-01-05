@@ -4,33 +4,18 @@
 CarSpace is an open source social network for car people, <br/>
 Where you can post your car and see other people's cars.
 
-#### Version / 0.13
+#### Version / 0.14 Beta
 
 <br/>
 
  * **Changes / Fixes**:
 
-    * General Performance
-      * Removed socketio for better performance.
-      * Backend time formatting to timeago.
-      * Image compression for loading times.
-      * Icons are now 64x64 and not 512x512 (Faster loading)
+    * Friends System
+        * Send/Unsend friend requests
+        * Accept requests
+        * Remove friends
 
-    * Restructured API
-      * Restructured API to be more readable.
-      * Removed unnecessary features/routes.
 
-    * File Management
-      * If file is no longer in use, it will be deleted.
-      * Restructured the code.
-      * Image resize, convertion and compression to reduce filesizes.
-
-    * HTML, CSS and JS changes
-      * Removed bootstrap, moved to raw html, css and javascript (WIP)
-      * Redesigned all pages
-      * Added overlays
-      * Removed all admin panels (Temporary)
-      * Renamed forums to spaces
   
 <br/>
 
