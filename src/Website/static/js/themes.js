@@ -21,11 +21,17 @@ if (darkMode === 'enabled') {
 function toggleTheme(button) {
   darkMode = localStorage.getItem('darkMode'); 
   if (darkMode !== 'enabled') {
-    button.src = "/static/images/icons/sun.png";
+    try 
+    {
+      button.src = "/static/images/icons/sun.png";
+    } catch {}
     enableDarkMode();
   } 
   else {
-    button.src = "/static/images/icons/moon.png";
+    try 
+    {
+      button.src = "/static/images/icons/moon.png";
+    } catch {}
     disableDarkMode(); 
   }
 }

@@ -42,7 +42,6 @@ class Post(db.Model):
     url = db.Column(db.String(150), nullable=False, unique=True)
     edited = db.Column(db.Boolean(), default=False)
     private = db.Column(db.Boolean(), default=False)
-    friends_only = db.Column(db.Boolean(), default=False)
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     comments = db.relationship("Comment", backref="post", passive_deletes=True)
     likes = db.relationship("Like", backref="post", passive_deletes=True)

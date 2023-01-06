@@ -10,7 +10,7 @@ Where you can post your car and see other people's cars.
 
  * **Changes / Fixes**:
 
-    * Friends System (WIP)
+    * Friends System
         * Send/Unsend friend requests
         * Accept/Cancel requests
         * Add/Remove friends
