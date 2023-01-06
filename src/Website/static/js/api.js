@@ -126,9 +126,23 @@ function changePassword() {
 }
 
 function friend(id) {
+  var btn = document.getElementById('friend-req-btn');
   fetch(`/api/friend/${id}`, {method : "POST"})
   .then((res) => res.json())
   .then((data) => {
-    console.log(data);
+    btn.textContent = data.button;
+  })
+}
+
+function removeRequest(id) {
+  var acceptBtn = document.getElementById('friend-req-btn');
+  var cancelBtn = document.getElementById('friend-req-remove-btn');
+  fetch(`/api/remove_request/${id}`, {method : "POST"})
+  .then((res) => res.json())
+  .then((data) => {
+    acceptBtn.textContent = data.button;
+    if (data.type === 'success') {
+        cancelBtn.remove();
+    }
   })
 }

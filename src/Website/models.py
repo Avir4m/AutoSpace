@@ -26,7 +26,8 @@ class User(db.Model, UserMixin):
     spaces_joined = db.relationship("SpaceMember", backref="user", passive_deletes=True) # User's spaces joined
     reports = db.relationship("Report", backref="user", passive_deletes=True) # User's reports
 
-    friends = db.relationship("Friend", backref="user", passive_deletes=True, primaryjoin="and_(Friend.user_id1==User.id, " "Friend.status=='friends')") # User's friends
+    friends = db.relationship("Friend", backref="user_friend", passive_deletes=True, primaryjoin="""and_(Friend.status=='friends', or_(Friend.user_id1==User.id, Friend.user_id2==User.id))""") # User's friends
+    friend_requests = db.relationship("Friend", backref="user_request", passive_deletes=True, primaryjoin="""and_(Friend.status=='pending', or_(Friend.user_id1==User.id, Friend.user_id2==User.id))""") # User's friend requests
 
     followers = db.relationship("Follow", backref="user", passive_deletes=True, primaryjoin="and_(" "Follow.followed_id==User.id)") # User's followers
     following = db.relationship("Follow", backref="follower", passive_deletes=True, primaryjoin="and_(" "Follow.follower_id==User.id)") # User's following
@@ -41,6 +42,7 @@ class Post(db.Model):
     url = db.Column(db.String(150), nullable=False, unique=True)
     edited = db.Column(db.Boolean(), default=False)
     private = db.Column(db.Boolean(), default=False)
+    friends_only = db.Column(db.Boolean(), default=False)
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     comments = db.relationship("Comment", backref="post", passive_deletes=True)
     likes = db.relationship("Like", backref="post", passive_deletes=True)

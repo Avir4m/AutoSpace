@@ -12,8 +12,8 @@ Where you can post your car and see other people's cars.
 
     * Friends System (WIP)
         * Send/Unsend friend requests
-        * Accept requests
-        * Remove friends
+        * Accept/Cancel requests
+        * Add/Remove friends
 
 
   

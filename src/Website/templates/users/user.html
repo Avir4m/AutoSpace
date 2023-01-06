@@ -45,14 +45,29 @@
             Follow
             {% endif %}
         </button>
-        <button type="button"
-        onclick="friend('{{username.id}}')">
-            {% if user.id in username.friends|map(attribute="user_id2")|list or username.id in user.friends|map(attribute="user_id2")|list%}
+        <button 
+        type="button"
+        class="bg-blue"
+        onclick="friend('{{username.id}}')"
+        id="friend-req-btn">
+            {% if user.id in username.friends|map(attribute="user_id1")|list or username.friends|map(attribute="user_id2")|list%}
             Remove friend
+            {% elif user.id in username.friend_requests|map(attribute="user_id1")|list%}
+            Requested
+            {% elif user.id in username.friend_requests|map(attribute="user_id2")|list%}
+            Accept
             {% else %}
             Add Friend
             {% endif %}
         </button>
+        {% if user.id in username.friend_requests|map(attribute="user_id2")|list %}
+        <button 
+        onclick="removeRequest('{{username.id}}')"
+        class="bg-red"
+        id="friend-req-remove-btn">
+            Cancel
+        </button>
+        {% endif %}
         {% endif %} 
     </div>
 </div>

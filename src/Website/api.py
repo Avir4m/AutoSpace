@@ -172,7 +172,7 @@ def change_password(password, new_password):
     else:
         return jsonify({"message": "Wrong password, please try again", "type": "error"})
 
-@api.route("friend/<id>/", methods=["POST"])
+@api.route("friend/<id>", methods=["POST"])
 def friend(id):
     user = User.query.filter_by(id=id).first()
     if user and user.id != current_user.id:
@@ -180,12 +180,12 @@ def friend(id):
         if sent_request:
             db.session.delete(sent_request)
             db.session.commit()
-            return jsonify({"message": "Your friend request has been removed", "type": "success"})
+            return jsonify({"message": "Your friend request has been removed", "type": "success", "button": "Add Friend"})
         recive_request = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="pending").first()
         if recive_request:
             recive_request.status = "friends"
             db.session.commit()
-            return jsonify({"message": f"Accepted friend request"})
+            return jsonify({"message": f"Accepted friend request", "type": "success", "button": "Remove Friend"})
         
         friends_added = Friend.query.filter_by(user_id1=current_user.id, user_id2=user.id, status="friends").first()
         friends_accepted = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="friends").first()
@@ -195,20 +195,25 @@ def friend(id):
             else:
                 db.session.delete(friends_accepted)
             db.session.commit()
-            return jsonify({"message": f"You removed {user.username} from you friends list.", "type": "success"})
+            return jsonify({"message": f"You removed {user.username} from you friends list.", "type": "success", "button": "Add Friend"})
 
         request = Friend(user_id1=current_user.id, user_id2=user.id, status="pending")
         db.session.add(request)
         db.session.commit()
-        return jsonify({"message": f"You have sent a friend request to {user.username}", "type": "success"})
+        return jsonify({"message": f"You have sent a friend request to {user.username}", "type": "success", "button": "Requested"})
     else:
-        return jsonify({"message": "There is no user with that id.", "type": "error"})
+        return jsonify({"message": "There is no user with that id.", "type": "error", "button": "Add Friend"})
 
-@api.route("mention/@<username>/", methods=["POST"])
-def mention(username):
-    user = User.query.filter_by(username=username).first()
-    if user:
-        return user.picture
-    
-    return jsonify({"message": "No user with that username", "type": "error"})
-    
+@api.route("remove_request/<id>", methods=["POST"])
+def remove_request(id):
+    user = User.query.filter_by(id=id).first()
+    if user and id != current_user.id:
+        recive_request = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="pending").first()
+        if recive_request:
+            db.session.delete(recive_request)
+            db.session.commit()
+            return jsonify({"message": "Friend request has been removed", "type": "success", "button": "Add Friend"})
+        else:
+            return jsonify({"message": "No request from that user", "type": "error", "button": "Accept"})
+
+    return jsonify({"message": "No user with that id", "type": "error", "button": "Accept"})
