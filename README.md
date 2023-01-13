@@ -10,10 +10,12 @@ Where you can post your car and see other people's cars.
 
  * **Changes / Fixes**:
 
-    * Friends System
+    * Social System (WIP)
         * Send/Unsend friend requests
         * Accept/Cancel requests
         * Add/Remove friends
+        * Block/Unblock users
+        * Posts for friends
 
 
   

@@ -90,3 +90,24 @@ def upload_file(file, type, path):
         return filename
     else:
         return None
+
+def create_folder(path):
+    try:
+        os.makedirs(path)
+    except OSError as e:
+        print(e)
+
+def create_notification(to, action_user, action: str, message: str, tpye: str):
+    notification = {
+        "to": to.id,
+        "action": action,
+        "message": message,
+        "action_user": action_user.id,
+        "seen": False,
+    }
+
+    path = f"instance/users/{to.username}/"
+
+    create_folder(path)
+
+    print(notification)

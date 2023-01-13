@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from .models import Space, SpaceMember, Post, Like, Saved, User, Follow, Friend
+from .func import create_notification
 from . import db
 import os
 
@@ -200,6 +201,7 @@ def friend(id):
         request = Friend(user_id1=current_user.id, user_id2=user.id, status="pending")
         db.session.add(request)
         db.session.commit()
+        create_notification(user, current_user, "friend reqeust", f"{current_user.username} sent you a friend request.", "success")
         return jsonify({"message": f"You have sent a friend request to {user.username}", "type": "success", "button": "Requested"})
     else:
         return jsonify({"message": "There is no user with that id.", "type": "error", "button": "Add Friend"})
