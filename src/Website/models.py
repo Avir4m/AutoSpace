@@ -116,3 +116,10 @@ class Friend(db.Model):
     user_id1 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     user_id2 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     status = db.Column(db.Text())  # Statuses: pending, friends
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    to = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    action_user = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    action = db.Column(db.String())
+    message = db.Column(db.Text())
