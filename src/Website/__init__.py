@@ -32,6 +32,7 @@ def create_app():
     from .spaces import spaces
     from .reports import reports
     from .chat import chat
+    from .admin import admin
 
     from .errors import errors
     
@@ -45,6 +46,7 @@ def create_app():
     app.register_blueprint(spaces, url_prefix='/') # spaces
     app.register_blueprint(reports, url_prefix='/') # reports 
     app.register_blueprint(chat, url_prefix='/') # chats
+    app.register_blueprint(admin, url_prefix='/admin') # admin
     
     app.register_blueprint(errors, url_prefix='/')
     

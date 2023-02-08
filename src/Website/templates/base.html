@@ -55,6 +55,14 @@
 					<a href="{{ url_for('spaces.create_space') }}"><img src="{{ url_for('static', filename='images/icons/space.png')}}" class="icon dropdown-icon"> New Space</a>
 			  	</div>
 			</div>
+			<div class="nav-dropdown">
+				<button class="dropbtn nav-item">
+				  <img src="{{ url_for('static', filename='images/icons/bell.png')}}" class="nav-icon icon">
+				</button>
+				<div class="nav-dropdown-content" id="nav-dropdown-3">
+				  <a>My notifications (WIP)</a>
+				</div>
+		  </div>
 			<div class="nav-item">
 				<a>
 					<img src="{{ url_for('static', filename='images/icons/moon.png')}}" class="nav-icon icon" id="theme-toggle" onclick="toggleTheme(this)">
