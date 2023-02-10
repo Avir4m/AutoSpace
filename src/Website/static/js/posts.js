@@ -7,5 +7,5 @@ function deletePost(postId) {
         card.remove();
       }
     })
-    .catch((e) => alert("Couldn't delete post."));
+    .catch((e));
 }

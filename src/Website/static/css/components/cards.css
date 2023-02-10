@@ -70,6 +70,10 @@
     margin: 10px;
 }
 
+.card-content {
+    padding: 10px;
+}
+
 .card h3, h4 {
     padding: 10px;
 }

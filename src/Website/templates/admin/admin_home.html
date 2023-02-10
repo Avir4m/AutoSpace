@@ -1,16 +1,19 @@
 {% extends "base.html"%}
-{% block title %}400{% endblock %}
+{% block title %}Admin Panel{% endblock %}
 
 {% block content %}
 <div class="card">
     <div class="card-header">
-        
+        <div class="card-content" align="center">
+            <h2> Admin Panel</h2>
+        </div>
     </div>
     <div class="card-body">
-
-    </div>
-    <div class="card-footer">
-
+        <div class="card-content">
+            <button type="button" class="btn">
+                <a href="{{ url_for('admin.reports') }}">Reports</a>
+            </button>
+        </div>
     </div>
 </div>
 {% endblock %}

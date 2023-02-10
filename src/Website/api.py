@@ -83,7 +83,7 @@ def delete_post(post_id):
 
     if not post:
         return jsonify({"message": "post does not exist."})
-    elif current_user.id != post.author and current_user.permissions <= 1:
+    elif current_user.id != post.author and current_user.permissions < 1:
         return jsonify({"message": "you do not have permission to delete this post."})
     else:
         if post.comments:

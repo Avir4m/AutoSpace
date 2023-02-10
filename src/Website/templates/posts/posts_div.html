@@ -56,6 +56,11 @@
             </a>
             {% endif %}
             {% endif %}
+            {% if user.permissions > 0 and user.id != post.author%}
+            <a onclick="deletePost('{{ post.id }}')" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -267,7 +272,11 @@
               id="reason" 
               name="reason" 
               placeholder="Reason"
-              maxlength="150"/>
+              maxlength="150"
+              style="
+              min-width: 97%;
+              max-width: 99%;
+              "/>
           </div>
           <div>
               <label for="description">Description</label><br/>
@@ -275,7 +284,12 @@
               type="text" 
               id="description" 
               name="description" 
-              placeholder="Description"></textarea>
+              placeholder="Description"
+              style="
+              min-width: 97%;
+              max-width: 99%;
+              min-height: 100px;
+              "></textarea>
           </div>
         </div>
         <div class="card-footer">
