@@ -56,11 +56,6 @@
             </a>
             {% endif %}
             {% endif %}
-            {% if user.permissions > 0 and user.id != post.author%}
-            <a onclick="deletePost('{{ post.id }}')" class="dropdown-item">
-              <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
-            </a>
-            {% endif %}
           </div>
         </div>
       </div>

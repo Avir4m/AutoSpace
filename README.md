@@ -18,10 +18,16 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
         * Block/Unblock users
         * Posts for friends
 
+    * Notifications (WIP)
+        * Created database model
+
     * Admin
         * Add admin panel
         * Admins can see reports
         * Admins can remove posts
         * More features
+
+    * Bug fixes
+        * Fixed reset password route
   
 <br/>

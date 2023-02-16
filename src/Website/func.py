@@ -12,8 +12,8 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 
 def send_email(email_recipient, title, text):
-    EMAIL_SENDER = os.environ.get("EMAIL")
-    PASSWORD = os.environ.get("PASSWORD")
+    EMAIL_SENDER, PASSWORD = "", ""
+
 
     msg = EmailMessage()
     msg["Subject"] = title

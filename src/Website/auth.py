@@ -31,14 +31,10 @@ def login():
             User.query.filter_by(email=email).first()
             or User.query.filter_by(username=email).first()
         )
-        if not user:
-            flash("No user with that email address / username.", category="error")
+        if not user or not check_password_hash(user.password, password):
+            flash("Invalid password or email address, Please try again.", category="error")
         elif len(password) <= 1:
             flash("You must enter your password.", category="error")
-        elif not check_password_hash(user.password, password):
-            flash(
-                "Invalid password or email address, Please try again.", category="error"
-            )
         else:
             flash("Logged in successfully!", category="success")
             login_user(user, remember=remember)
@@ -118,7 +114,7 @@ def forgot_password():
         link = url_for("auth.reset_password", token=token, _external=True)
         msg = f"Email confirmation:\n {link}"
         sub = "Email confirmation"
-        send_email(email, msg, sub)
+        send_email(email, sub, msg)
         flash("Sent a verification link to your email address", category="success")
     else:
         flash(
@@ -138,28 +134,25 @@ def reset_password(token):
         user = User.query.filter_by(email=email).first()
         if not user:
             flash("Invalid token", category="error")
-            if request.method == "POST":
-                password1 = request.form.get("password1")
-                password2 = request.form.get("password2")
+        if request.method == "POST":
+            password1 = request.form.get("password1")
+            password2 = request.form.get("password2")
 
-                if password1 != password2:
-                    flash("Passwords don't match..", category="error")
-                elif len(password1) < 7:
-                    flash("Password must be at least 6 characters.", category="error")
-                elif check_password_hash(user.password, password1):
-                    flash(
-                        "New password can't be the same as the old one.",
-                        category="error",
-                    )
-                else:
-                    user.password = generate_password_hash(password1, method="sha256")
-                    db.session.commit()
-                    flash("Password has been changed!", category="success")
-                    return redirect(url_for("views.home"))
-                return render_template("reset_password.html", user=current_user)
+            if password1 != password2:
+                flash("Passwords don't match..", category="error")
+            elif len(password1) < 7:
+                flash("Password must be at least 6 characters.", category="error")
+            elif check_password_hash(user.password, password1):
+                flash(
+                    "New password can't be the same as the old one.",
+                    category="error",
+                )
             else:
-                return render_template("auth/reset_password.html", user=current_user)
-
+                user.password = generate_password_hash(password1, method="sha256")
+                db.session.commit()
+                flash("Password has been changed!", category="success")
+                return redirect(url_for("views.home"))
+        return render_template("auth/reset_password.html", user=current_user)
     except SignatureExpired:
         abort(404)
 
