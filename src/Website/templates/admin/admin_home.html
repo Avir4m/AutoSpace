@@ -10,9 +10,17 @@
     </div>
     <div class="card-body">
         <div class="card-content">
-            <button type="button" class="btn">
-                <a href="{{ url_for('admin.reports') }}">Reports</a>
-            </button>
+            <div align="center">
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.posts_reports') }}">Posts Reports</a>
+                </button>
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.comments_reports') }}">Comments Reports</a>
+                </button>
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.spaces_reports') }}">Spaces Reports</a>
+                </button>
+            </div>
         </div>
     </div>
 </div>

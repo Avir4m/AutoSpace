@@ -3,7 +3,7 @@
 ## Description
 CarSpace is an open source social network for car people, <br/>
 Where you can post your car and see other people's cars. <br/>
-Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in python. 
+Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in [python](https://www.python.org/). 
 
 #### Version / 0.14 Beta
 
@@ -24,7 +24,7 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
     * Admin
         * Add admin panel
         * Admins can see reports
-        * Admins can remove posts
+        * Admins can remove posts/comments/spaces
         * More features
 
     * Bug fixes

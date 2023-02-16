@@ -50,7 +50,7 @@ def delete_space(space_id):
     
     if not space:
         flash('space does not exists.', category='error')
-    elif current_user.id != space.creator and current_user.permissions <= 1:
+    elif current_user.id != space.creator and current_user.permissions < 1:
         flash('you do not have permission to delete this space.', category='error')
     else:
         if space.reports:

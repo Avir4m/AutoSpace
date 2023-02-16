@@ -11,9 +11,23 @@ def adminHome():
         return render_template("admin/admin_home.html", user=current_user)
     abort(403)
 
-@admin.route("/reports")
-def reports():
+@admin.route("/reports/posts")
+def posts_reports():
     if current_user.permissions > 0:
-        reports = Report.query.filter_by().all()
-        return render_template("admin/models/reports.html", user=current_user, reports=reports)
+        reports = Report.query.filter_by(comment_id=None, space_id=None).all()
+        return render_template("admin/models/post_reports.html", user=current_user, reports=reports)
+    abort(403)
+
+@admin.route("/reports/comments")
+def comments_reports():
+    if current_user.permissions > 0:
+        reports = Report.query.filter_by(post_id=None, space_id=None).all()
+        return render_template("admin/models/comment_reports.html", user=current_user, reports=reports)
+    abort(403)
+
+@admin.route("/reports/spaces")
+def spaces_reports():
+    if current_user.permissions > 0:
+        reports = Report.query.filter_by(comment_id=None, post_id=None).all()
+        return render_template("admin/models/space_reports.html", user=current_user, reports=reports)
     abort(403)
