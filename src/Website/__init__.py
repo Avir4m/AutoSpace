@@ -1,13 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_migrate import Migrate
 import timeago, datetime
 
 from .func import get_secret_key
 
 db = SQLAlchemy()
-migrate = Migrate()
 
 DB_NAME = "database.db"
 UPLOAD_FOLDER = "/website/static/images/upload_folder"
@@ -22,7 +20,6 @@ def create_app():
     app.config['JSON_SORT_KEYS'] = False
 
     db.init_app(app)
-    migrate.init_app(app, db)
     
     from .views import views
     from .auth import auth
