@@ -16,6 +16,8 @@ const disableDarkMode = () => {
 
 if (darkMode === 'enabled') {
   enableDarkMode();
+} else {
+  disableDarkMode();
 }
 
 function toggleTheme(button) {
