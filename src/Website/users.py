@@ -7,29 +7,29 @@ from .models import User, Post, User
 from .func import upload_file
 from . import db
 
-users = Blueprint('users', __name__)
+users = Blueprint("users", __name__)
 
-@users.route('/user/<username>/dashboard/', methods=['POST', 'GET'])
+@users.route("/user/<username>/dashboard/", methods=["POST", "GET"])
 @login_required
 def dashboard(username):
     if username == current_user.username:
-        if request.method == 'POST':
+        if request.method == "POST":
             
             user = current_user
             
-            email = request.form.get('email')
-            username = request.form.get('userName')
-            first_name = request.form.get('firstName')
-            last_name = request.form.get('lastName')
-            description = request.form.get('description')
+            email = request.form.get("email")
+            username = request.form.get("userName")
+            first_name = request.form.get("firstName")
+            last_name = request.form.get("lastName")
+            description = request.form.get("description")
             
-            file = request.files['file']
+            file = request.files["file"]
 
             if file:
                 filename = upload_file(file, User, "users")
                 if user.picture != "default_profile_pic.jpg":
                     try:
-                        os.remove(os.getcwd() + current_app.config['UPLOAD_FOLDER'] + '/users/' + user.picture)
+                        os.remove(os.getcwd() + current_app.config["UPLOAD_FOLDER"] + "/users/" + user.picture)
                     except:
                         print("Could not remove picture..")
                 user.picture = filename
@@ -42,24 +42,24 @@ def dashboard(username):
                 if email == user.email:
                     pass
                 else:
-                    flash('This email is already in use.', category='error')
+                    flash("This email is already in use.", category="error")
             if user_name:
                 if username == user.username:
                     pass
                 else:
-                    flash('This username is already in use.', category='error')
+                    flash("This username is already in use.", category="error")
             if email == user.email and username == user.username and first_name == user.first_name and last_name == user.last_name and description == user.description and not file:
-                flash('Can\'t update profile if nothing has been changed.', category='error')
+                flash("Can\"t update profile if nothing has been changed.", category="error")
             
             else:
-                if first_name == '':
-                    flash('First Name must be provided.', category='error')
-                elif username == '':
-                    flash('Username must be provided.', category='error')
-                elif email == '':
-                    flash('Email must be provided.', category='error')
-                elif ' ' in username:
-                    flash('You cannot have spaces in username.', category='error')
+                if first_name == "":
+                    flash("First Name must be provided.", category="error")
+                elif username == "":
+                    flash("Username must be provided.", category="error")
+                elif email == "":
+                    flash("Email must be provided.", category="error")
+                elif " " in username:
+                    flash("You cannot have spaces in username.", category="error")
                 else:
                     user.email = email
                     user.username = username
@@ -67,14 +67,14 @@ def dashboard(username):
                     user.last_name = last_name
                     user.description = description
                     db.session.commit()
-                    flash('Profile has been updated.', category='success')
+                    flash("Profile has been updated.", category="success")
                 
-        return render_template('users/dashboard.html', user=current_user)
+        return render_template("users/dashboard.html", user=current_user)
     
     else:
-        return redirect(url_for('views.dashboard'), username=current_user.username)
+        return redirect(url_for("views.dashboard"), username=current_user.username)
 
-@users.route('/user/<username>/saved/')
+@users.route("/user/<username>/saved/")
 @login_required
 def saved(username):
     user = User.query.filter_by(username=username).first()
@@ -84,9 +84,9 @@ def saved(username):
     
     posts = Post.query.join(Post.saves, aliased=True).filter_by(author=user.id).all()
     
-    return render_template('users/saved.html', user=current_user, posts=posts)
+    return render_template("users/saved.html", user=current_user, posts=posts)
 
-@users.route('/user/<username>/liked/')
+@users.route("/user/<username>/liked/")
 @login_required
 def liked(username):
     user = User.query.filter_by(username=username).first()
@@ -96,4 +96,4 @@ def liked(username):
     
     posts = Post.query.join(Post.likes, aliased=True).filter_by(author=user.id).all()
     
-    return render_template('users/liked.html', user=current_user, posts=posts)
+    return render_template("users/liked.html", user=current_user, posts=posts)

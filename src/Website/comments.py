@@ -7,7 +7,7 @@ from . import db
 comments = Blueprint("comments", __name__)
 
 
-@comments.route("/create-comment/<post_id>", methods=["POST", "GET"])
+@comments.route("/create-comment/<post_id>/", methods=["POST", "GET"])
 @login_required
 def create_comment(post_id):
     text = request.form.get("text")

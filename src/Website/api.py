@@ -140,7 +140,7 @@ def follow(username):
     )
 
 
-@api.route("/user/delete_account/<username>/<password>", methods=["POST"])
+@api.route("/user/delete_account/<username>/<password>/", methods=["POST"])
 def delete_account(username, password):
     if username != current_user.username:
         return jsonify({"message": "Wrong username", "type": "error"})
@@ -155,7 +155,7 @@ def delete_account(username, password):
         return jsonify({"message": "Done", "type": "success"})
 
 
-@api.route("/user/change_password/<password>/<new_password>", methods=["POST"])
+@api.route("/user/change_password/<password>/<new_password>/", methods=["POST"])
 def change_password(password, new_password):
     if " " in new_password:
         return jsonify({"message": "Password can't have spaces.", "type": "error"})
@@ -172,7 +172,7 @@ def change_password(password, new_password):
     else:
         return jsonify({"message": "Wrong password, please try again", "type": "error"})
 
-@api.route("friend/<id>", methods=["POST"])
+@api.route("friend/<id>/", methods=["POST"])
 def friend(id):
     user = User.query.filter_by(id=id).first()
     if user and user.id != current_user.id:
@@ -204,7 +204,7 @@ def friend(id):
     else:
         return jsonify({"message": "There is no user with that id.", "type": "error", "button": "Add Friend"})
 
-@api.route("remove_request/<id>", methods=["POST"])
+@api.route("remove_request/<id>/", methods=["POST"])
 def remove_request(id):
     user = User.query.filter_by(id=id).first()
     if user and id != current_user.id:

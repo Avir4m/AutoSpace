@@ -8,7 +8,7 @@ from . import db
 posts = Blueprint("posts", __name__)
 
 
-@posts.route("/create-post", methods=["POST", "GET"])
+@posts.route("/create-post/", methods=["POST", "GET"])
 @login_required
 def create_post():
     spaces = Space.query.filter_by().all()
@@ -54,7 +54,7 @@ def create_post():
     return render_template("posts/create_post.html", user=current_user, spaces=spaces)
 
 
-@posts.route("/post-status/<post_id>")
+@posts.route("/post-status/<post_id>/")
 @login_required
 def post_status(post_id):
     post = Post.query.filter_by(id=post_id).first()

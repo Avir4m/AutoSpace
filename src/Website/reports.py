@@ -65,3 +65,18 @@ def report_comment(id):
     db.session.commit()
     flash("Comment has been reported!", category="success")
     return redirect(url_for("views.home"))
+
+
+@reports.route("/delete-report/<id>/")
+@login_required
+def delete_report(id):
+    if current_user.permissions < 1:
+        abort(403)
+    report = Report.query.filter_by(id=id).first()
+    if not report:
+        abort(404)
+
+    db.session.delete(report)
+    db.session.commit()
+    flash("Report has been deleted!", category="success")
+    return redirect(url_for("admin.adminHome"))

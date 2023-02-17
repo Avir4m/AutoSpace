@@ -17,10 +17,7 @@ body {
     --red: #a82626;
     --blue: #2d5ac2;
     --green: #26964a;
-}
-
-*:hover {
-    transition: all 0.5s;
+    --grey: #55585c;
 }
 
 input, select, textarea, button {
@@ -51,4 +48,8 @@ input, select, textarea, button {
 
 .bg-blue {
     background-color: var(--blue);
+}
+
+.bg-grey {
+    background-color: var(--grey);
 }
