@@ -4,7 +4,11 @@
 <div class="card">
     <div class="card-header">
         <div align="center">
-            <h3>{{ username.username }}</h3>
+            <h3>{{ username.username }}
+            {% if user.developer == 1 %}
+            <span class="badge">(Developer)</span>
+            {% endif %}
+            </h3>
         </div>
         <div>
             <img src="{{ url_for('static', filename='images/upload_folder/users/' + username.picture)}}" class="dashboard-img">

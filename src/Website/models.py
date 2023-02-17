@@ -16,6 +16,9 @@ class User(db.Model, UserMixin):
     permissions = db.Column(db.Integer(), default=0)
     verified = db.Column(db.Boolean(), default=False)
 
+    #Badges
+    developer =db.Column(db.Integer(), default=0)
+
     # Relationships
 
     posts = db.relationship("Post", backref="user", passive_deletes=True) # User's posts
