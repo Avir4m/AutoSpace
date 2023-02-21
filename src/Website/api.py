@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .models import Space, SpaceMember, Post, Like, Saved, User, Follow, Friend
+from .models import Notification, Space, SpaceMember, Post, Like, Saved, User, Follow, Friend
 from . import db
 import os
 

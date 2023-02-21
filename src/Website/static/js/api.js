@@ -146,7 +146,3 @@ function removeRequest(id) {
     }
   })
 }
-
-function noticication() {
-  
-}

@@ -53,3 +53,7 @@ input, select, textarea, button {
 .bg-grey {
     background-color: var(--grey);
 }
+
+.muted {
+    color: var(--muted);
+}

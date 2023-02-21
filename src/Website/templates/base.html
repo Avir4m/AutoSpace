@@ -59,8 +59,25 @@
 				<button class="dropbtn nav-item">
 				  <img src="{{ url_for('static', filename='images/icons/bell.png')}}" class="nav-icon icon">
 				</button>
-				<div class="nav-dropdown-content" id="nav-dropdown-3">
-				  <a>My notifications (WIP)</a>
+				<div class="nav-dropdown-content notifications-dropdown" id="nav-dropdown-3">
+					<p align="center" class="dropdown-title">Notifications</p>
+				  {% if user.notifications|length < 1%}
+				  <p align="center" class="dropdown-subtitle">No notifications</p>
+				  {% endif %}
+				  {% for notification in user.notifications %}
+				  <div>
+					{% if notification.seen == false %}
+					<span class="unseen-dot"></span>
+					{% endif %}
+					<small class="muted">{{ notification.date|timeago }}</small>
+					<p> 					
+						{% if notification.action_user != None %}
+						<img class="dropdown-img" src="{{ url_for('static', filename='images/upload_folder/users/' + notification.user_action.picture)}}">
+						{% endif %}
+						{{ notification.message }}
+					</p>
+				  </div>
+				  {% endfor %}
 				</div>
 		  </div>
 			<div class="nav-item">

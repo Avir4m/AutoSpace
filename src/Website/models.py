@@ -28,6 +28,8 @@ class User(db.Model, UserMixin):
     spaces = db.relationship("Space", backref="user", passive_deletes=True) # User's spaces
     spaces_joined = db.relationship("SpaceMember", backref="user", passive_deletes=True) # User's spaces joined
     reports = db.relationship("Report", backref="user", passive_deletes=True) # User's reports
+    notifications = db.relationship("Notification", backref="user", passive_deletes=True, primaryjoin="and_(" "Notification.to==User.id)") # User's notifications
+    actions = db.relationship("Notification", backref="user_action", passive_deletes=True, primaryjoin="and_(" "Notification.action_user==User.id)") # User's actions
 
     friends = db.relationship("Friend", backref="user_friend", passive_deletes=True, primaryjoin="""and_(Friend.status=='friends', or_(Friend.user_id1==User.id, Friend.user_id2==User.id))""") # User's friends
     friend_requests = db.relationship("Friend", backref="user_request", passive_deletes=True, primaryjoin="""and_(Friend.status=='pending', or_(Friend.user_id1==User.id, Friend.user_id2==User.id))""") # User's friend requests
@@ -123,6 +125,8 @@ class Friend(db.Model):
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     to = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
-    action_user = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    seen = db.Column(db.Boolean(), default=False)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
+    action_user = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
     action = db.Column(db.String())
     message = db.Column(db.Text())

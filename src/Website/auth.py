@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import SignatureExpired, URLSafeTimedSerializer
 
 from . import db
-from .models import User
+from .models import Notification, User
 from .func import send_email, get_secret_key
 
 auth = Blueprint("auth", __name__)
@@ -92,6 +92,11 @@ def sign_up():
                 password=generate_password_hash(password1, method="sha256"),
             )
             db.session.add(new_user)
+            db.session.flush()
+
+            notification = Notification(to=new_user.id, action="Sign Up", message="Welcome to CarSpace")
+
+            db.session.add(notification)
             db.session.commit()
 
             login_user(new_user, remember=True)
