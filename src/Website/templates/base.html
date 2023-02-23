@@ -20,6 +20,8 @@
 
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/alerts.css') }}"/>
 
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/inputs.css') }}"/>
+
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/themes/darkmode.css') }}" id="darkModeCss"/>
 
 	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}"/>
@@ -65,7 +67,7 @@
 				  <p align="center" class="dropdown-subtitle">No notifications</p>
 				  {% endif %}
 				  {% for notification in user.notifications %}
-				  <div>
+				  <div class="dropdown-subtitle">
 					{% if notification.seen == false %}
 					<span class="unseen-dot"></span>
 					{% endif %}
@@ -75,6 +77,35 @@
 						<img class="dropdown-img" src="{{ url_for('static', filename='images/upload_folder/users/' + notification.user_action.picture)}}">
 						{% endif %}
 						{{ notification.message }}
+						{% if notification.action == "follow" %}
+						<button
+						onclick="window.location.href='{{ url_for('users.follow', username=notification.user_action.username )}}';"
+						type="button">
+						{% if user.id in notification.user_action.followers|map(attribute="follower_id")|list %}
+						Following
+						{% else %}
+						Follow Back
+						{% endif %}
+						</button>
+						{% elif notification.action == "friend-request" %}
+						<button
+						onclick="friend({{ notification.action_user.id }})"
+						type="button">
+							Accept
+						</button>
+						{% elif notification.action == "comment" %}
+						<button 
+						onclick="window.location.href='{{ url_for('views.post', url=notification.comment.post.url )}}';"
+						type="button">
+							See Post
+						</button>
+						{% elif notification.action == "like" %}
+						<button 
+						onclick="window.location.href='{{ url_for('views.post', url=notification.like.post.url )}}';"
+						type="button">
+							See Post
+						</button>
+						{% endif %}
 					</p>
 				  </div>
 				  {% endfor %}

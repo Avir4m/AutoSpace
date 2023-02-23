@@ -63,7 +63,7 @@
           <div class="card-text">{{  post.text  }}</div>
           <br/>
           {% if post.picture != None %}
-          <img src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
+          <img align="center" src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
           <br/>
           {% endif %}
         <br/>
@@ -105,8 +105,8 @@
           </li>
         </ul>
         <form method="POST" action="/create-comment/{{post.id}}">
-        <input type="text" id="text" name="text" class="form-control" placeholder="Comment"/>
-        <button type="submit" class="btn btn-primary">Comment</button>
+        <button type="submit" class="btn">Comment</button>
+        <input type="text" id="text" name="text" class="form-control comment-input" placeholder="Comment"/>
         </form>
         <div class="comments" id="comments-{{post.id}}" style="display: none"><br/>
             <div id="comment-expanded-{{post.id}}">

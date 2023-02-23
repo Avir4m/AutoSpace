@@ -20,7 +20,7 @@ body {
     --grey: #55585c;
 }
 
-input, select, textarea, button {
+ button {
     margin: 10px;
     padding: 7.5px;
     border-radius: 5px;

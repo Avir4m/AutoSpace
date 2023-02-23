@@ -70,6 +70,7 @@ class Comment(db.Model):
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey("post.id", ondelete="CASCADE"), nullable=False)
     reports = db.relationship("Report", backref="comment", passive_deletes=True)
+    notifications = db.relationship("Notification", backref="comment", passive_deletes=True)
 
 
 class Like(db.Model):
@@ -77,6 +78,7 @@ class Like(db.Model):
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey("post.id", ondelete="CASCADE"), nullable=False)
     date_created = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
+    notifications = db.relationship("Notification", backref="like", passive_deletes=True)
 
 
 class Space(db.Model):
@@ -121,6 +123,7 @@ class Friend(db.Model):
     user_id1 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     user_id2 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     status = db.Column(db.Text())  # Statuses: pending, friends
+    notifications = db.relationship("Notification", backref="friend", passive_deletes=True)
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -130,3 +133,6 @@ class Notification(db.Model):
     action_user = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
     action = db.Column(db.String())
     message = db.Column(db.Text())
+    like_id = db.Column(db.Integer(), db.ForeignKey("like.id", ondelete="CASCADE"), nullable=True)
+    comment_id = db.Column(db.Integer(), db.ForeignKey("comment.id", ondelete="CASCADE"), nullable=True)
+    friend_id = db.Column(db.Integer(), db.ForeignKey("friend.id", ondelete="CASCADE"), nullable=True)

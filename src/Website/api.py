@@ -43,11 +43,16 @@ def like_post(post_id):
     if not post:
         return jsonify({"error": "Post does not exist."}, 400)
     elif like:
+        notification = Notification.query.filter_by(like_id=like.id).first()
         db.session.delete(like)
+        db.session.delete(notification)
         db.session.commit()
     else:
         like = Like(author=current_user.id, post_id=post_id)
         db.session.add(like)
+        db.session.flush()
+        notification = Notification(to=post.author, message=f"{ current_user.username } liked your post.", action_user=current_user.id, action="like", like_id=like.id)
+        db.session.add(notification)
         db.session.commit()
 
     return jsonify(
@@ -125,11 +130,15 @@ def follow(username):
     if not user or user.id == current_user.id:
         return jsonify({"error": "Post does not exist."}, 400)
     elif followed:
+        notification = Notification.query.filter_by(action="follow", to=user.id, action_user=current_user.id).first()
+        db.session.delete(notification)
         db.session.delete(followed)
         db.session.commit()
     else:
+        notification = Notification(to=user.id, message=f"{ current_user.username } started following you.", action_user=current_user.id, action="follow")
         follow = Follow(follower_id=current_user.id, followed_id=user.id)
         db.session.add(follow)
+        db.session.add(notification)
         db.session.commit()
 
     return jsonify(
@@ -181,6 +190,7 @@ def friend(id):
             db.session.delete(sent_request)
             db.session.commit()
             return jsonify({"message": "Your friend request has been removed", "type": "success", "button": "Add Friend"})
+        
         recive_request = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="pending").first()
         if recive_request:
             recive_request.status = "friends"

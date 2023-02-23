@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 import os
 
-from .models import User, Post, User
+from .models import Follow, Notification, User, Post, User
 from .func import upload_file
 from . import db
 
@@ -97,3 +97,28 @@ def liked(username):
     posts = Post.query.join(Post.likes, aliased=True).filter_by(author=user.id).all()
     
     return render_template("users/liked.html", user=current_user, posts=posts)
+
+@users.route("/follow/<username>/")
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    followed = Follow.query.filter_by(
+        follower_id=current_user.id, followed_id=user.id
+    ).first()
+
+    if not user or user.id == current_user.id:
+        flash("Can't do that")
+        return redirect(url_for("views.home"))
+    elif followed:
+        notification = Notification.query.filter_by(action="follow", to=user.id, action_user=current_user.id).first()
+        db.session.delete(notification)
+        db.session.delete(followed)
+        db.session.commit()
+    else:
+        notification = Notification(to=user.id, message=f"{ current_user.username } started following you.", action_user=current_user.id, action="follow")
+        follow = Follow(follower_id=current_user.id, followed_id=user.id)
+        db.session.add(follow)
+        db.session.add(notification)
+        db.session.commit()
+
+    return redirect(url_for("views.home"))

@@ -92,11 +92,14 @@
 
 .post-picture, .preview {
     position: relative; 
-    left: 50%;
-    transform: translateX(-50%);
     border-radius: 5px;
     max-width: 90%;
     max-height: 35vh;
+}
+
+.post-picture {
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .logo-preview {

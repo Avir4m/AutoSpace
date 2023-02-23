@@ -1,7 +1,7 @@
 from flask import Blueprint, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 
-from .models import Post, Comment
+from .models import Notification, Post, Comment
 from . import db
 
 comments = Blueprint("comments", __name__)
@@ -19,6 +19,9 @@ def create_comment(post_id):
         if post:
             comment = Comment(text=text, author=current_user.id, post_id=post_id)
             db.session.add(comment)
+            db.session.flush()
+            notification = Notification(to=post.author, message=f"{ current_user.username } Commented on your post.", action_user=current_user.id, action="comment", comment_id=comment.id)
+            db.session.add(notification)
             db.session.commit()
             flash("Comment has been created.", category="success")
         else:
@@ -40,7 +43,10 @@ def delete_comment(comment_id):
         if comment.reports:
             for report in comment.reports:
                 db.session.delete(report)
-                db.session.commit()
+
+        if comment.notifications:
+            for notification in comment.notifications:
+                db.session.delete(notification)
 
         db.session.delete(comment)
         db.session.commit()

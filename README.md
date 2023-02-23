@@ -11,20 +11,22 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
 
  * **Changes / Fixes**:
 
-    * Social System (WIP)
+    * Social System
         * Send/Unsend friend requests
         * Accept/Cancel requests
         * Add/Remove friends
         * Block/Unblock users
-        * Posts for friends
 
-    * Notifications (WIP)
+    * Notifications
         * Created database model
+        * Created basic notifications
+        * Added basic functionality
 
     * Admin
         * Add admin panel
         * Admins can see reports
         * Admins can remove posts/comments/spaces
+        * Admins can remove reports
         * More features
 
     * Bug fixes

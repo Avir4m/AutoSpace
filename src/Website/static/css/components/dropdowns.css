@@ -71,7 +71,7 @@
     font-size: small;
 }
 
-.dropdown-title, .dropdown-subtitle {
+.dropdown-title, .dropdown-subtitle:not(:last-child) {
     border-bottom: 1px solid var(--border);
 }
 
