@@ -20,7 +20,11 @@ body {
     --grey: #55585c;
 }
 
- button {
+.hidden {
+    display: none;
+}
+
+button {
     margin: 10px;
     padding: 7.5px;
     border-radius: 5px;
@@ -28,10 +32,6 @@ body {
     max-width: 100%;
     border: 1px solid var(--border);
     background-color: var(--primary);
-}
-
-.hidden {
-    display: none;
 }
 
 .Description {

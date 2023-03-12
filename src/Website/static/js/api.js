@@ -131,6 +131,13 @@ function friend(id) {
   .then((res) => res.json())
   .then((data) => {
     btn.textContent = data.button;
+    if (data.type === 'success') {
+      try {
+        var cancelBtn = document.getElementById('friend-req-remove-btn');
+        cancelBtn.remove();
+      } catch (e) {
+      }
+    }
   })
 }
 
@@ -142,7 +149,10 @@ function removeRequest(id) {
   .then((data) => {
     acceptBtn.textContent = data.button;
     if (data.type === 'success') {
+      try {
         cancelBtn.remove();
+      } catch (e) {
+      }
     }
   })
 }

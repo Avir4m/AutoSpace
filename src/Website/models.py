@@ -136,3 +136,21 @@ class Notification(db.Model):
     like_id = db.Column(db.Integer(), db.ForeignKey("like.id", ondelete="CASCADE"), nullable=True)
     comment_id = db.Column(db.Integer(), db.ForeignKey("comment.id", ondelete="CASCADE"), nullable=True)
     friend_id = db.Column(db.Integer(), db.ForeignKey("friend.id", ondelete="CASCADE"), nullable=True)
+
+
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    members = db.relationship("ChatMember", backref="chat", passive_deletes=True)
+    messages = db.relationship("ChatMessage", backref="chat", passive_deletes=True)
+
+class ChatMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id =  db.Column(db.Integer, db.ForeignKey("chat.id", ondelete="CASCADE"), nullable=False)
+    author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
+    message = group_name = db.Column(db.Text())
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
+
+class ChatMember(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    chat_id =  db.Column(db.Integer, db.ForeignKey("chat.id", ondelete="CASCADE"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)

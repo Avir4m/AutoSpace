@@ -1,7 +1,7 @@
 .list-group {
     background-color: var(--primary);
     border-radius: 10px;
-    margin: 5px;
+    margin: 10px;
     float: right;
     vertical-align: middle;
     border: 1px solid var(--border);
@@ -12,11 +12,15 @@
 }
 
 .list-group-item {
-    vertical-align: middle;
+    font-size: small;
     padding: 10px;
     list-style-type: none;
     float: left;
     cursor: pointer;
+}
+
+.list-group-item img {
+    vertical-align: middle;
 }
 
 .list-group-item:last-child {

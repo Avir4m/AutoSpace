@@ -58,6 +58,9 @@ def create_url(type):
         create_url(type)
     else:
         return url
+    
+def generate_key():
+    return uuid.uuid4().hex
 
 
 def allowed_file(filename):

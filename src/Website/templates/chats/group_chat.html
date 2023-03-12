@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+{% block title %}Group chat{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <br/>
+        <div align="center">
+            <h2>Room</h2><br/>
+            key: {{ room }}
+            <br/>
+        </div>
+        <br/>
+    </div>
+    <div class="card-body">
+        <div class="messages" id="messages"></div>
+        <br/>
+        <div class="inputs">
+            <input type="text" rows="3" placeholder="Message" name="message" id="message"/>
+            <button type="button" name="send" id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+<script 
+type="text/javascript" 
+src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
+integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
+crossorigin="anonymous">
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/chat.js') }}"></script>
+
+{% for msg in messages %}
+<script type="text/javascript">
+    createMessage("{{ msg.name}}", "{{ msg.message}}");
+</script>
+{% endfor %}
+{% endblock %}
+

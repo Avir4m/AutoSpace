@@ -1,7 +1,7 @@
-# CarSpace (Idea)
+# AutoSpace (Idea)
 
 ## Description
-CarSpace is an open source social network for car people, <br/>
+AutoSpace is an open source social network for car people, <br/>
 Where you can post your car and see other people's cars. <br/>
 Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in [python](https://www.python.org/). 
 
@@ -31,5 +31,9 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
 
     * Bug fixes
         * Fixed reset password route
+        * Input saves after failure of sign up/log in
+
+    * Added a real-time chat (WIP)
+        * Group chat testing
   
 <br/>
