@@ -15,7 +15,7 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
         * Send/Unsend friend requests
         * Accept/Cancel requests
         * Add/Remove friends
-        * Block/Unblock users
+        * Block/Unblock users (WIP)
 
     * Notifications
         * Created database model
