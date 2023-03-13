@@ -12,10 +12,9 @@ rooms = {}
 @chat.route('/join-chat/',methods=['GET', 'POST'])
 @login_required
 def join_chat():
-    name = ""
+    name = current_user.username
     key = ""
     if request.method == 'POST':
-        name = request.form.get('name')
         key = request.form.get('key')
         join = request.form.get('join', False)
         create = request.form.get('create', False)
@@ -32,7 +31,7 @@ def join_chat():
         room = key
 
         if create != False:
-            room = generate_key()
+            room = generate_key(4)
             rooms[room] = {"members": 0, "messages": []}
         elif key not in rooms:
             flash("Room does not exists", category="error")
@@ -42,7 +41,7 @@ def join_chat():
         session["name"] = name
         return redirect(url_for("chats.group_chat"))
 
-    return render_template('chats/join_chat.html', user=current_user, name=name, key=key)
+    return render_template('chats/join_chat.html', user=current_user, key=key)
 
 @chat.route('/group-chat/')
 @login_required

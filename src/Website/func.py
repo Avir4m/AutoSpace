@@ -1,3 +1,5 @@
+import random
+import string
 from flask import current_app
 
 from email.message import EmailMessage
@@ -59,8 +61,8 @@ def create_url(type):
     else:
         return url
     
-def generate_key():
-    return uuid.uuid4().hex
+def generate_key(n):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
 
 def allowed_file(filename):

@@ -27,3 +27,9 @@ function createMessage(name, msg) {
 socketio.on('message', (data) => {
     createMessage(data.name, data.message);
 })
+
+message.addEventListener("keydown", function (e) {
+    if (e.code === "Enter") {
+        sendMessage();
+    }
+});
