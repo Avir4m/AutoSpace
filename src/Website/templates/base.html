@@ -26,7 +26,7 @@
 
 	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}"/>
 		  
-		<title>CarSpace - {% block title %}Home{% endblock %}</title>
+		<title>AutoSpace - {% block title %}Home{% endblock %}</title>
 	  </head>
 	<body>
 		<div class="navbar" id="navbar">
@@ -89,7 +89,7 @@
 						</button>
 						{% elif notification.action == "friend-request" %}
 						<button
-						onclick="friend({{ notification.action_user.id }})"
+						onclick="friend('{{ notification.user_action.id }}')"
 						type="button">
 							Accept
 						</button>

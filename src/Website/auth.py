@@ -17,6 +17,8 @@ s = URLSafeTimedSerializer(SECRET_KEY)
 # Auth
 @auth.route("/login/", methods=["GET", "POST"])
 def login():
+    email=""
+    password=""
     if current_user.is_authenticated:
         return redirect(url_for("views.home"))
     if request.method == "POST":
@@ -40,7 +42,7 @@ def login():
             login_user(user, remember=remember)
             return redirect(url_for("views.home"))
 
-    return render_template("auth/login.html", user=current_user)
+    return render_template("auth/login.html", user=current_user, email_username=email, password=password)
 
 
 @auth.route("/logout/")
@@ -52,6 +54,12 @@ def logout():
 
 @auth.route("/sign-up/", methods=["POST", "GET"])
 def sign_up():
+    email = ""
+    username = ""
+    first_name = ""
+    last_name = ""
+    password1 = ""
+    password2 = ""
     if current_user.is_authenticated:
         return redirect(url_for("views.home"))
     if request.method == "POST":
@@ -103,7 +111,7 @@ def sign_up():
             flash("Account created!", category="success")
             return redirect(url_for("views.home"))
 
-    return render_template("auth/signup.html", user=current_user)
+    return render_template("auth/signup.html", user=current_user , email=email, username=username, firstname=first_name, lastname=last_name, password1=password1, password2=password2)
 
 
 # Password

@@ -187,6 +187,8 @@ def friend(id):
     if user and user.id != current_user.id:
         sent_request = Friend.query.filter_by(user_id1=current_user.id, user_id2=user.id, status="pending").first()
         if sent_request:
+            notification = Notification.query.filter_by(friend_id=sent_request.id).first()
+            db.session.delete(notification)
             db.session.delete(sent_request)
             db.session.commit()
             return jsonify({"message": "Your friend request has been removed", "type": "success", "button": "Add Friend"})
@@ -209,6 +211,9 @@ def friend(id):
 
         request = Friend(user_id1=current_user.id, user_id2=user.id, status="pending")
         db.session.add(request)
+        db.session.flush()
+        notification = Notification(to=user.id, action_user=current_user.id, action="friend-request", message=f"{current_user.username} Sent you a friend request.", friend_id=request.id)
+        db.session.add(notification)
         db.session.commit()
         return jsonify({"message": f"You have sent a friend request to {user.username}", "type": "success", "button": "Requested"})
     else:
@@ -220,10 +225,10 @@ def remove_request(id):
     if user and id != current_user.id:
         recive_request = Friend.query.filter_by(user_id1=user.id, user_id2=current_user.id, status="pending").first()
         if recive_request:
+            notification = Notification.query.filter_by(friend_id=recive_request.id).first()
+            db.session.delete(notification)
             db.session.delete(recive_request)
             db.session.commit()
             return jsonify({"message": "Friend request has been removed", "type": "success", "button": "Add Friend"})
-        else:
-            return jsonify({"message": "No request from that user", "type": "error", "button": "Accept"})
 
-    return jsonify({"message": "No user with that id", "type": "error", "button": "Accept"})
+    return jsonify({"message": "No user with that id", "type": "error", "button": "Requested"})

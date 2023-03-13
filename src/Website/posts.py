@@ -72,8 +72,8 @@ def post_status(post_id):
 
     return redirect(url_for("views.home"))
 
-
 @posts.route("edit-post/<url>/", methods=["POST"])
+@login_required
 def edit_post(url):
     post = Post.query.filter_by(url=url).first()
     if not post:
