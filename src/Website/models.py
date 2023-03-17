@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     verified = db.Column(db.Boolean(), default=False)
 
     #Badges
-    developer =db.Column(db.Integer(), default=0)
+    developer = db.Column(db.Integer(), default=0)
 
     # Relationships
 
