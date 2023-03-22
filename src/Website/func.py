@@ -52,6 +52,9 @@ def get_secret_key():
     SECRET_KEY = "SECRET_KEY"
     return SECRET_KEY
 
+def generate_key(n):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
+
 
 def create_url(type):
     url = uuid.uuid4().hex
@@ -60,9 +63,6 @@ def create_url(type):
         create_url(type)
     else:
         return url
-    
-def generate_key(n):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
 
 def allowed_file(filename):
