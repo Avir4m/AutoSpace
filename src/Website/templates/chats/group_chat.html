@@ -32,7 +32,7 @@ crossorigin="anonymous">
 
 {% for msg in messages %}
 <script type="text/javascript">
-    createMessage("{{ msg.name }}", "{{ msg.message }}");
+    createMessage("{{ msg.user.username }}", "{{ msg.message }}");
 </script>
 {% endfor %}
 {% endblock %}

@@ -153,3 +153,10 @@
 .badge {
     font-size: 10px;
 }
+
+.card .messages {
+    max-height: 300px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}

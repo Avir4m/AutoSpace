@@ -16,16 +16,13 @@ function createMessage(name, msg) {
         <span>
             <strong>${name}</strong>: ${msg}
         </span>
-        <span class="muted">
-            ${new Date().toLocaleString()}
-        </span>
     </div>
     `;
-    messages.innerHTML += content;
+    messages.innerHTML = content + messages.innerHTML;
 };
 
 socketio.on('message', (data) => {
-    createMessage(data.name, data.message);
+    createMessage(data.name, data.message, data.date);
 })
 
 message.addEventListener("keydown", function (e) {

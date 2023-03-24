@@ -28,6 +28,8 @@ class User(db.Model, UserMixin):
     spaces = db.relationship("Space", backref="user", passive_deletes=True) # User's spaces
     spaces_joined = db.relationship("SpaceMember", backref="user", passive_deletes=True) # User's spaces joined
     reports = db.relationship("Report", backref="user", passive_deletes=True) # User's reports
+    messages = db.relationship("ChatMessage", backref="user", passive_deletes=True) # User's messages
+
     notifications = db.relationship("Notification", backref="user", passive_deletes=True, primaryjoin="and_(" "Notification.to==User.id)") # User's notifications
     actions = db.relationship("Notification", backref="user_action", passive_deletes=True, primaryjoin="and_(" "Notification.action_user==User.id)") # User's actions
 
@@ -147,7 +149,7 @@ class ChatMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     chat_id =  db.Column(db.Integer, db.ForeignKey("chat.id", ondelete="CASCADE"), nullable=False)
     author = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
-    message = group_name = db.Column(db.Text())
+    message = db.Column(db.Text())
     date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now())
 
 class ChatMember(db.Model):
