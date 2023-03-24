@@ -9,8 +9,6 @@ from . import db
 
 chat = Blueprint("chats", __name__)
 
-rooms = {}
-
 @chat.route('/join-chat/',methods=['GET', 'POST'])
 @login_required
 def join_chat():

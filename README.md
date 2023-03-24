@@ -29,11 +29,11 @@ Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in
         * Admins can remove reports
         * More features
 
+    * Added a real-time chat (WIP)
+        * Group chat
+
     * Bug fixes
         * Fixed reset password route
         * Input saves after failure of sign up/log in
 
-    * Added a real-time chat (WIP)
-        * Group chat testing
-  
 <br/>
