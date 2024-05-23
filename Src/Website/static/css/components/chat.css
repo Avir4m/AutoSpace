@@ -1,0 +1,25 @@
+.card .messages {
+    max-height: 300px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messages .message {
+    margin: 3px;
+    background-color: var(--chat);
+    border-radius: 5px;
+    width: min-content;
+    max-width: 45%;
+}
+
+.messages .own-message {
+    background-color: var(--primary);
+    float: right;
+    margin-left: auto;
+    text-align: right;
+}
+
+.message-name {
+    color: var(--muted);
+}

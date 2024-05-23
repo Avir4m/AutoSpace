@@ -1,0 +1,94 @@
+{% extends "posts/posts_div.html"%}
+{% block title %}{{ username.username }}'s Profile{% endblock %}
+{% block header %}
+<div class="card">
+    <div class="card-header">
+        <div align="center">
+            <h3>{{ username.username }}</h3>
+        </div>
+        <div>
+            <img src="{{ url_for('static', filename='images/upload_folder/users/' + username.picture)}}" class="dashboard-img">
+            <h4 class="user-info">
+                <p>
+                    Followers:
+                    <span id="followers-count-{{ username.username }}">{{ username.followers|length }}</span>
+                </p>      
+                <p>
+                    Following:
+                    <span id="following-count-{{ username.username }}">{{ username.following|length }}</span>
+                </p>      
+                <p>
+                    Posts:
+                    {{ username.posts|length }}
+                </p>
+            </h4>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="info">
+
+            <h3>{{ username.first_name }} {{ username.last_name }}</h3><br/>
+
+            {{ username.description }}<br/><br/>
+
+        </div>
+        {% if user.id == username.id %}
+        <a href="{{ url_for('users.dashboard', username=user.username) }}"><button type="submit" class="btn btn-sm btn-secondary">My account</button></a>
+        {% else %}
+        <button 
+            type="button"
+            id="follow-button-{{ username.username }}"
+            onclick="follow('{{username.username}}')">
+            {% if user.id in username.followers|map(attribute="follower_id")|list %}
+            Following
+            {% else %}
+            Follow
+            {% endif %}
+        </button>
+        {% if user.id in username.friends|map(attribute="user_id1")|list or username.friends|map(attribute="user_id2")|list%}
+        <button 
+        type="button"
+        class="bg-blue"
+        onclick="friend('{{username.id}}')"
+        id="friend-req-btn">
+            Remove Friend
+        </button>
+        {% elif user.id in username.friend_requests|map(attribute="user_id1")|list%}
+        <button 
+        type="button"
+        class="bg-blue"
+        onclick="removeRequest('{{username.id}}')"
+        id="friend-req-btn">
+            Requested 
+        </button>
+        {% elif user.id in username.friend_requests|map(attribute="user_id2")|list%}
+        <button 
+        type="button"
+        class="bg-blue"
+        onclick="friend('{{username.id}}')"
+        id="friend-req-btn">
+            Accept
+        </button>
+        {% else %}
+        <button 
+        type="button"
+        class="bg-blue"
+        onclick="friend('{{username.id}}')"
+        id="friend-req-btn">
+            Add Friend
+        </button>
+        {% endif %}
+        {% if user.id in username.friend_requests|map(attribute="user_id2")|list %}
+        <button 
+        onclick="removeRequest('{{username.id}}')"
+        class="bg-red"
+        id="friend-req-remove-btn">
+            Cancel
+        </button>
+        {% endif %}
+        {% endif %} 
+    </div>
+</div>
+{% endblock %}
+{% block footer %}
+{% endblock %}

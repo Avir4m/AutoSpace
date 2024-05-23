@@ -1,0 +1,132 @@
+{% extends "posts/posts_div.html"%}
+{% block title %}{{ space.name }}{% endblock %}
+{% block header %}
+<div class="card">
+  {% if space.picture %}
+  <div class="card-header space-banner" style="background-image: url('{{ url_for('static', filename='images/upload_folder/spaces/' + space.picture)}}');">
+  {% else %}
+  <div class="card-header"><h1 class="card-title post-info">{{ space.name }}</h1>
+  {% endif %}
+  <div class="dropdown">
+    <div class="dropdown-toggle">
+      <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
+    </div>
+    <div class="dropdown-menu">
+      <a onclick="overlayOpen('space-report-{{ space.id }}')" class="dropdown-item">
+        <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
+      </a>
+      {% if user.id == space.creator %}
+      <a onclick="overlayOpen('space-edit-{{ space.id }}')" class="dropdown-item">
+        <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
+      </a>
+      <a href="{{ url_for('spaces.delete_space', space_id=space.id) }}" class="dropdown-item">
+        <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  </div>
+  <div class="card-body">
+    {% if space.picture %}
+    <h1 class="card-title">{{ space.name }}</h1>
+    {% endif %}
+    <p class="card-text">{{ space.description }}</p>
+  </div>
+  <div class="card-footer">
+    {% if user.id == space.creator %}
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{space.id}}')">Joined</button>
+    {% else %}
+    <button class="btn btn-primary btn-sm" id="join-button" onclick="joinForum('{{space.id}}')">Join</button>
+    {% endif %}
+    <small>
+      {% if space.members|length == 1 %}
+      <span style="padding-left: 5px;"><span id="member-count">{{ space.members|length }}</span> Member</span>
+      {% else %}
+      <span style="padding-left: 5px;"><span id="member-count">{{ space.members|length }}</span> Members</span>
+      {% endif %}
+    </small>
+  </div>
+</div>
+
+<div class="overlay" id="space-edit-{{ space.id }}">
+  <div class="card">
+    <form enctype="multipart/form-data" method="post" action="{{ url_for('spaces.edit_space', space_id=space.id) }}">
+      <div class="card-header">
+        <h3 align="center">Edit your space</h3>
+      </div>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="newName">New Name</label>
+          <input 
+          type="name" 
+          class="form-control" 
+          id="newName" 
+          name="newName" 
+          placeholder="Forum Name"
+          value="{{ space.name }}"
+          maxlength="150"/>
+      </div>
+      <div class="mb-3">
+          <label for="newDescription">New Description</label>
+          <input
+          type="text" 
+          class="form-control" 
+          id="newDescription" 
+          name="newDescription" 
+          value="{{ space.description }}"
+          placeholder="Forum Description"></textarea>
+      </div>
+      <div class="mb-3">
+          <label for="file">Upload Picture For Your Forum</label>
+          <input 
+          type="file" 
+          class="form-control" 
+          id="spacePicture"
+          name="file"
+          accept="image/*"/>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" onclick="overlayClose('space-edit-{{ space.id }}')" class="cancel-btn">Cancel</button>
+        <button type="submit">Update Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="overlay" id="space-report-{{ space.id }}">
+  <div class="card">
+    <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_space', url=space.url) }}">
+      <div class="card-header">
+        <h3>Report space</h3>
+      </div>
+      <div class="card-body">
+        <div>
+            <label for="Reason">Reason</label><br/>
+            <input 
+            type="text" 
+            id="reason" 
+            name="reason" 
+            placeholder="Reason"
+            maxlength="150"/>
+        </div>
+        <div>
+            <label for="description">Description</label><br/>
+            <textarea
+            type="text" 
+            id="description" 
+            name="description" 
+            placeholder="Description"></textarea>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" onclick="overlayClose('space-report-{{ space.id }}')" class="cancel-btn">Cancel</button>
+        <button type="submit">Report</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{% endblock %}

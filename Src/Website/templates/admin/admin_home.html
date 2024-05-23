@@ -1,0 +1,27 @@
+{% extends "base.html"%}
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <div class="card-content" align="center">
+            <h2> Admin Panel</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="card-content">
+            <div align="center">
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.posts_reports') }}">Posts Reports</a>
+                </button>
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.comments_reports') }}">Comments Reports</a>
+                </button>
+                <button type="button" class="btn bg-blue">
+                    <a href="{{ url_for('admin.spaces_reports') }}">Spaces Reports</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

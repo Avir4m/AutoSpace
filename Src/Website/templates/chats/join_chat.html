@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+{% block title %}Join chat{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3> Enter a chat room</h3>
+    </div>
+    <div class="card-body">
+        <br/>
+        <form method="post">
+            <div class="join">
+                <label>Key:</label>
+                <input type="text" placeholder="Enter room key" name="key" value="{{ key }}"/>
+                <button type="submit" name="join">Join room</button>
+            </div>
+            <button type="submit" name="create">Create room</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

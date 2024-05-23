@@ -1,0 +1,155 @@
+.card {
+    background-color: var(--primary);
+    position: relative;
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    width: 75vw;
+    max-width: 1400px;
+    box-shadow: 5px 5px 10px #00000088;
+    overflow-wrap: break-word;
+}
+
+.card-body {
+    background-color: var(--secondary);
+}
+
+.card .dropdown-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.card .user-img {
+    vertical-align: middle;
+    border-radius: 50%;
+    margin-right: 5px;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.card .card {
+    width: 97.5%;
+    margin: auto;
+}
+
+.card div:last-child:not(.card .card, .dropdown-menu, .message) {
+    border-radius: 0 0 10px 10px;
+}
+
+.card input:not(input[type="checkbox"]), select, textarea {
+    margin: 5px;
+    display: inline-block;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-footer {
+    border-top: 1px solid var(--border);
+}
+
+/* Cards Extra */
+
+.space-banner {
+    background-size: cover;
+    background-position: center;
+    min-height: 20vh;
+}
+
+.card .post-info {
+    margin: 10px;
+}
+
+.card-content {
+    padding: 10px;
+}
+
+.card h3, h4 {
+    padding: 10px;
+}
+
+.dashboard-img {
+    margin: 10px;
+    border-radius: 50%;
+    height: 5rem;
+    width: 5rem;
+    object-fit: cover;
+}
+
+.comment {
+    padding: 10px;
+}
+
+.post-picture, .preview {
+    position: relative; 
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 35vh;
+}
+
+.post-picture {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-preview {
+    width: 25vh;
+    height: 25vh;
+    object-fit: cover;
+}
+
+.card-body *:not(.card .card, small, img, .card-text, button, .comment, form) {
+    padding: 5px;
+}
+
+.card-body .card-text {
+    padding: 10px;
+}
+
+.card a:not(button a):hover {
+    color: var(--accent);
+}
+
+.card .user-info {
+    float: right;
+}
+
+.card .user-info p {
+    display: inline;
+    padding: 10px;
+}
+
+@media (max-width:700px) {
+    .card .user-info p {
+        display: block;
+        padding: 0;
+    }
+}
+
+@media (min-width:500px) {
+    .dashboard-img {
+        height: 7.5rem;
+        width: 7.5rem;
+    }
+}
+
+@media (min-width:700px) {
+    .dashboard-img {
+        height: 10rem;
+        width: 10rem;
+    }
+}
+
+.badge {
+    font-size: 10px;
+}

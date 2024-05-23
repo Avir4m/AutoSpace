@@ -1,0 +1,302 @@
+{% extends "base.html"%}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% block header %}<h2 align="center">Posts</h2>{% endblock %}
+<br/>
+<div id="posts">
+{% for post in posts %}
+  {% if post.private != true or post.author == user.id %}
+    <div class="card" id="post-{{ post.id }}">
+      <div class="card-header">
+        <div class="card-text">
+            <h3>
+              <a
+              href="{{ url_for('views.post' ,url=post.url) }}">
+              {% if post.space_id != None %}
+              <a 
+              style="text-decoration: none;"          
+              href="{{ url_for('views.space', url=post.space.url) }}" 
+              >{{ post.space.name }}</a>/{% endif %}<a href="{{ url_for('views.post', url=post.url) }}">{{  post.title  }}</a>
+              </a>
+              {% if post.private == true %}
+              <img src="{{ url_for('static', filename='images/icons/lock.png') }}" width="15">
+              {% endif %}
+            </h3>
+            <div class="post-info">
+                <img src="{{ url_for('static', filename='images/upload_folder/users/' + post.user.picture) }}" class="user-img">
+                <a href="{{ url_for('views.user', username=post.user.username)}}">{{  post.user.username  }}</a>
+                  • <span class="date">{{  post.date_created|timeago  }}</span>
+                {% if post.edited == True %}
+                <small>• Edited</small>
+                {% endif %}
+            </div>
+        </div>
+        <div class="dropdown">
+          <div class="dropdown-toggle">
+            <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
+          </div>
+          <div class="dropdown-menu">
+            <a onclick="overlayOpen('post-report-{{ post.id }}')" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
+            </a>
+            {% if user.id == post.author %}
+            <a onclick="overlayOpen('post-edit-{{ post.id }}')" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
+            </a>
+            <a onclick="deletePost('{{ post.id }}')" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+            </a>
+            {% if post.private %}
+            <a href="{{ url_for('posts.post_status', post_id=post.id) }}" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/globe.png') }}" class="icon" width="15"> Make public
+            </a>
+            {% else %}
+            <a href="{{ url_for('posts.post_status', post_id=post.id) }}" class="dropdown-item">
+              <img src="{{ url_for('static', filename='images/icons/lock.png') }}" class="icon" width="15"> Make private
+            </a>
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+          <div class="card-text">{{  post.text  }}</div>
+          <br/>
+          {% if post.picture != None %}
+          <img align="center" src="{{ url_for('static', filename='images/upload_folder/posts/' + post.picture)}}" class="post-picture">
+          <br/>
+          {% endif %}
+        <br/>
+      </div>
+      <div class="card-footer">
+        <ul class="list-group">
+          {% if post.comments|length > 0 %}
+          <li class="list-group-item" onclick="toggleComments({{post.id}})">
+              <img src="{{ url_for('static', filename='images/icons/comment_b.png') }}" width="15" class="icon"> {{ post.comments|length }}
+          {% else %}
+          <li class="list-group-item">
+              <img src="{{ url_for('static', filename='images/icons/comment.png') }}" width="15" class="icon"> {{ post.comments|length }}
+          {% endif %}
+          </li>
+          <li class="list-group-item" onclick="like({{post.id}})" class="icon">
+
+            {% if user.id in post.likes|map(attribute="author")|list %}
+
+            <img src="{{ url_for('static', filename='images/icons/heart_b.png') }}" width="15" id="like-button-{{post.id}}" class="icon">
+
+            {% else %}
+
+            <img src="{{ url_for('static', filename='images/icons/heart.png') }}" width="15" id="like-button-{{post.id}}" class="icon">
+
+            {% endif %}
+
+            <span id="likes-count-{{post.id}}">{{ post.likes|length }}</span>
+
+          </li>
+          <li class="list-group-item" onclick="save({{post.id}})" class="icon">
+          {% if user.id in post.saves|map(attribute="author")|list %}
+            <img src="{{ url_for('static', filename='images/icons/bookmark_b.png') }}" width="15" id="save-button-{{post.id}}" class="icon">
+          {% else %}
+            <img src="{{ url_for('static', filename='images/icons/bookmark.png') }}" width="15" id="save-button-{{post.id}}" class="icon">
+          {% endif %}
+          </li>
+          <li class="list-group-item">
+                <img src="{{ url_for('static', filename='images/icons/paper-plane.png') }}" width="15" class="icon">
+          </li>
+        </ul>
+        <form method="POST" action="/create-comment/{{post.id}}">
+        <button type="submit" class="btn">Comment</button>
+        <input type="text" id="text" name="text" class="form-control comment-input" placeholder="Comment"/>
+        </form>
+        <div class="comments" id="comments-{{post.id}}" style="display: none"><br/>
+            <div id="comment-expanded-{{post.id}}">
+              {% for comment in post.comments %}
+                <div class="card card-comments">
+                  <div class="card-header">
+                    <div class="dropdown">
+                      <div class="dropdown-toggle">
+                        <img src="{{ url_for('static', filename='images/icons/menu-dots-vertical.png')}}" class="icon" width="15">
+                      </div>
+                      <div class="dropdown-menu">
+                        <a onclick="overlayOpen('comment-report-{{ comment.id }}')" class="dropdown-item">
+                          <img src="{{ url_for('static', filename='images/icons/exclamation.png') }}" class="icon" width="15"> Report
+                        </a>
+                        {% if user.id == comment.author %}
+                        <a onclick="overlayOpen('comment-edit-{{ comment.id }}')" class="dropdown-item">
+                          <img src="{{ url_for('static', filename='images/icons/pencil.png') }}" class="icon" width="15"> Edit
+                        </a>
+                        <a href="{{ url_for('comments.delete_comment', comment_id=comment.id )}}" class="dropdown-item">
+                          <img src="{{ url_for('static', filename='images/icons/trash.png') }}" class="icon" width="15"> Delete
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="comment">
+                      <a
+                      href="/user/{{comment.user.username}}">
+                      <img src="{{ url_for('static', filename='images/upload_folder/users/' + comment.user.picture )}}" class="user-img">
+                        {{ comment.user.username }}</a> • {{ comment.date_created|timeago }}
+                      <small>
+                        {% if comment.edited == True %}
+                        • Edited
+                        {% endif %}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="comment">{{ comment.text }}</div>
+                  </div>
+                </div>
+                
+                <div class="overlay" id="comment-edit-{{ comment.id }}">
+                  <div class="card">
+                    <form enctype="multipart/form-data" method="post" action="{{ url_for('comments.edit_comment', comment_id=comment.id) }}">
+                      <div class="card-header">
+                        <h3 align="center">Edit your comment</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="form-group">
+                            <label for="newComment">Comment</label>
+                            <input 
+                            type="newComment" 
+                            class="form-control" 
+                            id="newComment" 
+                            name="newComment" 
+                            placeholder="Comment"
+                            value="{{ comment.text }}"
+                            maxlength="150"/>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" onclick="overlayClose('comment-edit-{{ comment.id }}')" class="cancel-btn">Cancel</button>
+                        <button type="submit">Update Changes</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="overlay" id="comment-report-{{ comment.id }}">
+                  <div class="card">
+                    <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_comment', id=comment.id) }}">
+                      <div class="card-header">
+                        <h3>Report comment</h3>
+                      </div>
+                      <div class="card-body">
+                        <div>
+                            <label for="Reason">Reason</label><br/>
+                            <input 
+                            type="text" 
+                            id="reason" 
+                            name="reason" 
+                            placeholder="Reason"
+                            maxlength="150"/>
+                        </div>
+                        <div>
+                            <label for="description">Description</label><br/>
+                            <textarea
+                            type="text" 
+                            id="description" 
+                            name="description" 
+                            placeholder="Description"></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" onclick="overlayClose('comment-report-{{ comment.id }}')" class="cancel-btn">Cancel</button>
+                        <button type="submit">Report</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                {% if comment != post.comments|last %}
+                <br/>
+                {% endif %}
+              {% endfor %}
+            </div>
+          <br/>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <br/>
+  <div class="overlay" id="post-edit-{{ post.id }}">
+    <div class="card">
+      <form enctype="multipart/form-data" method="post" action="{{ url_for('posts.edit_post', url=post.url) }}">
+        <div class="card-header">
+          <h3>Edit your post</h3>
+        </div>
+        <div class="card-body">
+          <div>
+              <label for="newPostTitle">Post title</label><br/>
+              <input 
+              type="text"
+              id="newPostTitle"
+              name="newPostTitle" 
+              placeholder="Post title"
+              value="{{ post.title }}"
+              maxlength="150"/>
+          </div>
+          <div>
+              <label for="newPostText">Post text</label><br/>
+              <input
+              type="text"
+              id="newPostText"
+              name="newPostText"
+              value="{{post.text}}"
+              placeholder="Post text"></textarea>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="button" onclick="overlayClose('post-edit-{{ post.id }}')" class="cancel-btn">Cancel</button>
+          <button type="submit">Update Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="post-report-{{ post.id }}">
+    <div class="card">
+      <form enctype="multipart/form-data" method="post" action="{{ url_for('reports.report_post', url=post.url) }}">
+        <div class="card-header">
+          <h3>Report post</h3>
+        </div>
+        <div class="card-body">
+          <div>
+              <label for="Reason">Reason</label><br/>
+              <input 
+              type="text" 
+              id="reason" 
+              name="reason" 
+              placeholder="Reason"
+              maxlength="150"
+              style="
+              min-width: 97%;
+              max-width: 99%;
+              "/>
+          </div>
+          <div>
+              <label for="description">Description</label><br/>
+              <textarea
+              type="text" 
+              id="description" 
+              name="description" 
+              placeholder="Description"
+              style="
+              min-width: 97%;
+              max-width: 99%;
+              min-height: 100px;
+              "></textarea>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button type="button" onclick="overlayClose('post-report-{{ post.id }}')" class="cancel-btn">Cancel</button>
+          <button type="submit">Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<br/>
+{% block footer %}
+{% endblock %}
+{% endblock %}

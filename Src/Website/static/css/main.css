@@ -1,0 +1,59 @@
+/* CSS Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* General */
+
+body {
+    background-color: var(--background);
+}
+
+:root {
+    --red: #a82626;
+    --blue: #2d5ac2;
+    --green: #26964a;
+    --grey: #55585c;
+}
+
+.hidden {
+    display: none;
+}
+
+button {
+    margin: 10px;
+    padding: 7.5px;
+    border-radius: 5px;
+    font-size: 15px;
+    max-width: 100%;
+    border: 1px solid var(--border);
+    background-color: var(--primary);
+}
+
+.Description {
+    text-align: center;
+}
+
+.bg-red {
+    background-color: var(--red);
+}
+
+.bg-green {
+    background-color: var(--green);
+}
+
+.bg-blue {
+    background-color: var(--blue);
+}
+
+.bg-grey {
+    background-color: var(--grey);
+}
+
+.muted {
+    color: var(--muted);
+}

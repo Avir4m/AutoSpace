@@ -1,0 +1,88 @@
+{% extends "base.html"%}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h3 align="center">Sign up</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group" >
+                <label for="email">Email Address <span class="required-field">*</span></label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    value="{{ email }}"
+                    placeholder="Enter your email address"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="userName">Username <span class="required-field">*</span></label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="text"  
+                    class="form-control" 
+                    id="userName" 
+                    name="userName"  
+                    value="{{ username }}"
+                    placeholder="Enter your username"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name <span class="required-field">*</span></label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="text"  
+                    class="form-control" 
+                    id="firstName" 
+                    name="firstName"
+                    value="{{ firstname }}"
+                    placeholder="Enter your first name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="text"  
+                    class="form-control" 
+                    id="lastName" 
+                    name="lastName"
+                    value="{{ lastname }}"
+                    placeholder="Enter your last name"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password1">Password <span class="required-field">*</span></label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="password" 
+                    class="form-control" 
+                    id="password1" 
+                    name="password1" 
+                    value="{{ password1 }}"
+                    placeholder="Enter password"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password <span class="required-field">*</span></label>
+                <div class="input-group mb-3">
+                    <input 
+                    type="password" 
+                    class="form-control" 
+                    id="password2" 
+                    name="password2" 
+                    value="{{ password2 }}"
+                    placeholder="Confirm password"/>
+                </div>
+            </div>
+            <small><p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p></small>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+          </div>
+    </div>
+</form>
+{% endblock %}

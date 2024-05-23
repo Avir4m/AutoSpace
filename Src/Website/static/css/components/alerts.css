@@ -1,0 +1,30 @@
+.alert {
+    position: relative;
+    border: 1px solid;
+    border-radius: 10px;
+    width: 75vw;
+    margin: auto;
+    padding: 15px;
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+.messages img {
+    padding: 0px;
+    width: 15px;
+    float: right;
+}
+
+.card .alert {
+    max-width: 25vw;
+}

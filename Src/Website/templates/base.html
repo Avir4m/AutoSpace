@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/overlays.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/dropdowns.css') }}"/>
+		
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/buttons.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/cards.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/list-groups.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/navbar.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/alerts.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/inputs.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/components/chat.css') }}"/>
+
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/themes/darkmode.css') }}" id="darkModeCss"/>
+
+	  	<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.jpg') }}"/>
+		  
+		<title>AutoSpace - {% block title %}Home{% endblock %}</title>
+	  </head>
+	<body>
+		<div class="navbar" id="navbar">
+			
+			{% if not user.is_authenticated %}
+			<a href="{{ url_for('views.home') }}" class="nav-text">Home</a>
+			<a href="{{ url_for('auth.login') }}" class="nav-text">Login</a>
+			<a href="{{ url_for('auth.sign_up') }}" class="nav-text">Sign up</a>
+			<div class="nav-item">
+				<a>
+					<img src="{{ url_for('static', filename='images/icons/moon.png')}}" class="nav-icon icon" id="theme-toggle" onclick="toggleTheme(this)">
+				</a>
+		  	</div>
+			{% else %}
+			<a href="{{ url_for('views.home') }}" class="navbar-brand nav-item" style="margin-top: 5px;">Home</a>
+			<div class="nav-dropdown">
+				<button class="dropbtn nav-item">
+				  	<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="nav-item nav-user">
+				</button>
+				<div class="nav-dropdown-content" id="nav-dropdown-1">
+					<a href="{{ url_for('views.user', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/user.png')}}" class="icon dropdown-icon"> Profile</a>
+					<a onclick="toggleTheme(this)"><img src="{{ url_for('static', filename='images/icons/moon.png')}}" class="icon dropdown-icon" id="theme-toggle"> Theme</a>
+				  	<a href="{{ url_for('users.saved', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/bookmark.png')}}" class="icon dropdown-icon"> Saved</a>
+				  	<a href="{{ url_for('users.liked', username=user.username)}}"><img src="{{ url_for('static', filename='images/icons/heart.png')}}" class="icon dropdown-icon"> Liked</a>		
+				  	<a href="{{ url_for('auth.logout') }}"><img src="{{ url_for('static', filename='images/icons/exit.png')}}" class="icon dropdown-icon"> Logout</a>
+				</div>
+			</div>
+			<div class="nav-dropdown">
+			  	<button class="dropbtn nav-item">
+					<img src="{{ url_for('static', filename='images/icons/add.png')}}" class="nav-icon icon">
+			  	</button>
+			  	<div class="nav-dropdown-content" id="nav-dropdown-2">
+					<a href="{{ url_for('posts.create_post') }}"><img src="{{ url_for('static', filename='images/icons/post.png')}}" class="icon dropdown-icon"> New Post</a>
+					<a href="{{ url_for('spaces.create_space') }}"><img src="{{ url_for('static', filename='images/icons/space.png')}}" class="icon dropdown-icon"> New Space</a>
+			  	</div>
+			</div>
+			<div class="nav-dropdown">
+				<button class="dropbtn nav-item">
+				  <img src="{{ url_for('static', filename='images/icons/bell.png')}}" class="nav-icon icon">
+				</button>
+				<div class="nav-dropdown-content notifications-dropdown" id="nav-dropdown-3">
+					<p align="center" class="dropdown-title">Notifications</p>
+				  {% if user.notifications|length < 1%}
+				  <p align="center" class="dropdown-subtitle">No notifications</p>
+				  {% endif %}
+				  {% for notification in user.notifications %}
+				  <div class="dropdown-subtitle">
+					{% if notification.seen == false %}
+					<span class="unseen-dot"></span>
+					{% endif %}
+					<small class="muted">{{ notification.date|timeago }}</small>
+					<p> 					
+						{% if notification.action_user != None %}
+						<img class="dropdown-img" src="{{ url_for('static', filename='images/upload_folder/users/' + notification.user_action.picture)}}">
+						{% endif %}
+						{{ notification.message }}
+						{% if notification.action == "follow" %}
+						<button
+						onclick="window.location.href='{{ url_for('users.follow', username=notification.user_action.username )}}';"
+						type="button">
+						{% if user.id in notification.user_action.followers|map(attribute="follower_id")|list %}
+						Following
+						{% else %}
+						Follow Back
+						{% endif %}
+						</button>
+						{% elif notification.action == "friend-request" %}
+						<button
+						onclick="friend('{{ notification.user_action.id }}')"
+						type="button">
+							Accept
+						</button>
+						{% elif notification.action == "comment" %}
+						<button 
+						onclick="window.location.href='{{ url_for('views.post', url=notification.comment.post.url )}}';"
+						type="button">
+							See Post
+						</button>
+						{% elif notification.action == "like" %}
+						<button 
+						onclick="window.location.href='{{ url_for('views.post', url=notification.like.post.url )}}';"
+						type="button">
+							See Post
+						</button>
+						{% endif %}
+					</p>
+				  </div>
+				  {% endfor %}
+				</div>
+		  </div>
+			<div class="nav-item">
+				<a href="{{ url_for('chats.join_chat') }}">
+					<img src="{{ url_for('static', filename='images/icons/comment.png')}}" class="nav-icon icon">
+				</a>
+			</div>
+			{% endif %}
+		  </div>
+
+		{% with messages = get_flashed_messages(with_categories=true)%}
+		{% if messages %}
+		<span class="messages">
+			{% for catagory, message in messages %}
+			{% if catagory  == 'error' %}
+			<br/>
+			<div class="alert alert-danger">
+				{{ message }}
+				<img src="{{ url_for('static', filename='images/icons/cross.png')}}" onclick="alertClose()">
+			</div>
+			{% elif catagory  == 'success' %}
+			<br/>
+			<div class="alert alert-success">
+				{{ message }}
+				<img src="{{ url_for('static', filename='images/icons/cross.png')}}" onclick="alertClose()">
+			</div>
+			{% endif %}
+			{% endfor %}
+		</span>
+		{% endif %}
+		{% endwith %}
+
+		<div class="container"><br/>{% block content %}{% endblock %}</div>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/themes.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/buttons.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/posts.js') }}"></script>
+
+		<script type="text/javascript" src="{{ url_for('static', filename='js/overlays.js') }}"></script>
+		
+		<script type="text/javascript" src="{{ url_for('static', filename='js/api.js') }}"></script>
+
+	</body>
+</html>

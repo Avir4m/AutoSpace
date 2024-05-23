@@ -1,0 +1,43 @@
+{% extends "base.html"%}
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+{% for report in reports %}
+<div class="card" id="post-{{ report.post.id }}">
+    <div class="card-header">
+        <div class="card-content" align="center">
+            <h3>
+                {{ report.reason }} • <a href="{{ url_for('views.user' ,username=report.user.username) }}">{{ report.user.username}}</a>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <br>
+        <div class="card-content" align="center">
+            <p>{{ report.description }}</p>
+        </div>
+        <br>
+    </div>
+    <div class="card-footer">
+        <div align="center">
+            <a href="{{ url_for('views.post' ,url=report.post.url) }}">
+                <button type="button" class="btn bg-blue">
+                    See Post
+                </button>
+            </a>
+            <a onclick="deletePost('{{ report.post.id }}')">
+                <button type="button" class="btn bg-red">
+                    Delete Post
+                </button>
+            </a>
+            <a href="{{ url_for('reports.delete_report' ,id=report.id) }}">
+                <button type="button" class="btn bg-grey">
+                    Delete Report
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+<br/>
+{% endfor %}
+{% endblock %}

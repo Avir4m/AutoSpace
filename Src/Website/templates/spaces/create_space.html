@@ -1,0 +1,61 @@
+{% extends "base.html"%}
+{% block title %}Create space{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h3 align="center">Create a new space</h3>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="spaceName">Space Name</label>
+                <input 
+                type="spaceName" 
+                class="form-control" 
+                id="spaceName" 
+                name="spaceName" 
+                placeholder="Space Name"
+                maxlength="29"/>
+            </div>
+            <div class="mb-3">
+                <label for="spaceDescription">Space Description</label>
+                <textarea 
+                type="text" 
+                class="form-control" 
+                id="spaceDescription" 
+                name="spaceDescription" 
+                placeholder="Space Description"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file">Upload a picture for your space</label>
+                <input 
+                type="file" 
+                class="form-control" 
+                id="spacePicture"
+                name="file"
+                accept="image/*"/><br/>
+                <img id="preview" src="#" class="preview"/>
+              </div>
+        </div>
+        <div class="card-footer">
+            <div align="center">
+                <button type="submit" class="btn btn-primary">Create Space</button>
+            </div>
+        </div>
+    </div>
+</form>
+<br/>
+<script>
+    preview.style.display = 'none';
+    spacePicture.onchange = evt => {
+        const [file] = spacePicture.files
+        if (file) {
+            preview.src = URL.createObjectURL(file)
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+      }
+</script>
+{% endblock %}

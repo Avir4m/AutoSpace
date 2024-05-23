@@ -1,0 +1,36 @@
+.list-group {
+    background-color: var(--primary);
+    border-radius: 10px;
+    margin: 10px;
+    float: right;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+}
+
+.list-group-item:not(:last-child) {
+    border-right: 1px solid var(--border);
+}
+
+.list-group-item {
+    font-size: small;
+    padding: 10px;
+    list-style-type: none;
+    float: left;
+    cursor: pointer;
+}
+
+.list-group-item img {
+    vertical-align: middle;
+}
+
+.list-group-item:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.list-group-item:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.list-group-item:hover {
+    background-color: var(--hover);
+}

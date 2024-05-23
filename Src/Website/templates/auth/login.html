@@ -1,0 +1,76 @@
+{% extends "base.html"%}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 align="center">Login</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="email">Email Address / Username</label>
+                        <div class="input-group mb-3">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            value="{{ email_username }}"
+                            placeholder="Enter your email address"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group mb-3">
+                            <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            name="password" 
+                            value="{{ password }}"
+                            placeholder="Enter password"/>
+                            <br/>
+                            <small><a onclick="overlayOpen('forgotPassword')">Forgot Password</a></small>
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="flexCheckChecked" name="check">
+                        <label class="form-check-label" for="flexCheckChecked">Remember Me</label>
+                    </div>
+                    <br/>
+                    <small><p>Need an account? <a href="{{ url_for('auth.sign_up') }}">Sign up</a></p></small>
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="overlay" id="forgotPassword">
+    <div class="card">
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('auth.forgot_password')}}">
+            <div class="card-header">
+                <h3 align="center">Forgot Password</h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <label for="email">Email Address</label><br/>
+                    <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Email address"/>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="cancel-btn" onclick="overlayClose('forgotPassword')">Cancel</button>
+                <button type="submit">Send Code</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

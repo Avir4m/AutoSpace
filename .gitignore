@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+instance/
+migrations/
+
+# Upload folder
+Src/Website/static/images/upload_folder/posts/*
+Src/Website/static/images/upload_folder/spaces/*
+Src/Website/static/images/upload_folder/users/*
+!Src/Website/static/images/upload_folder/users/default_profile_pic.jpg
+
+# MacOS
+.DS_Store
+
+# Virtual Environment
+.venv

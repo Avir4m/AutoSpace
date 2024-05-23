@@ -1,0 +1,15 @@
+* {
+    color: #000000;
+}
+
+:root { 
+    --accent: #20c6a5;
+    --border: #767676;
+    --hover: #afafaf;
+    --background: #ffffff;
+    --primary: #c2c2c2;
+    --secondary: #e5e5e5;
+    --chat: #d3d3d3;
+    --muted: #00000093;
+    --text: #000000;
+}

@@ -1,0 +1,199 @@
+{% extends "base.html"%}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+	<h3>Account Details</h3>
+  </div>
+	<div class="card-body">
+
+		<div class="info">
+			<strong>First Name:</strong>
+			{{ user.first_name }}<br/>
+
+			<strong>Last Name:</strong>
+			{{ user.last_name }}<br/>
+
+			<strong>Username:</strong>
+			{{ user.username }}<br/>
+
+			<strong>User Id:</strong>
+			{{ user.id }}<br/>
+
+			<strong>Email:</strong>
+			{{ user.email }}<br/>
+
+			<strong>Date Joined:</strong>
+			{{ user.date_joined }}<br/>
+
+			<strong>Verified:</strong>
+			{% if user.verified %}
+			<img src="{{ url_for('static', filename='images/icons/check.png') }}" width="15" >
+			{% else %}
+			<img src="{{ url_for('static', filename='images/icons/cross.png') }}" width="15" >
+			{% endif %}<br/>
+
+			{% if user.permissions >= 1 %}
+			<strong>Permissions:</strong>
+			True<br/>
+			{% endif %}
+
+			<img src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture)}}" class="dashboard-img"><br/>
+
+			{% if user.verified == False %}
+			<button class="bg-green"><a href="{{ url_for('auth.verify_email') }}">Verify Email</a></button>
+			{% endif %}
+
+			<button onclick="overlayOpen('updateAccount')">Update Profile</button>
+
+			<button  onclick="overlayOpen('changePassword')" class="bg-blue">Change Password</button>
+
+			<button  onclick="overlayOpen('deleteConfirmion')" class="bg-red">Delete Account</button>
+
+			<div class="overlay" id="updateAccount">
+				<div class="card">
+					<form method="POST" enctype="multipart/form-data">
+						<div class="card-header">
+							<h3 align="center">Update Profile</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="firstName">First Name</label>
+								<div>
+									<input 
+									type="name" 
+									id="firstName" 
+									name="firstName" 
+									placeholder="First Name"
+									value="{{ user.first_name }}"/>
+								</div>
+								<label for="lastName">Last Name</label>
+								<div>
+									<input 
+									type="name" 
+									id="lastName" 
+									name="lastName" 
+									placeholder="Last Name"
+									value="{{ user.last_name }}"/>
+								</div>
+								<label for="userName">Username</label>
+								<div>
+									<input 
+									type="username" 
+									id="userName" 
+									name="userName" 
+									placeholder="Username"
+									value="{{ user.username }}"/>
+								</div>
+								<label for="description">Description</label>
+								<div>
+									<textarea 
+									type="text" 
+									id="description" 
+									name="description" 
+									placeholder="Description">{{ user.description }}</textarea>
+								</div>
+								<label for="email">Email Address</label>
+								<div>
+									<input 
+									type="email" 
+									id="email" 
+									name="email" 
+									placeholder="Email Address"
+									value="{{ user.email }}"/>
+								</div>
+								<div class="form-group">
+									<label for="file">Upload Profile Picture</label><br/>
+									<input 
+									type="file" 
+									id="profilePicture"
+									name="file"
+									accept="image/*"/><br/>
+									<img class="logo-preview preview" id="preview" src="{{ url_for('static', filename='images/upload_folder/users/' + user.picture )}}"/>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer">
+							<button type="button" class="cancel-btn"onclick="overlayClose('updateAccount')">Cancel</button>
+							<button type="submit" class="btn btn-primary btn-sm">Update Profile</button>
+						</div>
+					</form>
+				</div>
+			</div> 
+
+			<div class="overlay" id="changePassword">
+				<div class="card">
+					<div class="card-header">
+						<h3 align="center">Password Change</h3>
+					</div>
+					<div class="card-body">
+						<div align="center" class="alert hidden messages" id="overlay-card-messages-change-password"></div><br/>
+						<label>
+							Enter current password
+						</label><br/>
+						<input type="password" id="password" name="password" placeholder="Current password"><br/>
+						<br/>
+						<label>
+							Enter new password
+						</label><br/>
+						<input type="password" id="password1" name="password1" placeholder="New Password"><br/>
+						<br/>
+						<label>
+							Re-enter new password
+						</label><br/>
+						<input type="password" id="password2" name="password2" placeholder="New Password"><br/>
+					</div>
+					<div class="card-footer">
+						<button class="cancel-btn" onclick="overlayClose('changePassword')">Cancel</button>
+						<button class="bg-blue" onclick="changePassword()">Change Password</button>
+					</div>
+				</div>
+			</div> 
+
+			<div class="overlay" id="deleteConfirmion">
+				<div class="card">
+					<div class="card-header">
+						<h3 align="center">Are you sure you want to delete your account?</h3>
+					</div>
+					<div class="card-body">
+						<div align="center" class="alert hidden messages" id="overlay-card-messages-delete-account"></div><br/>
+						<div class="card-text">
+							This action will immediately delete all your posts, comments, spaces and likes.<br/><br/>
+							You will no longer be able to login to your account.<br/><br>
+						</div>
+						<label>
+							Enter your username
+						</label><br/>
+						<input type="text" id="username" name="username" placeholder="username"><br/>
+						<br/>
+						<label>
+							Enter your password
+						</label><br/>
+						<input type="password" id="password-delete" name="password" placeholder="password"><br/>
+					</div>
+					<div class="card-footer">
+						<button class="cancel-btn" onclick="overlayClose('deleteConfirmion')">Cancel</button>
+						<button style="background-color: #b83030;" onclick="deleteAccount('{{user.id}}')">Delete Account</button>
+					</div>
+				</div>
+			</div> 
+
+		</div>
+	</div>
+</div>
+
+<script>
+	preview.style.display = 'none';
+    profilePicture.onchange = evt => {
+        const [file] = profilePicture.files
+        if (file) {
+            preview.src = URL.createObjectURL(file)
+			preview.style.display = 'block';
+        } else {
+			preview.style.display = 'none';
+		}
+      }
+</script>
+<br/>
+{% endblock %}
