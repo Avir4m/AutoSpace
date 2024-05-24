@@ -71,52 +71,7 @@
 				</button>
 				<div class="nav-dropdown-content notifications-dropdown" id="nav-dropdown-3">
 					<p align="center" class="dropdown-title">Notifications</p>
-				  {% if user.notifications|length < 1%}
-				  <p align="center" class="dropdown-subtitle">No notifications</p>
-				  {% endif %}
-				  {% for notification in user.notifications %}
-				  <div class="dropdown-subtitle">
-					{% if notification.seen == false %}
-					<span class="unseen-dot"></span>
-					{% endif %}
-					<small class="muted">{{ notification.date|timeago }}</small>
-					<p> 					
-						{% if notification.action_user != None %}
-						<img class="dropdown-img" src="{{ url_for('static', filename='images/upload_folder/users/' + notification.user_action.picture)}}">
-						{% endif %}
-						{{ notification.message }}
-						{% if notification.action == "follow" %}
-						<button
-						onclick="window.location.href='{{ url_for('users.follow', username=notification.user_action.username )}}';"
-						type="button">
-						{% if user.id in notification.user_action.followers|map(attribute="follower_id")|list %}
-						Following
-						{% else %}
-						Follow Back
-						{% endif %}
-						</button>
-						{% elif notification.action == "friend-request" %}
-						<button
-						onclick="friend('{{ notification.user_action.id }}')"
-						type="button">
-							Accept
-						</button>
-						{% elif notification.action == "comment" %}
-						<button 
-						onclick="window.location.href='{{ url_for('views.post', url=notification.comment.post.url )}}';"
-						type="button">
-							See Post
-						</button>
-						{% elif notification.action == "like" %}
-						<button 
-						onclick="window.location.href='{{ url_for('views.post', url=notification.like.post.url )}}';"
-						type="button">
-							See Post
-						</button>
-						{% endif %}
-					</p>
-				  </div>
-				  {% endfor %}
+				  	<p align="center" class="dropdown-subtitle">No notifications</p>
 				</div>
 		  </div>
 			<div class="nav-item">
