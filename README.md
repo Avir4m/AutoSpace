@@ -1,40 +1,43 @@
 # AutoSpace
 
-## Description
-AutoSpace is an open source social network for car enthusiasts, <br/>
-Where you can post your car and see other people's cars. <br/>
-Built with the [flask](https://flask.palletsprojects.com/en/2.2.x/) framework in [python](https://www.python.org/). 
+AutoSpace is an open-source social network for car enthusiasts, allowing users to post their cars, interact with others, and manage their profiles. Built with Flask and Python, it provides essential features like notifications, friend requests, and more.
 
-#### Version / 0.14 Beta
+## Features
 
-<br/>
+- User registration and login
+- Car post creation with images and descriptions
+- Commenting on and liking posts
+- Real-time chat and notifications
+- Admin panel for managing content
 
- * **Changes / Fixes**:
+## Installation
 
-    * Social System
-        * Send/Unsend friend requests
-        * Accept/Cancel requests
-        * Add/Remove friends
-        * Block/Unblock users (WIP)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Avir4m/AutoSpace.git
+   ```
+   
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-    * Notifications
-        * Created database model
-        * Created basic notifications
-        * Added basic functionality
+3. Set up the database and run the app:
+   ```bash
+   flask run
+   ```
 
-    * Admin
-        * Add admin panel
-        * Admins can see reports
-        * Admins can remove posts/comments/spaces
-        * Admins can remove reports
-        * More features
+## Technologies Used
 
-    * Added a real-time chat
-        * Group chat
-        * UI ready
+- Flask (Backend)
+- Python
+- SQLite (or specify database)
+- HTML, CSS, JavaScript (Frontend)
 
-    * Bug fixes
-        * Fixed reset password route
-        * Input saves after failure of sign up/log in
+## Contributing
 
-<br/>
+Feel free to contribute by forking the project, opening issues, or submitting pull requests!
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
